@@ -1,5 +1,5 @@
 <template>
   <v-flex>
-    wa ni
+    <h1>Hello</h1>
   </v-flex>
 </template>

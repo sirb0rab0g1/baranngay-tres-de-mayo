@@ -6,20 +6,8 @@
         <v-card class="elevation-12 px-2 pt-10">
           <v-text-field
             outlined
-            v-model="form.first_name"
-            label="first name"
-            prepend-icon="person"
-            class="px-2"/>
-            <v-text-field
-            outlined
-            v-model="form.last_name"
-            label="last name"
-            prepend-icon="person"
-            class="px-2"/>
-          <v-text-field
-            outlined
             v-model="form.username"
-            label="username"
+            label="Username"
             prepend-icon="person"
             class="px-2"/>
           <v-text-field
@@ -30,10 +18,34 @@
             class="px-2"
             type="password"/>
 
-          <v-btn block depressed @click="login" class="white--text" color="#fbb730">
-            register
+          <v-btn block depressed @click="login()" class="white--text" color="#fbb730">
+            LOGIN
           </v-btn>
+          
+          <v-card-actions>
+            <span class="forgot-text pointer" @click="register('/registration')">
+              Register
+            </span>
+          </v-card-actions>
         </v-card>
+
+        <v-snackbar
+          v-model="snackbar"
+          timeout="2000"
+        >
+          {{ snackerror }}
+
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              color="pink"
+              text
+              v-bind="attrs"
+              @click="snackbar = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
       </v-flex>
     </v-layout>
     </no-ssr>
@@ -42,15 +54,31 @@
 <script>
   import Global from '~/plugins/mixins/global'
   import axios from 'axios'
+  import { mapMutations } from 'vuex'
+
   export default {
     mixins: [Global],
     data: () => ({
-      form: {}
+      form: {},
+      snackbar: false,
+      snackerror: ''
     }),
     methods: {
-      login () {
-        axios.post('http://localhost:5000/register', this.form).then(data => {
-          console.log(data)
+      ...mapMutations('users' , ['SET_USER']),
+      register (payload) {
+        this.goTo(payload)
+      },
+      async login () {
+        await axios.post('http://localhost:5000/login', this.form).then(data => {
+          let ldata = data.data.data[0]
+          if(ldata.role == 'user') {
+            this.goTo('/user')
+            this.SET_USER(ldata)
+          }
+        }).catch(data => {
+          console.log(data.response)
+          this.snackbar = true
+          this.snackerror = data.response ? data.response.data ? data.response.data.error: '' : ''
         })
       }
     }
