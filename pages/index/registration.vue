@@ -48,8 +48,8 @@
       form: {role: 'user'}
     }),
     methods: {
-      login () {
-        axios.post('http://localhost:5000/register', this.form).then(data => {
+      async login () {
+        await axios.post('http://localhost:5000/register', this.form).then(data => {
           this.goTo('/')
         })
       }
