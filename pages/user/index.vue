@@ -7,7 +7,7 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">
-            Application
+            {{ fullname }}
           </v-list-item-title>
           <v-list-item-subtitle>
             subtext
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import Global from '~/plugins/mixins/global'
   export default {
     data: () => ({ 
@@ -58,6 +59,12 @@
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/user'},
       ],
-    })
+    }),
+    computed: {
+      ...mapGetters('users', ['user']),
+      fullname () {
+        return this.user.first_name + ' ' + this.user.last_name
+      }
+    },
   }
 </script>

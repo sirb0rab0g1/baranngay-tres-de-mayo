@@ -4,74 +4,74 @@
 			<v-layout wrap justify-center align-center>
 				<v-row>
 					<v-col
-			          cols="12"
-			          lg="9"
-			          sm="6"
-			        >
-			          <v-text-field
-			            solo
-			            label="Solo"
-			            v-model="search"
-			            clearable
-			          ></v-text-field>
-			        </v-col>
-			        <v-col
-			          cols="12"
-			          lg="1"
-			          sm="6"
-			          block
-			        >
-			        	<v-btn @click="searchnow()">
-			          		search
-			          	</v-btn>
-			          
-			        </v-col>
-			        <v-col
-			          cols="12"
-			          lg="2"
-			          sm="6"
-			          block
-			        >
-			        	<v-btn @click="dialog = true">
-			          		create reklamo
-			          	</v-btn>
-			          
-			        </v-col>
-			        <!-- table -->
-			        <v-col
-			          cols="12"
-			          lg="12"
-			          sm="6"
-			        >
-			        <v-simple-table>
-					    <template v-slot:default>
-					      <thead>
-					        <tr>
-					          <th class="text-left">
-					            Name Reported
-					          </th>
-					          <th class="text-left">
-					            Reason
-					          </th>
-					          <th class="text-left">
-					            Schedule Hearing
-					          </th>
-					        </tr>
-					      </thead>
-					      <tbody>
-					        <tr
-					          v-for="(item, index) in requests"
-					          :key="index"
-					        >
-					          <td>{{ item.name_reported }}</td>
-					          <td>{{ item.reason }}</td>
-					          <td>{{ !isNull(item.schedule_hearing) ? item.schedule_hearing : 'Waiting' }}</td>
-					        </tr>
-					      </tbody>
-					    </template>
-					  </v-simple-table>
+	          cols="12"
+	          lg="9"
+	          sm="6"
+	        >
+	          <v-text-field
+	            solo
+	            label="Solo"
+	            v-model="search"
+	            clearable
+	          ></v-text-field>
+	        </v-col>
+	        <v-col
+	          cols="12"
+	          lg="1"
+	          sm="6"
+	          block
+	        >
+						<v-btn @click="searchnow()">
+							search
+						</v-btn>
+	          
+	        </v-col>
+	        <v-col
+	          cols="12"
+	          lg="2"
+	          sm="6"
+	          block
+	        >
+						<v-btn @click="dialog = true">
+							create reklamo
+						</v-btn>
+	          
+	        </v-col>
+					<!-- table -->
+					<v-col
+					cols="12"
+					lg="12"
+					sm="6"
+					>
+						<v-simple-table>
+							<template v-slot:default>
+								<thead>
+									<tr>
+										<th class="text-left">
+											Name Reported
+										</th>
+										<th class="text-left">
+											Reason
+										</th>
+										<th class="text-left">
+											Schedule Hearing
+										</th>
+									</tr>
+								</thead>
+							<tbody>
+							<tr
+							v-for="(item, index) in requests"
+							:key="index"
+							>
+								<td>{{ item.name_reported }}</td>
+								<td>{{ item.reason }}</td>
+								<td>{{ !isNull(item.schedule_hearing) ? item.schedule_hearing : 'Waiting' }}</td>
+							</tr>
+							</tbody>
+							</template>
+						</v-simple-table>
 
-			    	</v-col>
+					</v-col>
 
 			    	<!-- modal -->
 			    	<v-dialog

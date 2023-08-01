@@ -10,7 +10,7 @@
             label="first name"
             prepend-icon="person"
             class="px-2"/>
-            <v-text-field
+          <v-text-field
             outlined
             v-model="form.last_name"
             label="last name"

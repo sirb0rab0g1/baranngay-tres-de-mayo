@@ -76,7 +76,7 @@
             this.SET_USER(ldata)
           }
         }).catch(data => {
-          console.log(data.response)
+          console.log(data)
           this.snackbar = true
           this.snackerror = data.response ? data.response.data ? data.response.data.error: '' : ''
         })
