@@ -71,8 +71,12 @@
       async login () {
         await axios.post('http://localhost:5000/login', this.form).then(data => {
           let ldata = data.data.data[0]
+          console.log(ldata)
           if(ldata.role == 'user') {
             this.goTo('/user')
+            this.SET_USER(ldata)
+          }else if(ldata.role == 'admin') {
+            this.goTo('/admin')
             this.SET_USER(ldata)
           }
         }).catch(data => {

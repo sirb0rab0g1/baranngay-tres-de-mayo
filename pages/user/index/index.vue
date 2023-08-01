@@ -19,9 +19,9 @@
 	          cols="12"
 	          lg="1"
 	          sm="6"
-	          block
+	          
 	        >
-						<v-btn @click="searchnow()">
+						<v-btn block @click="searchnow()">
 							search
 						</v-btn>
 	          
@@ -30,9 +30,9 @@
 	          cols="12"
 	          lg="2"
 	          sm="6"
-	          block
+	          
 	        >
-						<v-btn @click="dialog = true">
+						<v-btn block @click="dialog = true">
 							create reklamo
 						</v-btn>
 	          
@@ -189,7 +189,8 @@
     		return _.isNull(param)
     	},
     	async searchnow () {
-    		await axios.post('http://localhost:5000/search-concerns', {search: this.search}).then(data => {
+    		console.log(this.user)
+    		await axios.post('http://localhost:5000/search-concerns', {search: this.search, user_id: this.user.id}).then(data => {
     			this.requests = data.data
 	        })
     	}

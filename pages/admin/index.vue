@@ -61,7 +61,7 @@
     data: () => ({ 
       drawer: null,
       items: [
-        { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/user'},
+        { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/admin'},
       ],
     }),
     computed: {
