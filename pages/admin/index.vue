@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex'
   import Global from '~/plugins/mixins/global'
   export default {
     data: () => ({ 
@@ -72,9 +72,11 @@
     },
     mixins: [Global],
     methods: {
+      ...mapMutations('users', ['RESET_USEER_STATE']),
       logout () {
+        this.RESET_USEER_STATE()
         this.goTo('/')
-      }
+      },
     }
   }
 </script>

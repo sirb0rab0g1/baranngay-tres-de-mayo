@@ -193,6 +193,9 @@
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       selectedconcern: {}
     }),
+    computed: {
+      ...mapGetters('users', ['user'])
+    },
     methods: {
       async getallreports () {
         await axios.get('http://localhost:5000/get-all-concerns').then(data => {
@@ -218,6 +221,10 @@
       async selectdate (param) {
         let fparam = this.selectedconcern
         this.$set(fparam, 'schedule_hearing', param)
+
+        this.$set(fparam, 'modify_by_user', this.user.id)
+        this.$set(fparam, 'description', 'is being approved by the administrator')
+        this.$set(fparam, 'status', 'false')
         await axios.post('http://localhost:5000/update-report-user', fparam).then(data => {
           this.getallreports()
           this.datedialog = false

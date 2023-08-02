@@ -165,7 +165,9 @@
     watch: {
     	'user': {
     		handler (old, neww) {
-    			this.getreports(old)
+    			if (Object.entries(this.user).length > 0) {
+    				this.getreports(this.user)
+    			}
     		},
     		deep: true
     	}
@@ -180,6 +182,7 @@
 	        })
     	},
     	async getreports (param) {
+    		console.log(param)
     		await axios.post('http://localhost:5000/get-concerns', {id: param.id}).then(data => {
     			console.log(data)
     			this.requests = data.data
@@ -196,6 +199,7 @@
     	}
     },
     mounted () {
+    	// console.log(this.user)
     	this.getreports(this.user)
     }
   }

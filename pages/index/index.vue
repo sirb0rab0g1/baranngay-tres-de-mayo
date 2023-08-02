@@ -73,11 +73,11 @@
           let ldata = data.data.data[0]
           console.log(ldata)
           if(ldata.role == 'user') {
+            this.SET_USER(ldata)
             this.goTo('/user')
-            this.SET_USER(ldata)
           }else if(ldata.role == 'admin') {
-            this.goTo('/admin')
             this.SET_USER(ldata)
+            this.goTo('/admin')
           }
         }).catch(data => {
           console.log(data)
