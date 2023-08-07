@@ -29,10 +29,12 @@ module.exports = {
     '~/plugins/http.js',
     '~/plugins/vue-smooth-picker.js',
     '~/plugins/vue-croppa.js',
+    '~/plugins/vue-native-websocket.js',
     {src: '~/plugins/vue-sample-uploader.js', ssr: false},
     '~/plugins/vue-js-modal',
     {src: '~/plugins/localStorage.js', ssr: false },
-    '~/plugins/filters.js'
+    '~/plugins/filters.js',
+    { src: '~/plugins/vue-socket-io', ssr: false }
   ],
   css: [
     '~/assets/style/app.styl',
@@ -57,6 +59,8 @@ module.exports = {
       max: 10000,
       maxAge: 1000 * 60 * 60
     }],
+    '@nuxt/http'
+    // 'nuxt-socket-io'
   ],
   apollo: {
     clientConfigs: {

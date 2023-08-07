@@ -65,7 +65,7 @@
 							>
 								<td>{{ item.name_reported }}</td>
 								<td>{{ item.reason }}</td>
-								<td>{{ !isNull(item.schedule_hearing) ? item.schedule_hearing : 'Waiting' }}</td>
+								<td>{{ !isNull(item.schedule_hearing) ? parseDate(item.schedule_hearing) : 'Waiting' }}</td>
 							</tr>
 							</tbody>
 							</template>
@@ -89,6 +89,13 @@
 					          lg="12"
 					          sm="6"
 					        >
+
+					        <v-text-field
+					            solo
+					            label="Title"
+					            clearable
+					            v-model="form.title"
+					          ></v-text-field>
 					        <v-text-field
 					            solo
 					            label="Fullname"
@@ -139,6 +146,38 @@
 				      </v-card>
 				    </v-dialog>
 				</v-row>
+
+				<v-card style="position: fixed; bottom: 0; left: 0; z-index: 1000; margin: 20px; border: 1px solid #9ebd9e;" v-if="notifcard === true">
+        <v-card-text class="pa-2" style="line-height: 1">
+          <v-card-actions class="pa-0">
+            <div style="display: flex; align-items: center;">
+              <v-icon small>email</v-icon>
+              <div style="font-size: 12px" class="ml-1"><b>Notification</b></div>
+            </div>
+            <v-spacer></v-spacer>
+            <v-icon small class="pointer" @click="notifcard = false">cancel</v-icon>
+          </v-card-actions>
+          <div style="display: flex; align-items: center;" class="mt-2 pr-4">
+            <v-avatar
+                size="50px"
+              >
+            <img
+                src="https://cdn-icons-png.flaticon.com/512/2942/2942813.png"
+                alt="Avatar"
+              >
+            </v-avatar>
+            <div class="ml-4">
+              <div><small><b>
+              	Administrator
+              </b></small></div>
+              <div><small>
+              	{{ notification.message }}
+              </small></div>
+              <div style="color: #2e8b57; font-size: 10px;" class="mt-1"><b>a few seconds ago</b></div>
+            </div>
+          </div>
+        </v-card-text>
+      </v-card>
 			</v-layout>
 		</no-ssr>
 	</v-container>
@@ -148,13 +187,18 @@
   import { mapGetters } from 'vuex'
   import axios from 'axios'
   import _ from 'lodash'
+  import moment from 'moment'
+
+  import io from 'socket.io-client';
 
   export default {
     data: () => ({
     	requests: [],
     	dialog: false,
     	form: {},
-    	search: ''
+    	search: '',
+    	notifcard: false,
+    	notification: {}
     }),
     computed: {
     	...mapGetters('users', ['user']),
@@ -191,6 +235,9 @@
     	isNull (param) {
     		return _.isNull(param)
     	},
+      parseDate (param) {
+        return moment(param).format('LL')
+      },
     	async searchnow () {
     		console.log(this.user)
     		await axios.post('http://localhost:5000/search-concerns', {search: this.search, user_id: this.user.id}).then(data => {
@@ -199,8 +246,23 @@
     	}
     },
     mounted () {
-    	// console.log(this.user)
     	this.getreports(this.user)
+
+    	const socket = io('http://localhost:5000');
+
+      socket.on('connect', () => {
+      	console.log('Connected')
+      });
+
+      socket.on('message', (data) => {
+      	this.notifcard = true
+      	this.notification = data
+      	this.getreports(this.user)
+      	setTimeout(() => {
+      		this.notifcard = false
+      		this.notification = {}
+        }, 4000);
+      });
     }
   }
 </script>

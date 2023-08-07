@@ -47,7 +47,11 @@
       <v-menu
         bottom
         left
-        min-width="300"
+        min-width="400"
+        max-width="400"
+        offset-y
+        max-height="400"
+        allow-overflow
       >
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -56,9 +60,9 @@
             v-on="on"
           >
             <v-icon style="font-size: 30px;">mdi-bell</v-icon>
-            <div class="notification-container">
+            <div class="notification-container" v-if="notif.length > 0">
               <div class="notification-badge">
-                <span class="count">5</span>
+                <span class="count">{{ notif.length }}</span>
               </div>
             </div>
           </v-btn>
@@ -69,7 +73,12 @@
             v-for="(item, i) in notif"
             :key="i"
           >
-            <v-list-item-title>{{ item }}</v-list-item-title>
+            <v-list-item-content>
+                <v-list-item-title v-html="'Administrator'"></v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ item.description }} <br />{{ parseDate(item.scheduled_date) }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -86,6 +95,10 @@
   import { mapGetters, mapMutations } from 'vuex'
   import Global from '~/plugins/mixins/global'
   import axios from 'axios'
+  import moment from 'moment'
+
+  import io from 'socket.io-client';
+
   export default {
     data: () => ({ 
       drawer: null,
@@ -118,14 +131,28 @@
         this.goTo('/')
       },
       async getnotification (param) {
-        console.log(param)
-        await axios.post('http://localhost:5000/get-notification', {id: param.id}).then(data => {
+        // this.notif = []
+        await axios.post('http://localhost:5000/get-notification', {id: param ? param.id : ''}).then(data => {
           this.notif = data.data
         })
+      },
+      parseDate (param) {
+        return moment(param).format('LL')
       }
     },
     mounted () {
       this.getnotification(this.user)
+
+
+      const socket = io('http://localhost:5000');
+
+      socket.on('connect', () => {
+        console.log('Connected')
+      });
+
+      socket.on('message', (data) => {
+        this.getnotification(this.user)
+      });
     }
   }
 </script>

@@ -151,6 +151,7 @@
               </template>
             </v-simple-table>
             </v-card>
+            <v-btn @click="sendMessage('default')">test socket</v-btn>
 
             
             <v-dialog width="300" v-model="datedialog">
@@ -161,7 +162,7 @@
                   sm="6"
                 >
                   <v-date-picker style="width: 100%;" v-model="picker"></v-date-picker>
-                  <v-btn @click="selectdate(picker)">Select</v-btn>
+                  <v-btn @click="selectdate(picker, 'default')">Select</v-btn>
                 </v-col>
               </v-card>
             </v-dialog>
@@ -182,6 +183,7 @@
   import axios from 'axios'
   import _ from 'lodash'
   import moment from 'moment'
+  import io from 'socket.io-client';
 
   export default {
     data: () => ({
@@ -191,7 +193,8 @@
       form: {},
       search: '',
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      selectedconcern: {}
+      selectedconcern: {},
+      socket: null, // Initialize socket to null
     }),
     computed: {
       ...mapGetters('users', ['user'])
@@ -218,16 +221,25 @@
         this.selectedconcern = param
         console.log(param)
       },
-      async selectdate (param) {
+      sendMessage(channel) {
+        if (this.socket) {
+          this.socket.send({ channel, message: 'Update calendar' });
+        }
+      },
+      async selectdate (param, channel) {
         let fparam = this.selectedconcern
         this.$set(fparam, 'schedule_hearing', param)
 
         this.$set(fparam, 'modify_by_user', this.user.id)
-        this.$set(fparam, 'description', 'is being approved by the administrator')
+        this.$set(fparam, 'description', 'is being approved by the administrator and scheduled on ')
         this.$set(fparam, 'status', 'false')
         await axios.post('http://localhost:5000/update-report-user', fparam).then(data => {
           this.getallreports()
           this.datedialog = false
+
+          if (this.socket) {
+            this.socket.send({ channel, message: 'Update calendar' });
+          }
         })
       },
       async sendsms () {
@@ -241,6 +253,14 @@
     },
     mounted () {
       this.getallreports()
+
+      const socket = io('http://localhost:5000');
+
+      socket.on('connect', () => {
+        console.log('Connected')
+      });
+
+      this.socket = socket;
     }
   }
 </script>
