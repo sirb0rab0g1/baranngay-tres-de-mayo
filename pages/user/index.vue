@@ -60,9 +60,9 @@
             v-on="on"
           >
             <v-icon style="font-size: 30px;">mdi-bell</v-icon>
-            <div class="notification-container" v-if="notif.length > 0">
+            <div class="notification-container" v-if="counter_unread > 0">
               <div class="notification-badge">
-                <span class="count">{{ notif.length }}</span>
+                <span class="count">{{ counter_unread }}</span>
               </div>
             </div>
           </v-btn>
@@ -73,10 +73,16 @@
             v-for="(item, i) in notif"
             :key="i"
           >
-            <v-list-item-content>
-                <v-list-item-title v-html="'Administrator'"></v-list-item-title>
+            <v-list-item-content @click="updateitem(item)" :style="item.is_read == 'false' ? 'background-color: #EEEEEE;' : ''">
+                <v-list-item-title>
+                  <span :style="item.is_read == 'false' ? 'font-weight: bold' : ''">Administrator</span>
+                </v-list-item-title>
                 <v-list-item-subtitle>
-                  {{ item.description }} <br />{{ parseDate(item.scheduled_date) }}
+                  Title: <span :style="item.is_read == 'false' ? 'font-weight: bold' : ''">{{ item.title }}</span> <br>
+                  <v-flex style="margin-top: 10px;">
+                    {{ item.description }} <br />{{ parseDate(item.scheduled_date) }}
+                  </v-flex>
+                  
                 </v-list-item-subtitle>
               </v-list-item-content>
           </v-list-item>
@@ -106,6 +112,7 @@
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/user'},
       ],
       notif: [],
+      counter_unread: 0
     }),
     watch: {
       'user': {
@@ -131,13 +138,25 @@
         this.goTo('/')
       },
       async getnotification (param) {
-        // this.notif = []
         await axios.post('http://localhost:5000/get-notification', {id: param ? param.id : ''}).then(data => {
           this.notif = data.data
+          for (let item of data.data) {
+            if (item.is_read == 'false') {
+              this.counter_unread += 1
+            }
+          }
         })
       },
       parseDate (param) {
         return moment(param).format('LL')
+      },
+      async updateitem (payload) {
+        this.$set(payload, 'scheduled_date', moment(payload.scheduled_date).format('YYYY-MM-DD'))
+        this.$set(payload, 'is_read', 'true')
+        await axios.post('http://localhost:5000/update-notification', payload).then(data => {
+          this.counter_unread = 0
+          this.getnotification(this.user)
+        })
       }
     },
     mounted () {

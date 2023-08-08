@@ -233,6 +233,7 @@
         this.$set(fparam, 'modify_by_user', this.user.id)
         this.$set(fparam, 'description', 'is being approved by the administrator and scheduled on ')
         this.$set(fparam, 'status', 'false')
+        this.$set(fparam, 'is_read', 'false')
         await axios.post('http://localhost:5000/update-report-user', fparam).then(data => {
           this.getallreports()
           this.datedialog = false
