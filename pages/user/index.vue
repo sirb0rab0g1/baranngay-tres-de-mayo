@@ -138,6 +138,7 @@
         this.goTo('/')
       },
       async getnotification (param) {
+        this.counter_unread = 0
         await axios.post('http://localhost:5000/get-notification', {id: param ? param.id : ''}).then(data => {
           this.notif = data.data
           for (let item of data.data) {
@@ -154,7 +155,6 @@
         this.$set(payload, 'scheduled_date', moment(payload.scheduled_date).format('YYYY-MM-DD'))
         this.$set(payload, 'is_read', 'true')
         await axios.post('http://localhost:5000/update-notification', payload).then(data => {
-          this.counter_unread = 0
           this.getnotification(this.user)
         })
       }

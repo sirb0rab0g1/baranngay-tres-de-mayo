@@ -48,6 +48,9 @@
 								<thead>
 									<tr>
 										<th class="text-left">
+											Title
+										</th>
+										<th class="text-left">
 											Name Reported
 										</th>
 										<th class="text-left">
@@ -63,6 +66,7 @@
 							v-for="(item, index) in requests"
 							:key="index"
 							>
+								<td>{{ item.title }}</td>
 								<td>{{ item.name_reported }}</td>
 								<td>{{ item.reason }}</td>
 								<td>{{ !isNull(item.schedule_hearing) ? parseDate(item.schedule_hearing) : 'Waiting' }}</td>
@@ -240,7 +244,7 @@
       },
     	async searchnow () {
     		console.log(this.user)
-    		await axios.post('http://localhost:5000/search-concerns', {search: this.search, user_id: this.user.id}).then(data => {
+    		await axios.post('http://localhost:5000/search-concerns', {search: _.isNull(this.search) ? '' : this.search, user_id: this.user.id}).then(data => {
     			this.requests = data.data
 	        })
     	}

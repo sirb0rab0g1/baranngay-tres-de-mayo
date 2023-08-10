@@ -120,6 +120,9 @@
                 <thead>
                   <tr>
                     <th class="text-left">
+                      Title
+                    </th>
+                    <th class="text-left">
                       Requestor Name
                     </th>
                     <th class="text-left">
@@ -141,6 +144,7 @@
                     v-for="(item, index) in requests"
                     :key="index"
                   >
+                    <td>{{ item.title }}</td>
                     <td>{{ item.requested_by_user ? item.requested_by_user.first_name : '' }} {{ item.requested_by_user? item.requested_by_user.last_name : '' }}</td>
                     <td>{{ item.name_reported }}</td>
                     <td>{{ item.reason }}</td>
@@ -151,9 +155,6 @@
               </template>
             </v-simple-table>
             </v-card>
-            <v-btn @click="sendMessage('default')">test socket</v-btn>
-
-            
             <v-dialog width="300" v-model="datedialog">
               <v-card>
                 <v-col
@@ -166,11 +167,6 @@
                 </v-col>
               </v-card>
             </v-dialog>
-
-            <!-- <v-btn @click="sendsms()">
-              send sms
-            </v-btn> -->
-
           </v-col>
         </v-row>
       </v-layout>
@@ -206,7 +202,7 @@
         })
       },
       async searchnow () {
-        await axios.post('http://localhost:5000/search-admin-concerns', {search: this.search}).then(data => {
+        await axios.post('http://localhost:5000/search-admin-concerns', {search: _.isNull(this.search) ? '' : this.search }).then(data => {
           this.requests = data.data
         })
       },
