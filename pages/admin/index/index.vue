@@ -13,12 +13,11 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <div class="text-overline mb-4">
-                    OVERLINE
+                    Total Users
                   </div>
-                  <v-list-item-title class="text-h5 mb-1">
-                    Headline 5
+                  <v-list-item-title class="text-h3 mb-1">
+                    {{ totalusercount }}
                   </v-list-item-title>
-                  <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
                 </v-list-item-content>
 
                 <v-list-item-avatar
@@ -39,12 +38,11 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <div class="text-overline mb-4">
-                    OVERLINE
+                    Total Concerns
                   </div>
-                  <v-list-item-title class="text-h5 mb-1">
-                    Headline 5
+                  <v-list-item-title class="text-h3 mb-1">
+                    {{ totalconcernscount }}
                   </v-list-item-title>
-                  <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
                 </v-list-item-content>
 
                 <v-list-item-avatar
@@ -91,7 +89,7 @@
           >
             <v-text-field
               solo
-              label="Solo"
+              label="Search"
               v-model="search"
               clearable
             ></v-text-field>
@@ -190,7 +188,9 @@
       search: '',
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       selectedconcern: {},
-      socket: null, // Initialize socket to null
+      socket: null, // Initialize socket to null,
+      totalusercount: 0,
+      totalconcernscount: 0
     }),
     computed: {
       ...mapGetters('users', ['user'])
@@ -199,6 +199,16 @@
       async getallreports () {
         await axios.get('http://localhost:5000/get-all-concerns').then(data => {
           this.requests = data.data
+        })
+      },
+      async getallconcernscount () {
+        await axios.get('http://localhost:5000/get-all-concerns-count').then(data => {
+          this.totalconcernscount = data.data.data[0]
+        })
+      },
+      async getalluserscount () {
+        await axios.get('http://localhost:5000/get-all-users-count').then(data => {
+          this.totalusercount = data.data.data[0]
         })
       },
       async searchnow () {
@@ -250,6 +260,8 @@
     },
     mounted () {
       this.getallreports()
+      this.getalluserscount()
+      this.getallconcernscount()
 
       const socket = io('http://localhost:5000');
 

@@ -62,6 +62,7 @@
       drawer: null,
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/admin'},
+        { title: 'Barangays', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
       ],
     }),
     computed: {
