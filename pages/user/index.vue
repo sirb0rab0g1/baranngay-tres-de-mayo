@@ -110,6 +110,7 @@
       drawer: null,
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/user'},
+        { title: 'Profile', icon: 'mdi-view-dashboard' , goto: '/user/profile'},
       ],
       notif: [],
       counter_unread: 0
