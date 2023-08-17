@@ -63,12 +63,11 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <div class="text-overline mb-4">
-                    OVERLINE
+                    Total Barangay
                   </div>
-                  <v-list-item-title class="text-h5 mb-1">
-                    Headline 5
+                  <v-list-item-title class="text-h3 mb-1">
+                    {{ totalbarangayscount }}
                   </v-list-item-title>
-                  <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
                 </v-list-item-content>
 
                 <v-list-item-avatar
@@ -190,7 +189,8 @@
       selectedconcern: {},
       socket: null, // Initialize socket to null,
       totalusercount: 0,
-      totalconcernscount: 0
+      totalconcernscount: 0,
+      totalbarangayscount: 0
     }),
     computed: {
       ...mapGetters('users', ['user'])
@@ -204,6 +204,11 @@
       async getallconcernscount () {
         await axios.get('http://localhost:5000/get-all-concerns-count').then(data => {
           this.totalconcernscount = data.data.data[0]
+        })
+      },
+      async getallbarangayscount () {
+        await axios.get('http://localhost:5000/get-all-barangays-count').then(data => {
+          this.totalbarangayscount = data.data.data[0]
         })
       },
       async getalluserscount () {
@@ -262,6 +267,7 @@
       this.getallreports()
       this.getalluserscount()
       this.getallconcernscount()
+      this.getallbarangayscount()
 
       const socket = io('http://localhost:5000');
 

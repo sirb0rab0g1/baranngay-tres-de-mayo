@@ -51,6 +51,9 @@
                     <th class="text-left">
                       Barangay
                     </th>
+                    <th class="text-right">
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -59,11 +62,13 @@
                     :key="index"
                   >
                     <td>{{ item.barangay }}</td>
+                    <td class="text-right"><v-btn @click="showusersinbarangay(item.barangay)">show users</v-btn></td>
                   </tr>
                 </tbody>
               </template>
             </v-simple-table>
             </v-card>
+
             <v-dialog width="500" v-model="showbarangay">
               <v-card class="pa-4">
                 <v-row>
@@ -96,6 +101,54 @@
                 </v-row>
               </v-card>
             </v-dialog>
+
+            <v-dialog width="380" v-model="showusersinbrgy">
+              <v-card class="pa-4">
+                <v-row>
+                  <h1>Users</h1>
+                  <v-simple-table>
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th class="text-left">
+                            Firstname
+                          </th>
+                          <th class="text-right">
+                            Lastname
+                          </th>
+                          <th class="text-right">
+                            Gender
+                          </th>
+                          <th class="text-right">
+                            Phone Number
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="(item, index) in usersinbrangay"
+                          :key="index"
+                        >
+                          <td>{{ item.first_name }}</td>
+                          <td>{{ item.last_name }}</td>
+                          <td>{{ item.gender }}</td>
+                          <td>{{ item.phone_number }}</td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                  <v-col
+                    cols="12"
+                    lg="12"
+                    md="12"
+                    sm="12"
+                    xs="12"
+                  >
+                    <v-btn block @click="showusersinbrgy = !showusersinbrgy">Close</v-btn>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-dialog>
           </v-col>
         </v-row>
       </v-layout>
@@ -116,7 +169,9 @@
       dialog: false,
       form: {},
       search: '',
-      showbarangay: false
+      showbarangay: false,
+      showusersinbrgy: false,
+      usersinbrangay: []
     }),
     computed: {
       ...mapGetters('users', ['user'])
@@ -140,6 +195,12 @@
       },
       isNull (param) {
         return _.isNull(param)
+      },
+      async showusersinbarangay (param) {
+        await axios.post('http://localhost:5000/get-users-in-barangay', {barangay: param}).then(data => {
+          this.showusersinbrgy = true
+          this.usersinbrangay = data.data
+        })
       }
     },
     mounted () {
