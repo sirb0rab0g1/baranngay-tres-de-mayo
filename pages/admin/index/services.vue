@@ -65,7 +65,7 @@
                   >
                     <td>{{ item.barangay }}</td>
                     <td class="text-right">
-                      <v-btn @click="showusersinbarangay(item.barangay)">Edit</v-btn>
+                      <v-btn @click="view(item)">Edit</v-btn>
                       <v-btn @click="deletebarangay(item.id)">Delete</v-btn>
                     </td>
                   </tr>
@@ -76,10 +76,17 @@
 
             <v-dialog width="500" v-model="showbarangay">
               <v-card class="pa-4">
-                <v-row>
+
+
+                <v-flex lg11 md12 sm12 xs12>
                   <h1>
-                    Insert new Service
+                    Manage Event
                   </h1>
+                </v-flex>
+                <v-flex lg1 md12 sm12 xs12>
+                  <v-btn @click="hideevent()"> close</v-btn>
+                </v-flex>
+                <v-row>
                   <v-col
                     cols="12"
                     lg="12"
@@ -154,11 +161,29 @@
       ...mapGetters('users', ['user'])
     },
     methods: {
-      async save () {
-        await axios.post('http://localhost:5000/create-barangay', this.form).then(data => {
-          this.showbarangay = false
-          this.getallbarangay()
+      async view (payload) {
+        await axios.post('http://localhost:5000/search-barangay', {id: payload.id, barangay: ''}).then(data => {
+          this.showbarangay = true
+          console.log(data.data[0])
+          this.form = data.data[0]
+
+          console.log(this.form)
         })
+      },
+      async save () {
+        if (_.has(this.form, 'id')) {
+          await axios.post('http://localhost:5000/update-barangay', {barangay: this.form.barangay, id: this.form.id}).then(data => {
+            this.showbarangay = false
+            this.getallbarangay()
+            this.form = {}
+          })
+        } else {
+          await axios.post('http://localhost:5000/create-barangay', this.form).then(data => {
+            this.showbarangay = false
+            this.getallbarangay()
+            this.form = {}
+          })
+        }
       },
       async getallbarangay () {
         await axios.get('http://localhost:5000/get-all-barangay').then(data => {
@@ -167,7 +192,7 @@
         })
       },
       async searchbarangay () {
-        await axios.post('http://localhost:5000/search-barangay', {barangay: _.isNull(this.search) ? '' : this.search}).then(data => {
+        await axios.post('http://localhost:5000/search-barangay', {barangay: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
@@ -186,6 +211,10 @@
           this.text = data.data.message
           this.getallbarangay()
         })
+      },
+      hideevent () {
+        this.showbarangay = false
+        this.form = {}
       }
     },
     mounted () {

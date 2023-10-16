@@ -10,7 +10,7 @@
           >
             <v-text-field
               solo
-              label="Search Event"
+              label="Search Announcement"
               v-model="search"
               clearable
             ></v-text-field>
@@ -20,7 +20,7 @@
             lg="1"
             sm="6"
           >
-            <v-btn block @click="searchevent()">
+            <v-btn block @click="searchannouncement()">
               search
             </v-btn>
             
@@ -30,8 +30,8 @@
             lg="2"
             sm="6"
           >
-            <v-btn block @click="showeventdialog()">
-              Create Event
+            <v-btn block @click="showevent = !showevent">
+              Create Announcement
             </v-btn>
             
           </v-col>
@@ -68,13 +68,13 @@
                     :key="index"
                   >
                     <td>{{ item.title }}</td>
-                    <td>{{ item.date }}</td>
-                    <td>{{ item.summary }}</td>
+                    <td>{{ item.datetime }}</td>
+                    <td>{{ item.description }}</td>
                     <td class="text-right">
                       <v-btn @click="view(item)">
                         View
                       </v-btn>
-                      <v-btn @click="deleteevent(item)">
+                      <v-btn @click="deleteannouncement(item)">
                         Delete
                       </v-btn>
                     </td>
@@ -92,11 +92,11 @@
                 <v-layout row wrap>
                   <v-flex lg11 md12 sm12 xs12>
                     <h1>
-                      Manage Event
+                      Manage Announcement
                     </h1>
                   </v-flex>
                   <v-flex lg1 md12 sm12 xs12>
-                    <v-btn @click="hideevent()"> close</v-btn>
+                    <v-btn @click="hideannoucement()"> close</v-btn>
                   </v-flex>
                   <v-flex lg6 class="pa-2">
                     <v-text-field
@@ -108,13 +108,13 @@
                     <v-text-field
                       solo
                       label="Date"
-                      v-model="form.date"
+                      v-model="form.datetime"
                       clearable
                     ></v-text-field>
                     <v-textarea
                       solo
                       label="Summary"
-                      v-model="form.summary"
+                      v-model="form.description"
                       clearable
                     ></v-textarea>
                   </v-flex>
@@ -187,12 +187,8 @@
       ...mapGetters('users', ['user'])
     },
     methods: {
-      showeventdialog () {
-        this.$set(this.form, 'image', '')
-        this.showevent = true
-      },
       async view (payload) {
-        await axios.post('http://localhost:5000/search-event', {id: payload.id, title: ''}).then(data => {
+        await axios.post('http://localhost:5000/search-announcement', {id: payload.id, title: ''}).then(data => {
           this.showevent = true
           console.log(data.data[0])
           this.form = data.data[0]
@@ -203,55 +199,54 @@
       onCropped(data) {
         this.croppedImage = data
       },
-      async searchevent () {
-        await axios.post('http://localhost:5000/search-event', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+      async searchannouncement () {
+        await axios.post('http://localhost:5000/search-announcement', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
       async createevent () {
         if (_.has(this.form, 'id')) {
-          this.deleteevent(this.form)
+          this.deleteannouncement(this.form)
         } else {
           this.$set(this.form, 'image', '')
         }
-        console.log(this.form)
-        await axios.post('http://localhost:5000/create-event', this.form).then(data => {
+        this.$set(this.form, 'image', '')
+        await axios.post('http://localhost:5000/create-announcement', this.form).then(data => {
           this.getdataimage(data.data)
         })
       },
-      async getallevents () {
-        await axios.get('http://localhost:5000/get-all-events').then(data => {
+      async getallannouncements () {
+        await axios.get('http://localhost:5000/get-all-announcements').then(data => {
           this.requests = data.data
         })
       },
       async getdataimage (data) {
         const formData = new FormData();
         formData.append('file', this.croppedImage);
-        formData.append('eventid', data.id);
+        formData.append('announcementid', data.id);
 
-        await axios.post('http://localhost:5000/upload', formData)
+        await axios.post('http://localhost:5000/announcement-upload', formData)
         .then(data => {
           this.showevent = false
-          this.getallevents()
+          this.getallannouncements()
         })
         .catch(error => console.error('Error:', error));
       },
-      async deleteevent (payload) {
-        await axios.post('http://localhost:5000/delete-event', payload).then(data => {
+      async deleteannouncement (payload) {
+        await axios.post('http://localhost:5000/delete-announcement', payload).then(data => {
           this.snackbar = true
           this.text = data.data.message
-          console.log('fasdfasdfa')
-          this.getallevents()
+          this.getallannouncements()
         })
       },
-      hideevent () {
+      hideannoucement () {
         this.form = {}
         this.$set(this.form, 'image', '')
         this.showevent = false
       }
     },
     mounted () {
-      this.getallevents()
+      this.getallannouncements()
     }
   }
 </script>

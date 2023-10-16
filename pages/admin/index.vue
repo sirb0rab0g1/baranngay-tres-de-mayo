@@ -7,10 +7,10 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">
-            {{ fullname }}
+            {{ fullname | capitalizeFirst }}
           </v-list-item-title>
           <v-list-item-subtitle>
-            subtext
+            {{ user.role | capitalizeFirst }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -56,6 +56,7 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex'
+  
   import Global from '~/plugins/mixins/global'
   export default {
     data: () => ({ 
@@ -65,7 +66,7 @@
         // { title: 'Barangays', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
         { title: 'Events', icon: 'mdi-view-dashboard' , goto: '/admin/events'},
         { title: 'Services', icon: 'mdi-view-dashboard' , goto: '/admin/services'},
-        { title: 'Announcements', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
+        { title: 'Anouncements', icon: 'mdi-view-dashboard' , goto: '/admin/anouncements'},
         { title: 'Users', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
         { title: 'Settings', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
       ],
