@@ -57,6 +57,9 @@
                     <th class="text-left">
                       Summary
                     </th>
+                    <th class="text-right">
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -67,6 +70,14 @@
                     <td>{{ item.title }}</td>
                     <td>{{ item.date }}</td>
                     <td>{{ item.summary }}</td>
+                    <td class="text-right">
+                      <v-btn>
+                        Edit
+                      </v-btn>
+                      <v-btn @click="deleteevent(item)">
+                        Delete
+                      </v-btn>
+                    </td>
                   </tr>
                 </tbody>
               </template>
@@ -125,6 +136,24 @@
             </v-dialog>
           </v-col>
         </v-row>
+
+        <v-snackbar
+          v-model="snackbar"
+          timeout="2000"
+        >
+          {{ text }}
+
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              color="pink"
+              text
+              v-bind="attrs"
+              @click="snackbar = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
       </v-layout>
     </no-ssr>
   </v-container>
@@ -149,7 +178,8 @@
         placeholder: 'Select an image'
       },
       croppedImage: null,
-
+      snackbar: false,
+      text: '',
     }),
     computed: {
       ...mapGetters('users', ['user'])
@@ -180,9 +210,19 @@
         formData.append('eventid', data.id);
 
         await axios.post('http://localhost:5000/upload', formData)
-        .then(response => this.showevent = false)
-        .then(data => console.log(data))
+        .then(data => {
+          this.showevent = false
+          this.getallevents()
+        })
         .catch(error => console.error('Error:', error));
+      },
+      async deleteevent (payload) {
+        await axios.post('http://localhost:5000/delete-event', payload).then(data => {
+          this.snackbar = true
+          this.text = data.data.message
+          console.log('fasdfasdfa')
+          this.getallevents()
+        })
       }
     },
     mounted () {

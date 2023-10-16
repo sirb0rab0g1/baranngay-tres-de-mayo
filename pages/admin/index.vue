@@ -62,7 +62,7 @@
       drawer: null,
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/admin'},
-        { title: 'Barangays', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
+        // { title: 'Barangays', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
         { title: 'Events', icon: 'mdi-view-dashboard' , goto: '/admin/events'},
         { title: 'Services', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
         { title: 'Announcements', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
