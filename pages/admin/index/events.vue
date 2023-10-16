@@ -124,9 +124,10 @@
                       :width="croppa.width"
                       :height="croppa.height"
                       :placeholder="croppa.placeholder"
-                      :initial-image="form.image"
                       @file-choose="onCropped"
-                    ></croppa>
+                    >
+                      <img slot="initial" :src="form.image" />
+                    </croppa>
                   </v-flex>
 
                   <v-flex lg12>
@@ -191,6 +192,8 @@
           this.showevent = true
           console.log(data.data[0])
           this.form = data.data[0]
+
+          console.log(this.form)
         })
       },
       onCropped(data) {
