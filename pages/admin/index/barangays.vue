@@ -49,7 +49,7 @@
                 <thead>
                   <tr>
                     <th class="text-left">
-                      Barangay
+                      Purok
                     </th>
                     <th class="text-right">
                       Action
