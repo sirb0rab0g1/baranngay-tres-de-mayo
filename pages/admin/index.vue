@@ -64,7 +64,7 @@
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/admin'},
         // { title: 'Barangays', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
         { title: 'Events', icon: 'mdi-view-dashboard' , goto: '/admin/events'},
-        { title: 'Services', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
+        { title: 'Services', icon: 'mdi-view-dashboard' , goto: '/admin/services'},
         { title: 'Announcements', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
         { title: 'Users', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
         { title: 'Settings', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
