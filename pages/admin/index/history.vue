@@ -1,5 +1,3 @@
-<!-- NOTE: Barangay implementation move to SERVICES -->
-
 <template>
   <v-container fluid fill-height>
     <no-ssr>
@@ -33,7 +31,7 @@
             sm="6"
           >
             <v-btn block @click="showbarangay = !showbarangay">
-              Create Service
+              Create History
             </v-btn>
             
           </v-col>
@@ -51,7 +49,7 @@
                 <thead>
                   <tr>
                     <th class="text-left">
-                      Service Name
+                      History
                     </th>
                     <th class="text-right">
                       Action
@@ -63,7 +61,7 @@
                     v-for="(item, index) in requests"
                     :key="index"
                   >
-                    <td>{{ item.barangay }}</td>
+                    <td>{{ item.description }}</td>
                     <td class="text-right">
                       <v-btn @click="view(item)">Edit</v-btn>
                       <v-btn @click="deletebarangay(item.id)">Delete</v-btn>
@@ -76,13 +74,10 @@
 
             <v-dialog width="500" v-model="showbarangay">
               <v-card class="pa-4">
-
-
-                
                 <v-layout row wrap>
                   <v-flex lg10 md10 sm10 xs10>
                     <h1>
-                      Manage Service
+                      Manage History
                     </h1>
                   </v-flex>
                   <v-flex lg2 md2 sm2 xs2>
@@ -97,12 +92,12 @@
                     sm="12"
                     xs="12"
                   >
-                    <v-text-field
+                    <v-textarea
                       solo
-                      label="Search"
-                      v-model="form.barangay"
+                      label="Description"
+                      v-model="form.description"
                       clearable
-                    ></v-text-field>
+                    ></v-textarea>
                   </v-col>
                   <v-col
                     cols="12"
@@ -165,54 +160,45 @@
     },
     methods: {
       async view (payload) {
-        await axios.post('http://localhost:5000/search-barangay', {id: payload.id, barangay: ''}).then(data => {
+        await axios.post('http://localhost:5000/search-history', {id: payload.id, description: ''}).then(data => {
           this.showbarangay = true
-          console.log(data.data[0])
           this.form = data.data[0]
-
-          console.log(this.form)
         })
       },
       async save () {
         if (_.has(this.form, 'id')) {
-          await axios.post('http://localhost:5000/update-barangay', {barangay: this.form.barangay, id: this.form.id}).then(data => {
+          await axios.post('http://localhost:5000/update-history', {description: this.form.description, id: this.form.id}).then(data => {
             this.showbarangay = false
-            this.getallbarangay()
+            this.getallhistory()
             this.form = {}
           })
         } else {
-          await axios.post('http://localhost:5000/create-barangay', this.form).then(data => {
+          await axios.post('http://localhost:5000/create-history', this.form).then(data => {
             this.showbarangay = false
-            this.getallbarangay()
+            this.getallhistory()
             this.form = {}
           })
         }
       },
-      async getallbarangay () {
-        await axios.get('http://localhost:5000/get-all-barangay').then(data => {
+      async getallhistory () {
+        await axios.get('http://localhost:5000/get-all-history').then(data => {
           this.requests = data.data
           console.log(data)
         })
       },
       async searchbarangay () {
-        await axios.post('http://localhost:5000/search-barangay', {barangay: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+        await axios.post('http://localhost:5000/search-history', {description: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
       isNull (param) {
         return _.isNull(param)
       },
-      async showusersinbarangay (param) {
-        await axios.post('http://localhost:5000/get-users-in-barangay', {barangay: param}).then(data => {
-          this.showusersinbrgy = true
-          this.usersinbrangay = data.data
-        })
-      },
       async deletebarangay (payload) {
-        await axios.post('http://localhost:5000/delete-barangay', {id: payload}).then(data => {
+        await axios.post('http://localhost:5000/delete-history', {id: payload}).then(data => {
           this.snackbar = true
           this.text = data.data.message
-          this.getallbarangay()
+          this.getallhistory()
         })
       },
       hideevent () {
@@ -221,7 +207,7 @@
       }
     },
     mounted () {
-      this.getallbarangay()
+      this.getallhistory()
     }
   }
 </script>

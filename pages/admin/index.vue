@@ -56,7 +56,7 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex'
-  
+
   import Global from '~/plugins/mixins/global'
   export default {
     data: () => ({ 
@@ -67,8 +67,10 @@
         { title: 'Events', icon: 'mdi-view-dashboard' , goto: '/admin/events'},
         { title: 'Services', icon: 'mdi-view-dashboard' , goto: '/admin/services'},
         { title: 'Anouncements', icon: 'mdi-view-dashboard' , goto: '/admin/anouncements'},
-        { title: 'Users', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
-        { title: 'Settings', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
+        { title: 'History', icon: 'mdi-view-dashboard' , goto: '/admin/history'},
+        { title: 'Mission and Vision', icon: 'mdi-view-dashboard' , goto: '/admin/goals'},
+        // { title: 'Capitan and Kagawads', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
+        // { title: 'Sk Chairman and Kagawads', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
       ],
     }),
     computed: {
