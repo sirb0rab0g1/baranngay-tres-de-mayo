@@ -71,8 +71,8 @@
                     <td>{{ item.date }}</td>
                     <td>{{ item.summary }}</td>
                     <td class="text-right">
-                      <v-btn>
-                        Edit
+                      <v-btn @click="view(item)">
+                        View
                       </v-btn>
                       <v-btn @click="deleteevent(item)">
                         Delete
@@ -96,7 +96,7 @@
                     </h1>
                   </v-flex>
                   <v-flex lg1 md12 sm12 xs12>
-                    <v-btn @click="showevent = !showevent"> close</v-btn>
+                    <v-btn @click="hideevent()"> close</v-btn>
                   </v-flex>
                   <v-flex lg6 class="pa-2">
                     <v-text-field
@@ -124,6 +124,7 @@
                       :width="croppa.width"
                       :height="croppa.height"
                       :placeholder="croppa.placeholder"
+                      :initial-image="form.image"
                       @file-choose="onCropped"
                     ></croppa>
                   </v-flex>
@@ -185,15 +186,26 @@
       ...mapGetters('users', ['user'])
     },
     methods: {
+      async view (payload) {
+        await axios.post('http://localhost:5000/search-event', {id: payload.id, title: ''}).then(data => {
+          this.showevent = true
+          console.log(data.data[0])
+          this.form = data.data[0]
+        })
+      },
       onCropped(data) {
         this.croppedImage = data
       },
       async searchevent () {
-        await axios.post('http://localhost:5000/search-event', {title: _.isNull(this.search) ? '' : this.search}).then(data => {
+        await axios.post('http://localhost:5000/search-event', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
       async createevent () {
+        if (!_.isNull(this.form.id)) {
+          this.deleteevent(this.form)
+        }
+
         this.$set(this.form, 'image', '')
         await axios.post('http://localhost:5000/create-event', this.form).then(data => {
           this.getdataimage(data.data)
@@ -223,6 +235,10 @@
           console.log('fasdfasdfa')
           this.getallevents()
         })
+      },
+      hideevent () {
+        this.showevent = false
+        this.form = {}
       }
     },
     mounted () {
