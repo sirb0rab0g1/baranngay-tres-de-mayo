@@ -11,7 +11,7 @@
             <v-text-field
               solo
               label="Search"
-              v-model="search"
+              v-model="gfilter.description"
               clearable
             ></v-text-field>
           </v-col>
@@ -41,11 +41,11 @@
           <v-spacer></v-spacer>
           <v-flex lg3 md3 sm3 xs3 pl-3>
           	<v-select
-	        :items="items"
-	        solo
-	        v-model="filter"
-	        placeholder="Mission or Vision"
-	        ></v-select>
+    	        :items="items"
+    	        solo
+    	        v-model="gfilter.is_vission_or_mission"
+    	        placeholder="Mission or Vision"
+  	        ></v-select>
           </v-flex>
           <v-col
             cols="12"
@@ -183,19 +183,20 @@
       snackbar: false,
       text: '',
       items: ['Mission', 'Vision', 'Reset'],
-      filter: ''
+      filter: '',
+      gfilter: {id: null, description: null, is_vission_or_mission: null}
     }),
     computed: {
       ...mapGetters('users', ['user'])
     },
     watch: {
-    	'filter': {
+    	'gfilter.is_vission_or_mission': {
     		handler () {
-    			let param = this.filter
-    			if (this.filter == 'Reset') {
-    				param = null
+    			if (this.gfilter.is_vission_or_mission == 'Reset') {
+            this.$set(this.gfilter, 'is_vission_or_mission', null)
     			}
-    			this.searchgoals(param)
+          
+    			this.searchgoals()
     		}, deep: true
     	}
     },
@@ -208,20 +209,19 @@
 	     return param;
       },
       async view (payload) {
-        await axios.post('http://localhost:5000/search-goals', {
-        	id: payload.id, 
-        	description: null
-        }).then(data => {
+        await axios.post('http://localhost:5000/search-goals', payload).then(data => {
           this.showbarangay = true
           this.form = data.data[0]
+        }).catch(e => {
+          console.log(e)
         })
       },
       async save () {
         if (_.has(this.form, 'id')) {
           await axios.post('http://localhost:5000/update-goals', {
           	description: this.form.description, 
-          	id: this.form.id, is_vission_or_mission: 
-          	this.form.is_vission_or_mission
+          	id: this.form.id, 
+            is_vission_or_mission: this.form.is_vission_or_mission
           }).then(data => {
             this.showbarangay = false
             this.getallgoals()
@@ -242,11 +242,15 @@
         })
       },
       async searchgoals (xx) {
-        await axios.post('http://localhost:5000/search-goals', {
-        	description: _.isNull(this.search) ? '' : this.search, 
-        	id: null,
-        	filter: xx
-        }).then(data => {
+        // await axios.post('http://localhost:5000/search-goals', {
+        // 	description: _.isNull(this.search) ? '' : this.search, 
+        // 	id: null,
+        // 	is_vission_or_mission: xx
+        // }).then(data => {
+        //   this.requests = data.data
+        // })
+
+        await axios.post('http://localhost:5000/search-goals', this.gfilter).then(data => {
           this.requests = data.data
         })
       },
