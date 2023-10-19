@@ -41,7 +41,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Barangay Tres de Mayo</v-toolbar-title>
 
       <v-spacer></v-spacer>
 

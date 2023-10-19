@@ -13,7 +13,7 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <div class="text-overline mb-4">
-                    Total Users
+                    Total Announcements
                   </div>
                   <v-list-item-title class="text-h3 mb-1">
                     {{ totalusercount }}
@@ -38,7 +38,7 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <div class="text-overline mb-4">
-                    Total Concerns
+                    Total Events
                   </div>
                   <v-list-item-title class="text-h3 mb-1">
                     {{ totalconcernscount }}
@@ -63,7 +63,7 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <div class="text-overline mb-4">
-                    Total Barangay
+                    Total Services
                   </div>
                   <v-list-item-title class="text-h3 mb-1">
                     {{ totalbarangayscount }}
