@@ -77,7 +77,7 @@
                     <td>{{ item.is_vission_or_mission }}</td>
                     <td class="text-right">
                       <v-btn @click="view(item)">Edit</v-btn>
-                      <v-btn @click="deletebarangay(item.id)">Delete</v-btn>
+                      <v-btn @click="areyousuredeleteevent(item)">Delete</v-btn>
                     </td>
                   </tr>
                 </tbody>
@@ -159,6 +159,35 @@
             </v-btn>
           </template>
         </v-snackbar>
+
+        <v-dialog
+          v-model="deletedialog"
+          persistent
+          max-width="400"
+        >
+          <v-card>
+            <v-card-title class="text-h5">
+              Are you sure you want to delete this goal?
+            </v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="deletedialog = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="deletebarangay(choosen.id)"
+              >
+                Proceed
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-layout>
     </no-ssr>
   </v-container>
@@ -184,7 +213,10 @@
       text: '',
       items: ['Mission', 'Vision', 'Reset'],
       filter: '',
-      gfilter: {id: null, description: null, is_vission_or_mission: null}
+      gfilter: {id: null, description: null, is_vission_or_mission: null},
+      deletedialog: false,
+      choice: null,
+      choosen: {}
     }),
     computed: {
       ...mapGetters('users', ['user'])
@@ -261,8 +293,14 @@
         await axios.post('http://localhost:5000/delete-goals', {id: payload}).then(data => {
           this.snackbar = true
           this.text = data.data.message
+          this.deletedialog = false
           this.getallgoals()
         })
+      },
+      areyousuredeleteevent(payload) {
+        this.deletedialog = true
+        this.choosen = payload
+        // this.deleteevent(payload)
       },
       hideevent () {
         this.showbarangay = false

@@ -74,7 +74,7 @@
                       <v-btn @click="view(item)">
                         View
                       </v-btn>
-                      <v-btn @click="deleteevent(item)">
+                      <v-btn @click="areyousuredeleteevent(item)">
                         Delete
                       </v-btn>
                     </td>
@@ -156,6 +156,36 @@
             </v-btn>
           </template>
         </v-snackbar>
+
+        <!-- logout dialog -->
+        <v-dialog
+          v-model="deletedialog"
+          persistent
+          max-width="400"
+        >
+          <v-card>
+            <v-card-title class="text-h5">
+              Are you sure you want to delete event name " {{ choosen.title | capitalizeFirst }} "?
+            </v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="deletedialog = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="deleteevent(choosen)"
+              >
+                Proceed
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-layout>
     </no-ssr>
   </v-container>
@@ -182,6 +212,9 @@
       croppedImage: null,
       snackbar: false,
       text: '',
+      deletedialog: false,
+      choice: null,
+      choosen: {}
     }),
     computed: {
       ...mapGetters('users', ['user'])
@@ -236,11 +269,16 @@
         })
         .catch(error => console.error('Error:', error));
       },
+      areyousuredeleteevent(payload) {
+        this.deletedialog = true
+        this.choosen = payload
+        // this.deleteevent(payload)
+      },
       async deleteevent (payload) {
         await axios.post('http://localhost:5000/delete-event', payload).then(data => {
           this.snackbar = true
           this.text = data.data.message
-          console.log('fasdfasdfa')
+          this.deletedialog = false
           this.getallevents()
         })
       },

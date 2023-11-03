@@ -4,7 +4,13 @@
       v-model="drawer"
       app
     >
-      <v-list-item>
+
+      <v-list-item class="px-2">
+        <v-list-item-avatar>
+          <v-img src="https://scontent.fdvo3-1.fna.fbcdn.net/v/t39.30808-6/337247103_1130422917932610_5009706184013998114_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFp-mv5XGbg83KWdDw7Y-ys2MrWyjmYY0_YytbKOZhjTwvdpIJp2MFU6ahdvKbpvB3OU_Dro--psKBx_o6I3x6N&_nc_ohc=bdJrglHvfMgAX90OJC6&_nc_ht=scontent.fdvo3-1.fna&oh=00_AfCtl_bNh88hY6juHrxJTPX5-nahPIWYsE2gp4JydCBgjQ&oe=65498C80"></v-img>
+        </v-list-item-avatar>
+
+        
         <v-list-item-content>
           <v-list-item-title class="text-h6">
             {{ fullname | capitalizeFirst }}
@@ -38,14 +44,45 @@
       
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar app style="background-color: #0D650E">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Barangay Tres de Mayo</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn @click="logout()">Logout</v-btn>
+      <v-btn @click="dialog = true">Logout</v-btn>
+
+      <!-- logout dialog -->
+      <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="400"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            Are you sure you want to logout? 
+          </v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog = false"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="logout()"
+            >
+              Proceed
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-app-bar>
 
     <v-main>
@@ -64,14 +101,15 @@
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/admin'},
         // { title: 'Barangays', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
-        { title: 'Events', icon: 'mdi-view-dashboard' , goto: '/admin/events'},
-        { title: 'Services', icon: 'mdi-view-dashboard' , goto: '/admin/services'},
-        { title: 'Anouncements', icon: 'mdi-view-dashboard' , goto: '/admin/anouncements'},
-        { title: 'History', icon: 'mdi-view-dashboard' , goto: '/admin/history'},
-        { title: 'Mission and Vision', icon: 'mdi-view-dashboard' , goto: '/admin/goals'},
+        { title: 'Events', icon: 'mdi-calendar-month-outline' , goto: '/admin/events'},
+        { title: 'Services', icon: 'mdi-note-text-outline' , goto: '/admin/services'},
+        { title: 'Anouncements', icon: 'mdi-bullhorn-variant-outline' , goto: '/admin/anouncements'},
+        { title: 'History', icon: 'mdi-history' , goto: '/admin/history'},
+        { title: 'Mission and Vision', icon: 'mdi-flag-checkered' , goto: '/admin/goals'},
         // { title: 'Capitan and Kagawads', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
         // { title: 'Sk Chairman and Kagawads', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
       ],
+      dialog: false
     }),
     computed: {
       ...mapGetters('users', ['user']),
@@ -83,6 +121,7 @@
     methods: {
       ...mapMutations('users', ['RESET_USEER_STATE']),
       logout () {
+        this.dialog = false
         this.RESET_USEER_STATE()
         this.goTo('/')
       },

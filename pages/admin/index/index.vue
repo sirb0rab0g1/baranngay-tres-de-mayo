@@ -117,22 +117,16 @@
                 <thead>
                   <tr>
                     <th class="text-left">
-                      Title
+                      Name
                     </th>
                     <th class="text-left">
-                      Requestor Name
+                      Mobile Number
                     </th>
                     <th class="text-left">
-                      Name Reported
+                      Email
                     </th>
                     <th class="text-left">
-                      Reason
-                    </th>
-                    <th class="text-left">
-                      Schedule Hearing
-                    </th>
-                    <th class="text-left">
-                      Action
+                      Message
                     </th>
                   </tr>
                 </thead>
@@ -141,12 +135,10 @@
                     v-for="(item, index) in requests"
                     :key="index"
                   >
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.requested_by_user ? item.requested_by_user.first_name : '' }} {{ item.requested_by_user? item.requested_by_user.last_name : '' }}</td>
-                    <td>{{ item.name_reported }}</td>
-                    <td>{{ item.reason }}</td>
-                    <td>{{ !isNull(item.schedule_hearing) ? parseDate(item.schedule_hearing) : 'Waiting' }}</td>
-                    <td><v-btn @click="getData(item)"> {{ !isNull(item.schedule_hearing) ? 'Change Schedule' : 'Set Schedule'}}</v-btn></td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.mobilenumber }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.message }}</td>
                   </tr>
                 </tbody>
               </template>
@@ -199,11 +191,13 @@
       async getallreports () {
         await axios.get('http://localhost:5000/get-all-concerns').then(data => {
           this.requests = data.data
+          this.getalluserscount()
         })
       },
       async getallconcernscount () {
         await axios.get('http://localhost:5000/get-all-concerns-count').then(data => {
           this.totalconcernscount = data.data.data[0]
+          this.getallbarangayscount()
         })
       },
       async getallbarangayscount () {
@@ -214,6 +208,7 @@
       async getalluserscount () {
         await axios.get('http://localhost:5000/get-all-users-count').then(data => {
           this.totalusercount = data.data.data[0]
+          this.getallconcernscount()
         })
       },
       async searchnow () {
@@ -265,9 +260,6 @@
     },
     mounted () {
       this.getallreports()
-      this.getalluserscount()
-      this.getallconcernscount()
-      this.getallbarangayscount()
 
       const socket = io('http://localhost:5000');
 

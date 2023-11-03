@@ -374,39 +374,60 @@
         >
             <v-text-field
             solo
-            label="Title"
-            v-model="form.title"
+            label="Name"
+            v-model="form.name"
             clearable
           ></v-text-field>
           <v-text-field
             solo
-            label="Date"
-            v-model="form.date"
+            label="Contact Number"
+            v-model="form.mobilenumber"
             clearable
           ></v-text-field>
           <v-text-field
             solo
-            label="Date"
-            v-model="form.date"
+            label="Email"
+            v-model="form.email"
             clearable
           ></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-textarea
               auto-grow
-              label="Four rows"
+              v-model="form.message"
+              label="Message"
               rows="3"
               row-height="40"
               solo
             ></v-textarea>
-            <v-btn block large> SEND</v-btn>
+            <v-btn block large @click="sendcontact()"> SEND</v-btn>
           </v-col>
         </v-row>
       </v-parallax>
     </v-flex>
+
+    <v-snackbar
+      v-model="snackbar"
+      timeout="3000"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 <script>
+  import axios from 'axios'
+
   export default {
     data: () => ({
       links: [
@@ -432,13 +453,22 @@
           src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
         },
       ],
-      form: {}
+      form: {},
+      snackbar: false,
+      text: ''
     }),
     methods: {
       scrollToTarget(param) {
         console.log(param)
         const targetElement = document.getElementById(param);
         targetElement.scrollIntoView({ behavior: 'smooth' });
+      },
+      async sendcontact () {
+        await axios.post('http://localhost:5000/create-contact-us', this.form).then(data => {
+          this.text = data.data ? data.data.data : '' 
+          this.snackbar = true
+          this.form = {}
+        })
       }
     }
   }

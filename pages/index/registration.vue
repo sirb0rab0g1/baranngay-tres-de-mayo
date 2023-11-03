@@ -101,11 +101,11 @@
     methods: {
       async login () {
         await axios.post('http://localhost:5000/register', this.form).then(data => {
-          this.goTo('/')
+          this.goTo('/login')
         })
       },
       cancel () {
-        this.goTo('/')
+        this.goTo('/login')
       },
       async getallbarangay () {
         await axios.get('http://localhost:5000/get-all-barangay').then(data => {
