@@ -7,7 +7,7 @@
 
       <v-list-item class="px-2">
         <v-list-item-avatar>
-          <v-img src="https://scontent.fdvo3-1.fna.fbcdn.net/v/t39.30808-6/337247103_1130422917932610_5009706184013998114_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFp-mv5XGbg83KWdDw7Y-ys2MrWyjmYY0_YytbKOZhjTwvdpIJp2MFU6ahdvKbpvB3OU_Dro--psKBx_o6I3x6N&_nc_ohc=bdJrglHvfMgAX90OJC6&_nc_ht=scontent.fdvo3-1.fna&oh=00_AfCtl_bNh88hY6juHrxJTPX5-nahPIWYsE2gp4JydCBgjQ&oe=65498C80"></v-img>
+          <v-img :src="require('@/static/images/admin.jpg')"></v-img>
         </v-list-item-avatar>
 
         
@@ -51,7 +51,13 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn @click="dialog = true">Logout</v-btn>
+      <v-btn
+        icon
+        dark
+        @click="dialog = true"
+      >
+        <v-icon>mdi-logout</v-icon>
+      </v-btn>
 
       <!-- logout dialog -->
       <v-dialog

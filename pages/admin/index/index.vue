@@ -20,11 +20,9 @@
                   </v-list-item-title>
                 </v-list-item-content>
 
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                ></v-list-item-avatar>
+                <v-list-item-avatar tile size="80">
+                  <v-icon color="grey" style="font-size: 80px; margin-top: 10px;">mdi-bullhorn-variant-outline</v-icon>
+                </v-list-item-avatar>
               </v-list-item>
             </v-card>
           </v-col>
@@ -45,11 +43,9 @@
                   </v-list-item-title>
                 </v-list-item-content>
 
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                ></v-list-item-avatar>
+                <v-list-item-avatar tile size="80">
+                  <v-icon color="grey" style="font-size: 80px; margin-top: 10px;">mdi-calendar-multiple-check</v-icon>
+                </v-list-item-avatar>
               </v-list-item>
             </v-card>
           </v-col>
@@ -70,11 +66,9 @@
                   </v-list-item-title>
                 </v-list-item-content>
 
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                ></v-list-item-avatar>
+                <v-list-item-avatar tile size="80">
+                  <v-icon color="grey" style="font-size: 80px; margin-top: 10px;">mdi-face-agent</v-icon>
+                </v-list-item-avatar>
               </v-list-item>
             </v-card>
           </v-col>
@@ -98,7 +92,7 @@
             lg="2"
             sm="6"
           >
-            <v-btn block @click="searchnow()">
+            <v-btn large block @click="searchnow()">
               search
             </v-btn>
             

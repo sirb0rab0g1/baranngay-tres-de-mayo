@@ -2,8 +2,9 @@
   <v-container fluid fill-height>
     <v-app-bar
       app
-      color="white"
+      style="background-color: #0d650e; color: white;"
       flat
+      dark
     >
 
       <v-tabs
@@ -54,14 +55,19 @@
       <v-col 
         class="text-center pa-2"
         cols="3"
-        v-for="item in 8"
+        v-for="(item, index) in services"
+        :key="index"
       >
         <v-img
           lazy-src="https://picsum.photos/id/11/10/6"
-          max-height="300"
-          max-width="500"
-          src="https://picsum.photos/id/11/500/300"
-        ></v-img>
+          class="white--text align-end"
+          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+          height="200px"
+        >
+          <v-card-title>
+            {{ item.barangay | capitalizeFirst }}
+          </v-card-title>
+        </v-img>
       </v-col>
     </v-row>
 
@@ -82,28 +88,12 @@
           </v-img>
 
           <v-card-subtitle class="pb-0">
-            Number 10
+            {{ announcements.title | capitalizeFirst}}
           </v-card-subtitle>
 
           <v-card-text class="text--primary" style="height: 18vh; overflow: hidden;">
-            <div>Whitehaven Beach</div>
+            <div>{{ announcements.description | capitalizeFirst}}</div>
           </v-card-text>
-
-          <v-card-actions>
-            <v-btn
-              color="orange"
-              text
-            >
-              Share
-            </v-btn>
-
-            <v-btn
-              color="orange"
-              text
-            >
-              Explore
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
       <v-col cols="6">
@@ -116,32 +106,16 @@
             height="200px"
             src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
           >
-            <v-card-title>Announcements</v-card-title>
+            <v-card-title>Events</v-card-title>
           </v-img>
-
+          
           <v-card-subtitle class="pb-0">
-            Number 10
+            {{ events.title | capitalizeFirst}}
           </v-card-subtitle>
 
           <v-card-text class="text--primary" style="height: 18vh; overflow: hidden;">
-            <div>Whitehaven Beach</div>
+            <div>{{ events.summary | capitalizeFirst}}</div>
           </v-card-text>
-
-          <v-card-actions>
-            <v-btn
-              color="orange"
-              text
-            >
-              Share
-            </v-btn>
-
-            <v-btn
-              color="orange"
-              text
-            >
-              Explore
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -305,7 +279,7 @@
 
         <v-layout row wrap  class="text-center">
           <v-flex lg3 pa-2 v-for="item in 8">
-            <v-avatar size="150">
+            <v-avatar size="100">
               <v-img
                 lazy-src="https://picsum.photos/id/11/10/6"
                 max-height="300"
@@ -343,7 +317,7 @@
 
         <v-layout row wrap  class="text-center">
           <v-flex lg3 pa-2 v-for="item in 8">
-            <v-avatar size="150">
+            <v-avatar size="100">
               <v-img
                 lazy-src="https://picsum.photos/id/11/10/6"
                 max-height="300"
@@ -365,7 +339,7 @@
     <!-- contact us-->
 
     <v-flex lg12 id="contactus">
-      <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"  style="margin-top: 2%; height: 40vh;">
+      <v-parallax :src="require('@/static/images/1.jpg')"  style="margin-top: 2%; height: 40vh;">
       
       <v-row style="margin-top: 5%;">
         <v-col 
@@ -441,21 +415,24 @@
       window: 0,
       carouselitems: [
         {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
+          src: require('@/static/images/1.jpg'),
         },
         {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
+          src: require('@/static/images/2.jpg'),
         },
         {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
+          src: require('@/static/images/3.jpg'),
         },
         {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
+          src: require('@/static/images/4.jpg'),
         },
       ],
       form: {},
       snackbar: false,
-      text: ''
+      text: '',
+      services: [],
+      announcements: {},
+      events: {}
     }),
     methods: {
       scrollToTarget(param) {
@@ -469,7 +446,27 @@
           this.snackbar = true
           this.form = {}
         })
+      },
+      async getallbarangay () {
+        await axios.get('http://localhost:5000/get-all-barangay').then(data => {
+          this.services = data.data
+        })
+      },
+      async getallannouncements () {
+        await axios.get('http://localhost:5000/get-all-announcements').then(data => {
+          this.announcements = data.data[0]
+        })
+      },
+      async getallevents () {
+        await axios.get('http://localhost:5000/get-all-events').then(data => {
+          this.events = data.data[0]
+        })
       }
+    },
+    created () {
+      this.getallbarangay()
+      this.getallannouncements()
+      this.getallevents()
     }
   }
 </script>

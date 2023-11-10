@@ -22,7 +22,7 @@
             lg="1"
             sm="6"
           >
-            <v-btn block @click="searchbarangay()">
+            <v-btn large block @click="searchbarangay()">
               Search
             </v-btn>
             
@@ -32,7 +32,7 @@
             lg="2"
             sm="6"
           >
-            <v-btn block @click="showbarangay = !showbarangay">
+            <v-btn large block @click="showbarangay = !showbarangay">
               Create Service
             </v-btn>
             
@@ -80,13 +80,22 @@
 
                 
                 <v-layout row wrap>
-                  <v-flex lg10 md10 sm10 xs10>
-                    <h1>
-                      Manage Service
-                    </h1>
-                  </v-flex>
-                  <v-flex lg2 md2 sm2 xs2>
-                    <v-btn @click="hideevent()"> close</v-btn>
+                  <v-flex lg12 md12 sm12 xs12>
+                    <v-toolbar
+                      dark
+                      color="primary"
+                    >
+                      <v-toolbar-title>Manage Service</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-toolbar-items>
+                        <v-btn
+                          icon
+                          @click="hideevent()"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </v-toolbar-items>
+                    </v-toolbar>
                   </v-flex>
                 </v-layout>
                 <v-row>

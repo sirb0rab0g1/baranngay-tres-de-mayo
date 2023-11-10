@@ -75,13 +75,22 @@
             <v-dialog width="500" v-model="showbarangay">
               <v-card class="pa-4">
                 <v-layout row wrap>
-                  <v-flex lg10 md10 sm10 xs10>
-                    <h1>
-                      Manage History
-                    </h1>
-                  </v-flex>
-                  <v-flex lg2 md2 sm2 xs2>
-                    <v-btn @click="hideevent()"> close</v-btn>
+                  <v-flex lg12 md12 sm12 xs12>
+                    <v-toolbar
+                      dark
+                      color="primary"
+                    >
+                      <v-toolbar-title>Manage History</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-toolbar-items>
+                        <v-btn
+                          icon
+                          @click="hideevent()"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </v-toolbar-items>
+                    </v-toolbar>
                   </v-flex>
                 </v-layout>
                 <v-row>

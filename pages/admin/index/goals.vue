@@ -20,7 +20,7 @@
             lg="1"
             sm="6"
           >
-            <v-btn block @click="searchgoals(null)">
+            <v-btn large block @click="searchgoals(null)">
               Search
             </v-btn>
             
@@ -30,7 +30,7 @@
             lg="2"
             sm="6"
           >
-            <v-btn block @click="showbarangay = !showbarangay">
+            <v-btn large block @click="showbarangay = !showbarangay">
               Create Goal
             </v-btn>
             
@@ -88,14 +88,21 @@
             <v-dialog width="500" v-model="showbarangay">
               <v-card class="pa-4">
                 <v-layout row wrap>
-                  <v-flex lg10 md10 sm10 xs10>
-                    <h1>
-                      Manage Goal
-                    </h1>
-                  </v-flex>
-                  <v-flex lg2 md2 sm2 xs2>
-                    <v-btn @click="hideevent()"> close</v-btn>
-                  </v-flex>
+                  <v-toolbar
+                      dark
+                      color="primary"
+                    >
+                      <v-toolbar-title>Manage Goal</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-toolbar-items>
+                        <v-btn
+                          icon
+                          @click="hideevent()"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </v-toolbar-items>
+                    </v-toolbar>
                 </v-layout>
                 <v-row>
                   <v-col

@@ -20,7 +20,7 @@
             lg="1"
             sm="6"
           >
-            <v-btn block @click="searchevent()">
+            <v-btn large block @click="searchevent()">
               search
             </v-btn>
             
@@ -30,7 +30,7 @@
             lg="2"
             sm="6"
           >
-            <v-btn block @click="showeventdialog()">
+            <v-btn large block @click="showeventdialog()">
               Create Event
             </v-btn>
             
@@ -90,15 +90,24 @@
               <v-card class="pa-4">
 
                 <v-layout row wrap>
-                  <v-flex lg11 md12 sm12 xs12>
-                    <h1>
-                      Manage Event
-                    </h1>
+                  <v-flex lg12 md12 sm12 xs12>
+                    <v-toolbar
+                      dark
+                      color="primary"
+                    >
+                      <v-toolbar-title>Manage Event</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-toolbar-items>
+                        <v-btn
+                          icon
+                          @click="hideevent()"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </v-toolbar-items>
+                    </v-toolbar>
                   </v-flex>
-                  <v-flex lg1 md12 sm12 xs12>
-                    <v-btn @click="hideevent()"> close</v-btn>
-                  </v-flex>
-                  <v-flex lg6 class="pa-2">
+                  <v-flex lg6 class="pa-2 mt-2">
                     <v-text-field
                       solo
                       label="Title"
@@ -118,7 +127,7 @@
                       clearable
                     ></v-textarea>
                   </v-flex>
-                  <v-flex lg6 class="pa-2">
+                  <v-flex lg6 class="pa-2 mt-2">
                     <croppa
                       v-model="croppa"
                       :width="croppa.width"

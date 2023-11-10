@@ -20,7 +20,7 @@
             lg="1"
             sm="6"
           >
-            <v-btn block @click="searchannouncement()">
+            <v-btn large block @click="searchannouncement()">
               search
             </v-btn>
             
@@ -30,7 +30,7 @@
             lg="2"
             sm="6"
           >
-            <v-btn block @click="showevent = !showevent">
+            <v-btn large block @click="showevent = !showevent">
               Create Announcement
             </v-btn>
             
@@ -90,13 +90,22 @@
               <v-card class="pa-4">
 
                 <v-layout row wrap>
-                  <v-flex lg11 md12 sm12 xs12>
-                    <h1>
-                      Manage Announcement
-                    </h1>
-                  </v-flex>
-                  <v-flex lg1 md12 sm12 xs12>
-                    <v-btn @click="hideannoucement()"> close</v-btn>
+                  <v-flex lg12 md12 sm12 xs12>
+                    <v-toolbar
+                      dark
+                      color="primary"
+                    >
+                      <v-toolbar-title>Manage Announcement</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-toolbar-items>
+                        <v-btn
+                          icon
+                          @click="hideannoucement()"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </v-toolbar-items>
+                    </v-toolbar>
                   </v-flex>
                   <v-flex lg6 class="pa-2">
                     <v-text-field
