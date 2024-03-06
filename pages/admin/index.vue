@@ -110,7 +110,7 @@
         { title: 'Anouncements', icon: 'mdi-bullhorn-variant-outline' , goto: '/admin/anouncements'},
         { title: 'Services', icon: 'mdi-note-text-outline' , goto: '/admin/services'},
         { title: 'Registration', icon: 'mdi-view-dashboard' , goto: '/admin/registration'},
-        { title: 'Request Document', icon: 'mdi-view-dashboard' , goto: '/admin/requestdocument'},
+        { title: 'Request', icon: 'mdi-view-dashboard' , goto: '/admin/requestdocument'},
         { title: 'Complain', icon: 'mdi-view-dashboard' , goto: '/admin/registration'},
         // { title: 'History', icon: 'mdi-history' , goto: '/admin/history'},
         // { title: 'Mission and Vision', icon: 'mdi-flag-checkered' , goto: '/admin/goals'},

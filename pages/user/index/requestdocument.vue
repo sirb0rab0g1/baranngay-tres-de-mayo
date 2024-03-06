@@ -33,7 +33,7 @@
 	          
 	        >
 						<v-btn block @click="dialog = true">
-							Request Document
+							Request
 						</v-btn>
 	          
 	        </v-col>
@@ -84,7 +84,7 @@
 				    >
 				      <v-card>
 				        <v-card-title class="text-h5 grey lighten-2">
-				          REQUEST DOCUMENT
+				          REQUEST
 				        </v-card-title>
 
 				        <v-row class="pa-2">

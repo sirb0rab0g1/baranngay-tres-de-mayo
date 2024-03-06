@@ -111,7 +111,7 @@
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/user'},
         { title: 'Complain', icon: 'mdi-view-dashboard' , goto: '/user/complain'},
-        { title: 'Document', icon: 'mdi-view-dashboard' , goto: '/user/requestdocument'},
+        { title: 'Request', icon: 'mdi-view-dashboard' , goto: '/user/requestdocument'},
         { title: 'Profile', icon: 'mdi-view-dashboard' , goto: '/user/profile'},
       ],
       notif: [],
