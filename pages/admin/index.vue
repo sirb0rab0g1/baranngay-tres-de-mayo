@@ -106,13 +106,12 @@
       drawer: null,
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/admin'},
-        // { title: 'Barangays', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
         { title: 'Events', icon: 'mdi-calendar-month-outline' , goto: '/admin/events'},
-        { title: 'Services', icon: 'mdi-note-text-outline' , goto: '/admin/services'},
         { title: 'Anouncements', icon: 'mdi-bullhorn-variant-outline' , goto: '/admin/anouncements'},
-        { title: 'History', icon: 'mdi-history' , goto: '/admin/history'},
-        { title: 'Mission and Vision', icon: 'mdi-flag-checkered' , goto: '/admin/goals'},
-        // { title: 'Capitan and Kagawads', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
+        { title: 'Services', icon: 'mdi-note-text-outline' , goto: '/admin/services'},
+        { title: 'Registration', icon: 'mdi-view-dashboard' , goto: '/admin/registration'},
+        // { title: 'History', icon: 'mdi-history' , goto: '/admin/history'},
+        // { title: 'Mission and Vision', icon: 'mdi-flag-checkered' , goto: '/admin/goals'},
         // { title: 'Sk Chairman and Kagawads', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
       ],
       dialog: false
