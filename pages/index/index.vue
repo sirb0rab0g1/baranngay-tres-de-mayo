@@ -338,7 +338,7 @@
 
     <!-- contact us-->
 
-    <v-flex lg12 id="contactus">
+    <v-flex lg12>
       <v-parallax :src="require('@/static/images/1.jpg')"  style="margin-top: 2%; height: 40vh;">
       
       <v-row style="margin-top: 5%;">
@@ -401,6 +401,7 @@
 </template>
 <script>
   import axios from 'axios'
+  import Global from '~/plugins/mixins/global'
 
   export default {
     data: () => ({
@@ -434,11 +435,16 @@
       announcements: {},
       events: {}
     }),
+    mixins: [Global],
     methods: {
       scrollToTarget(param) {
         console.log(param)
-        const targetElement = document.getElementById(param);
-        targetElement.scrollIntoView({ behavior: 'smooth' });
+        if (param == 'contactus') {
+          this.goTo('/contactus')
+        } else {
+          const targetElement = document.getElementById(param);
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
       },
       async sendcontact () {
         await axios.post('http://localhost:5000/create-contact-us', this.form).then(data => {
