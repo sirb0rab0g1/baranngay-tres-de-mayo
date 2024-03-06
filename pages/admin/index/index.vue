@@ -138,6 +138,7 @@
               </template>
             </v-simple-table>
             </v-card>
+            
             <v-dialog width="300" v-model="datedialog">
               <v-card>
                 <v-col

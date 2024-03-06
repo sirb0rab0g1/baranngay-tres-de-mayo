@@ -45,7 +45,7 @@
         </v-carousel>
       </v-col>
     </v-row>
-    
+
     <!-- services -->
 
     <v-row style="margin-top: 5%;" id="services">
@@ -457,16 +457,16 @@
       async getallbarangay () {
         await axios.get('http://localhost:5000/get-all-barangay').then(data => {
           this.services = data.data
+          this.getallannouncements()
         })
       },
       async getallannouncements () {
         await axios.get('http://localhost:5000/get-all-announcements').then(data => {
-          // this.announcements = data.data
-
           data.data.forEach(announcement => {
             // Perform your operations with each announcement
             this.announcexevents.push(announcement)
           });
+          this.getallevents()
         })
       },
       async getallevents () {
@@ -482,8 +482,6 @@
     },
     created () {
       this.getallbarangay()
-      this.getallannouncements()
-      this.getallevents()
     }
   }
 </script>

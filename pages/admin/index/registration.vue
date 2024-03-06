@@ -145,7 +145,6 @@
     },
     mounted (){
       this.getallbarangay()
-      this.setForm()
     }
   }
 </script>
