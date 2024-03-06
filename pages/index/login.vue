@@ -3,7 +3,7 @@
     <no-ssr>
     <v-layout wrap justify-center align-center>
       <v-flex xs12 sm8 md5 lg3>
-        <v-card class="elevation-12 px-2 pt-10">
+        <v-card class="elevation-12 px-2 pt-10 pb-2">
           <v-text-field
             outlined
             v-model="form.username"
@@ -22,11 +22,11 @@
             LOGIN
           </v-btn>
           
-          <v-card-actions>
+          <!-- <v-card-actions>
             <span class="forgot-text pointer" @click="register('/registration')">
               Register
             </span>
-          </v-card-actions>
+          </v-card-actions> -->
         </v-card>
 
         <v-snackbar
