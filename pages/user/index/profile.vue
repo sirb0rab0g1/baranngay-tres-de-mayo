@@ -38,7 +38,7 @@
             class="px-2"
             type="password"/>
           </v-flex>
-          <v-flex lg3>
+          <!-- <v-flex lg3>
             <v-combobox
             outlined
             prepend-icon="lock"
@@ -47,8 +47,8 @@
             label="Barangay"
             class="px-2"
           ></v-combobox>
-          </v-flex>
-          <v-flex lg3>
+          </v-flex> -->
+          <v-flex lg4>
             <v-text-field
             outlined
             v-model="form.age"
@@ -57,7 +57,7 @@
             class="px-2"
             type="text"/>
           </v-flex>
-          <v-flex lg3>
+          <v-flex lg4>
             <v-combobox
             outlined
             prepend-icon="lock"
@@ -67,7 +67,7 @@
             class="px-2"
           ></v-combobox>
           </v-flex>
-          <v-flex lg3>
+          <v-flex lg4>
             <v-text-field
             outlined
             v-model="form.phone_number"

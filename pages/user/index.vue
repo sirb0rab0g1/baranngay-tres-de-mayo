@@ -44,7 +44,7 @@
       <v-toolbar-title>Application</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-menu
+      <!-- <v-menu
         bottom
         left
         min-width="400"
@@ -87,7 +87,7 @@
               </v-list-item-content>
           </v-list-item>
         </v-list>
-      </v-menu>
+      </v-menu> -->
       <v-btn @click="logout()">Logout</v-btn>
     </v-app-bar>
 
@@ -110,6 +110,8 @@
       drawer: null,
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/user'},
+        { title: 'Complain', icon: 'mdi-view-dashboard' , goto: '/user/complain'},
+        { title: 'Document', icon: 'mdi-view-dashboard' , goto: '/user/requestdocument'},
         { title: 'Profile', icon: 'mdi-view-dashboard' , goto: '/user/profile'},
       ],
       notif: [],
@@ -139,15 +141,15 @@
         this.goTo('/')
       },
       async getnotification (param) {
-        this.counter_unread = 0
-        await axios.post('http://localhost:5000/get-notification', {id: param ? param.id : ''}).then(data => {
-          this.notif = data.data
-          for (let item of data.data) {
-            if (item.is_read == 'false') {
-              this.counter_unread += 1
-            }
-          }
-        })
+        // this.counter_unread = 0
+        // await axios.post('http://localhost:5000/get-notification', {id: param ? param.id : ''}).then(data => {
+        //   this.notif = data.data
+        //   for (let item of data.data) {
+        //     if (item.is_read == 'false') {
+        //       this.counter_unread += 1
+        //     }
+        //   }
+        // })
       },
       parseDate (param) {
         return moment(param).format('LL')
@@ -164,15 +166,15 @@
       this.getnotification(this.user)
 
 
-      const socket = io('http://localhost:5000');
+      // const socket = io('http://localhost:5000');
 
-      socket.on('connect', () => {
-        console.log('Connected')
-      });
+      // socket.on('connect', () => {
+      //   console.log('Connected')
+      // });
 
-      socket.on('message', (data) => {
-        this.getnotification(this.user)
-      });
+      // socket.on('message', (data) => {
+      //   this.getnotification(this.user)
+      // });
     }
   }
 </script>
