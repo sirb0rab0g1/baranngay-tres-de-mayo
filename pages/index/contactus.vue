@@ -127,6 +127,13 @@ export default {
         if (param != 'contactus') {
           this.goTo('/')
         }
+      },
+      async sendcontact () {
+        await axios.post('http://localhost:5000/create-contact-us', this.form).then(data => {
+          this.text = data.data ? data.data.data : '' 
+          this.snackbar = true
+          this.form = {}
+        })
       }
     }
 }

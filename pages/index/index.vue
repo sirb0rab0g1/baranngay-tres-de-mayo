@@ -26,9 +26,9 @@
         <!-- carousel --> 
         <v-carousel hide-delimiters height="950"> 
           <v-carousel-item
-            v-for="(item, i) in carouselitems"
+            v-for="(item, i) in announcexevents"
             :key="i"
-            :src="item.src"
+            :src="'http://localhost:5000/' + item.image"
             reverse-transition="fade-transition"
             transition="fade-transition"
           >
@@ -36,7 +36,7 @@
               color="grey lighten-3"
               height="100%"
             >
-              <v-img :src="item.src" 
+              <v-img :src="'http://localhost:5000/' + item.image" 
               aspect-ratio="1"
               class="custom-image-class"
             ></v-img>
@@ -45,7 +45,7 @@
         </v-carousel>
       </v-col>
     </v-row>
-
+    
     <!-- services -->
 
     <v-row style="margin-top: 5%;" id="services">
@@ -73,7 +73,7 @@
 
     <!-- announcement and events -->
 
-    <v-row>
+    <!-- <v-row>
       <v-col cols="6">
         <v-card
           class="mx-auto"
@@ -118,7 +118,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
+    </v-row> -->
 
     <!-- About Barangay -->
 
@@ -338,7 +338,7 @@
 
     <!-- contact us-->
 
-    <v-flex lg12>
+    <!-- <v-flex lg12>
       <v-parallax :src="require('@/static/images/1.jpg')"  style="margin-top: 2%; height: 40vh;">
       
       <v-row style="margin-top: 5%;">
@@ -396,7 +396,7 @@
           Close
         </v-btn>
       </template>
-    </v-snackbar>
+    </v-snackbar> -->
   </v-container>
 </template>
 <script>
@@ -433,7 +433,8 @@
       text: '',
       services: [],
       announcements: {},
-      events: {}
+      events: {},
+      announcexevents: []
     }),
     mixins: [Global],
     methods: {
@@ -460,12 +461,22 @@
       },
       async getallannouncements () {
         await axios.get('http://localhost:5000/get-all-announcements').then(data => {
-          this.announcements = data.data[0]
+          // this.announcements = data.data
+
+          data.data.forEach(announcement => {
+            // Perform your operations with each announcement
+            this.announcexevents.push(announcement)
+          });
         })
       },
       async getallevents () {
         await axios.get('http://localhost:5000/get-all-events').then(data => {
-          this.events = data.data[0]
+          // this.events = data.data
+
+          data.data.forEach(announcement => {
+            // Perform your operations with each announcement
+            this.announcexevents.push(announcement)
+          });
         })
       }
     },
