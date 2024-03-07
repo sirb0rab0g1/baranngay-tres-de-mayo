@@ -111,7 +111,7 @@
         { title: 'Services', icon: 'mdi-note-text-outline' , goto: '/admin/services'},
         { title: 'Registration', icon: 'mdi-view-dashboard' , goto: '/admin/registration'},
         { title: 'Request', icon: 'mdi-view-dashboard' , goto: '/admin/requestdocument'},
-        { title: 'Complain', icon: 'mdi-view-dashboard' , goto: '/admin/registration'},
+        { title: 'Complain', icon: 'mdi-view-dashboard' , goto: '/admin/complain'},
         // { title: 'History', icon: 'mdi-history' , goto: '/admin/history'},
         // { title: 'Mission and Vision', icon: 'mdi-flag-checkered' , goto: '/admin/goals'},
         // { title: 'Sk Chairman and Kagawads', icon: 'mdi-view-dashboard' , goto: '/admin/barangays'},
