@@ -68,8 +68,8 @@
 								>
 									<td>{{ item.service }}</td>
 									<td>{{ item.reason }}</td>
-									<td>{{ item.status }}</td>
-									<td>{{ item.description }}</td>
+									<td>{{ item.status | capitalizeFirst }}</td>
+									<td>{{ item.description}}</td>
 							</tr>
 							</tbody>
 							</template>

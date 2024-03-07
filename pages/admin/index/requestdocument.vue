@@ -69,10 +69,10 @@
 								v-for="(item, index) in requests"
 								:key="index"
 								>
-									<td>{{ item.requested_by_user ? item.requested_by_user.first_name : '' }} {{ item.requested_by_user ? item.requested_by_user.last_name : '' }}</td>
+									<td>{{ item.requested_by_user ? item.requested_by_user.first_name : '' }} {{ item.requested_by_user ? item.requested_by_user.last_name : '' }} : {{ item.age >= 60 ? 'Senior' : ' '}} </td>
 									<td>{{ item.service }}</td>
 									<td>{{ item.reason }}</td>
-									<td>{{ item.status }}</td>
+									<td>{{ item.status | capitalizeFirst}}</td>
 									<td>
 										<v-btn @click="showacceptordeclined('declined', item)">Decline</v-btn> 
 										<v-btn @click="showacceptordeclined('accept', item)">Accept</v-btn>
@@ -185,6 +185,7 @@
     	async updatexx() {
     		console.log(this.selected)
     		delete this.selected.requested_by_user
+    		delete this.selected.age
     		this.$set(this.selected, 'status', this.selected.statuses)
         await axios.post('http://localhost:5000/update-request-document', this.selected).then(data => {
           this.getdocument(this.user)
