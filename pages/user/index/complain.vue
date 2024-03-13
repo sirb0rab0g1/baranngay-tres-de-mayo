@@ -22,7 +22,7 @@
 	          
 	        >
 						<v-btn block @click="searchnow()">
-							search
+							Search
 						</v-btn>
 	          
 	        </v-col>
@@ -33,7 +33,7 @@
 	          
 	        >
 						<v-btn block @click="dialog = true">
-							create reklamo
+							Create Query
 						</v-btn>
 	          
 	        </v-col>
@@ -111,9 +111,17 @@
 					          cols="12"
 					          lg="12"
 					          sm="6"
-					          style="margin-top: -40px;"
+					          style="margin-top: -20px;"
 					        >
+						        <v-select
+						        	solo
+						        	v-model="form.query_by_user"
+						          :items="items"
+						          label="Options"
+						        ></v-select>
+
 					        <v-text-field
+					        		v-if="form.query_by_user === 'Complain'"
 					            solo
 					            label="Name sa gisumbong"
 					            v-model="form.name_reported"
@@ -128,7 +136,7 @@
 					        >
 					        <v-textarea
 					            solo
-					            label="reason"
+					            :label="form.query_by_user !== '' ? 'What is your ' + form.query_by_user + ' ?' : ' '"
 					            v-model="form.reason"
 					            clearable
 					          ></v-textarea>
@@ -144,7 +152,7 @@
 				            text
 				            @click="report()"
 				          >
-				            REPORT
+				            Send
 				          </v-btn>
 				        </v-card-actions>
 				      </v-card>
@@ -199,10 +207,11 @@
     data: () => ({
     	requests: [],
     	dialog: false,
-    	form: {},
+    	form: {query_by_user: '', name_reported: ''},
     	search: '',
     	notifcard: false,
-    	notification: {}
+    	notification: {},
+    	items: ['Complain', 'Concern'],
     }),
     computed: {
     	...mapGetters('users', ['user']),
@@ -227,7 +236,8 @@
     			console.log(data)
     			this.dialog = false
     			this.getreports(this.user)
-	        })
+    			this.form = {query_by_user: '', name_reported: ''}
+	      })
     	},
     	async getreports (param) {
     		console.log(param)

@@ -44,6 +44,9 @@
                       Requestor Name
                     </th>
                     <th class="text-left">
+                      Title
+                    </th>
+                    <th class="text-left">
                       Name Reported
                     </th>
                     <th class="text-left">
@@ -51,6 +54,10 @@
                     </th>
                     <th class="text-left">
                       Schedule Hearing
+                    </th>
+
+                    <th class="text-left">
+                      User Query
                     </th>
                     <th class="text-left">
                       Action
@@ -63,9 +70,11 @@
                     :key="index"
                   >
                     <td>{{ item.requested_by_user ? item.requested_by_user.first_name : '' }} {{ item.requested_by_user? item.requested_by_user.last_name : '' }}</td>
+                    <td>{{ item.title }}</td>
                     <td>{{ item.name_reported }}</td>
                     <td>{{ item.reason }}</td>
                     <td>{{ !isNull(item.schedule_hearing) ? parseDate(item.schedule_hearing) : 'Waiting' }}</td>
+                    <td>{{ item.query_by_user }}</td>
                     <td><v-btn @click="getData(item)"> {{ !isNull(item.schedule_hearing) ? 'Change Schedule' : 'Set Schedule'}}</v-btn></td>
                   </tr>
                 </tbody>
@@ -122,7 +131,7 @@
         })
       },
       async searchnow () {
-        await axios.post('http://localhost:5000/search-admin-concerns', {search: this.search}).then(data => {
+        await axios.post('http://localhost:5000/search-admin-concerns', {search: this.search === null ? '' : this.search}).then(data => {
           this.requests = data.data
         })
       },

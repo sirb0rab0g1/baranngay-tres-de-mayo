@@ -22,11 +22,11 @@
             LOGIN
           </v-btn>
           
-          <!-- <v-card-actions>
+          <v-card-actions>
             <span class="forgot-text pointer" @click="register('/registration')">
               Register
             </span>
-          </v-card-actions> -->
+          </v-card-actions>
         </v-card>
 
         <v-snackbar
@@ -74,7 +74,7 @@
           console.log(ldata)
           if(ldata.role == 'user') {
             this.SET_USER(ldata)
-            this.goTo('/user')
+            this.goTo('/user/complain')
           }else if(ldata.role == 'admin') {
             this.SET_USER(ldata)
             this.goTo('/admin')
