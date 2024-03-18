@@ -39,16 +39,6 @@
               type="password"/>
             </v-flex>
             <v-flex lg6>
-            <v-combobox
-              outlined
-              prepend-icon="lock"
-              v-model="form.barangay"
-              :items="barangaylist"
-              label="Barangay"
-              class="px-2"
-            ></v-combobox>
-            </v-flex>
-            <v-flex lg6>
             <v-text-field
               outlined
               v-model="form.age"
@@ -147,6 +137,8 @@
         await axios.post('http://localhost:5000/validate-otp-login', payload).then(data => {
           if (data.data.data === "Validated") {
             this.goTo('/')
+          } else {
+            alert(data.data.error)
           }
         })
       },

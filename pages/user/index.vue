@@ -109,10 +109,9 @@
     data: () => ({ 
       drawer: null,
       items: [
-        // { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/user'},
         { title: 'Query', icon: 'mdi-view-dashboard' , goto: '/user/complain'},
-        { title: 'Request', icon: 'mdi-view-dashboard' , goto: '/user/requestdocument'},
-        { title: 'Profile', icon: 'mdi-view-dashboard' , goto: '/user/profile'},
+        { title: 'Request', icon: 'mdi-animation-outline' , goto: '/user/requestdocument'},
+        { title: 'Profile', icon: 'mdi-account-key' , goto: '/user/profile'},
       ],
       notif: [],
       counter_unread: 0
