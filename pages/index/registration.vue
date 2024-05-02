@@ -96,9 +96,11 @@
               length="6"
               v-model="otp"
             ></v-otp-input>
+          </v-flex>
 
+          <v-flex xs12 sm8 md5 lg8 v-if="!isregistration">
             <v-btn block depressed class="white--text" color="#fbb730" @click="validateotp()">
-              Verify
+                {{ formatTime }} | Verify
             </v-btn>
           </v-flex>
           </v-layout>
@@ -121,8 +123,17 @@
       genderlist: ['male', 'female'],
       isregistration: true,
       otp: '',
-      id: ''
+      id: '',
+      countdown: 600, // Countdown time in seconds (e.g., 1 hour)
+      intervalId: null
     }),
+    computed: {
+      formatTime() {
+        const minutes = Math.floor(this.countdown / 60);
+        const seconds = this.countdown % 60;
+        return `${this.padZero(minutes)}:${this.padZero(seconds)}`;
+      }
+    },
     methods: {
       async login () {
         await axios.post('http://localhost:5000/register', this.form).then(data => {
@@ -143,7 +154,15 @@
         })
       },
       async sendotp () {
-        this.$set(this.form, 'otp', '123456')
+        this.startCountdown()
+        let randomString = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        for (let i = 0; i < 6; i++) {
+          randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+
+        this.$set(this.form, 'otp', randomString)
+
         await axios.post('http://localhost:5000/register', this.form).then(data => {
           this.isregistration = false
           this.id = data.data.id
@@ -159,10 +178,25 @@
             this.barangaylist.push(item.barangay)
           }
         })
+      },
+      startCountdown() {
+        this.intervalId = setInterval(() => {
+          if (this.countdown > 0) {
+            this.countdown--;
+          } else {
+            clearInterval(this.intervalId);
+            // Optional: Perform any action when countdown completes
+            console.log('Countdown complete!');
+          }
+        }, 1000); // Update every second
+      },
+      padZero(num) {
+        return num < 10 ? '0' + num : num;
       }
     },
     mounted (){
       this.getallbarangay()
+      // this.startCountdown()
     }
   }
 </script>
