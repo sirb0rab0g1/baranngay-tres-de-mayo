@@ -4,3 +4,33 @@
 pointer {
   cursor: pointer
 }
+
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  z-index: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #009f02;
+  border-radius: 10px;
+}
+
+.scroll::-webkit-scrollbar
+  width: 6px
+
+  &-track
+    -webkit-box-shadow: inset 0 0 2px #888
+
+  &-thumb
+    background-color: #009f02
+
+.activeRoute{
+  background-color: #13b01524 !important;
+}
+.activeRoute>div{
+  color: #0D650E !important;
+}
+.activeRoute>.v-list-item__icon>i{
+  color: #0D650E !important;
+}

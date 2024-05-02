@@ -10,7 +10,7 @@
             {{ fullname }}
           </v-list-item-title>
           <v-list-item-subtitle>
-            subtext
+            Resident
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -22,26 +22,28 @@
         nav
       >
         <v-list-item
+          :class="$nuxt._route.fullPath === item.goto ? 'activeRoute' : 'hoverEffect'"
           v-for="item in items"
           :key="item.title"
           link
+          @click="goTo(item.goto)"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title @click="goTo(item.goto)">{{ item.title }}</v-list-item-title>
+            <v-list-item-title >{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
       
     </v-navigation-drawer>
 
-    <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar app style="background-color: #0D650E">
+      <v-app-bar-nav-icon dark @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title style="color: white">Application</v-toolbar-title>
 
       <v-spacer></v-spacer>
       <!-- <v-menu
@@ -88,7 +90,15 @@
           </v-list-item>
         </v-list>
       </v-menu> -->
-      <v-btn @click="logout()">Logout</v-btn>
+      <!-- <v-btn @click="logout()">Logout</v-btn> -->
+      <v-btn
+        text
+        dark
+        @click="logout()"
+      >
+        <v-icon>mdi-logout</v-icon>
+        Logout
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -141,7 +151,7 @@
       },
       async getnotification (param) {
         // this.counter_unread = 0
-        // await axios.post('http://localhost:5000/get-notification', {id: param ? param.id : ''}).then(data => {
+        // await axios.post('http://192.168.100.147:5000/get-notification', {id: param ? param.id : ''}).then(data => {
         //   this.notif = data.data
         //   for (let item of data.data) {
         //     if (item.is_read == 'false') {
@@ -156,7 +166,7 @@
       async updateitem (payload) {
         this.$set(payload, 'scheduled_date', moment(payload.scheduled_date).format('YYYY-MM-DD'))
         this.$set(payload, 'is_read', 'true')
-        await axios.post('http://localhost:5000/update-notification', payload).then(data => {
+        await axios.post('http://192.168.100.147:5000/update-notification', payload).then(data => {
           this.getnotification(this.user)
         })
       }
@@ -165,7 +175,7 @@
       this.getnotification(this.user)
 
 
-      // const socket = io('http://localhost:5000');
+      // const socket = io('http://192.168.100.147:5000');
 
       // socket.on('connect', () => {
       //   console.log('Connected')

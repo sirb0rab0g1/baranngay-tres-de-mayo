@@ -1,52 +1,43 @@
 <template>
-	<v-container fluid fill-height>
+	<v-container fluid >
 		<no-ssr>
-			<v-layout wrap justify-center align-center>
-				<v-row>
-					<v-col
-	          cols="12"
-	          lg="9"
-	          sm="6"
-	        >
-	          <v-text-field
-	            solo
-	            label="Solo"
-	            v-model="search"
-	            clearable
-	          ></v-text-field>
-	        </v-col>
-	        <v-col
-	          cols="12"
-	          lg="1"
-	          sm="6"
-	          
-	        >
-						<v-btn block @click="searchnow()">
-							Search
-						</v-btn>
-	          
-	        </v-col>
-	        <v-col
-	          cols="12"
-	          lg="2"
-	          sm="6"
-	          
-	        >
-						<v-btn block @click="dialog = true">
-							Create Query
-						</v-btn>
-	          
-	        </v-col>
-					<!-- table -->
-					<v-col
-					cols="12"
-					lg="12"
-					sm="6"
-					>
-						<v-simple-table>
-							<template v-slot:default>
-								<thead>
-									<tr>
+      <v-layout my-3 mx-2>
+        <v-flex>
+          <h2>Complain</h2>
+        </v-flex>
+      </v-layout>
+
+			<v-card style="border-radius: 15px" class=" pa-3">
+        <v-layout wrap align-center>
+          <v-flex xs12 sm8 pa-1>
+            <v-text-field
+              outlined
+              label="Search"
+              v-model="search"
+              clearable
+              dense
+              hide-details
+              prepend-inner-icon="search"
+            ></v-text-field>
+          </v-flex>
+          <v-flex pa-1>
+            <v-btn block depressed color="#dfdfdf" @click="searchnow()">
+              Search
+            </v-btn>
+          </v-flex>
+          <v-flex pa-1>
+            <v-btn block depressed dark color="#0D650E" @click="dialog = true">
+              Create Query
+            </v-btn>
+          </v-flex>
+        </v-layout>
+
+        <v-layout mt-2 pa-1 >
+          <v-flex lg12 md12 sm12 xs12>
+            <v-simple-table fixed-header height="470px">
+              <template v-slot:default>
+                <thead class="custom-thead">
+                  <tr>
 										<th class="text-left">
 											Title
 										</th>
@@ -60,107 +51,92 @@
 											Schedule Hearing
 										</th>
 									</tr>
-								</thead>
-							<tbody>
-							<tr
-							v-for="(item, index) in requests"
-							:key="index"
-							>
-								<td>{{ item.title }}</td>
-								<td>{{ item.name_reported }}</td>
-								<td>{{ item.reason }}</td>
-								<td>{{ !isNull(item.schedule_hearing) ? parseDate(item.schedule_hearing) : 'Waiting' }}</td>
-							</tr>
-							</tbody>
-							</template>
-						</v-simple-table>
+                </thead>
+                <tbody class="custom-tbody">
+                  <tr
+										v-for="(item, index) in requests"
+										:key="index"
+									>
+										<td>{{ item.title }}</td>
+										<td>{{ item.name_reported }}</td>
+										<td>{{ item.reason }}</td>
+										<td>{{ !isNull(item.schedule_hearing) ? parseDate(item.schedule_hearing) : 'Waiting' }}</td>
+									</tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-flex>
+        </v-layout>
+      </v-card>
 
-					</v-col>
+			<!-- modal -->
+			<v-dialog
+				v-model="dialog"
+				width="500"
+			>
+				<v-card>
+					<v-card-title style="background: #1976D2; color: white">
+						REKLAMO
+					</v-card-title>
 
-			    	<!-- modal -->
-			    	<v-dialog
-				      v-model="dialog"
-				      width="500"
-				    >
-				      <v-card>
-				        <v-card-title class="text-h5 grey lighten-2">
-				          REKLAMO
-				        </v-card-title>
+					<v-card-text class="pt-4">
+            <v-layout row wrap>
+              <v-flex class="pa-2">
+                <v-text-field
+                  outlined
+                  label="Title"
+                  v-model="form.title"
+                  clearable
+                  dense
+                ></v-text-field>
+                <v-text-field
+                  outlined
+                  label="Fullname"
+									clearable
+									:value="fullname"
+                  dense
+                ></v-text-field>
+                <v-select
+									outlined
+									v-model="form.query_by_user"
+									:items="items"
+									label="Options"
+									:menu-props="{ top: false, offsetY: true }"
+								></v-select>
 
-				        <v-row class="pa-2">
-				        	<v-col
-					          cols="12"
-					          lg="12"
-					          sm="6"
-					        >
+								<v-text-field
+									v-if="form.query_by_user === 'Complain'"
+									outlined
+									label="Name sa gisumbong"
+									v-model="form.name_reported"
+									clearable
+								></v-text-field>
+								<v-textarea
+									outlined
+									:label="form.query_by_user !== '' ? 'What is your ' + form.query_by_user + ' ?' : ' '"
+									v-model="form.reason"
+									clearable
+								></v-textarea>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
 
-					        <v-text-field
-					            solo
-					            label="Title"
-					            clearable
-					            v-model="form.title"
-					          ></v-text-field>
-					        <v-text-field
-					            solo
-					            label="Fullname"
-					            clearable
-					            :value="fullname"
-					          ></v-text-field>
-					        </v-col>
-					        <v-col
-					          cols="12"
-					          lg="12"
-					          sm="6"
-					          style="margin-top: -20px;"
-					        >
-						        <v-select
-						        	solo
-						        	v-model="form.query_by_user"
-						          :items="items"
-						          label="Options"
-						        ></v-select>
+					<v-divider></v-divider>
 
-					        <v-text-field
-					        		v-if="form.query_by_user === 'Complain'"
-					            solo
-					            label="Name sa gisumbong"
-					            v-model="form.name_reported"
-					            clearable
-					          ></v-text-field>
-					        </v-col>
-					        <v-col
-					          cols="12"
-					          lg="12"
-					          sm="6"
-					          style="margin-top: -40px;"
-					        >
-					        <v-textarea
-					            solo
-					            :label="form.query_by_user !== '' ? 'What is your ' + form.query_by_user + ' ?' : ' '"
-					            v-model="form.reason"
-					            clearable
-					          ></v-textarea>
-					        </v-col>
-				        </v-row>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn
+							depressed dark color="#1976D2"
+							@click="report()"
+						>
+							Send
+						</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
 
-				        <v-divider></v-divider>
-
-				        <v-card-actions>
-				          <v-spacer></v-spacer>
-				          <v-btn
-				            color="warning"
-				            text
-				            @click="report()"
-				          >
-				            Send
-				          </v-btn>
-				        </v-card-actions>
-				      </v-card>
-				    </v-dialog>
-				</v-row>
-
-				<v-card style="position: fixed; bottom: 0; left: 0; z-index: 1000; margin: 20px; border: 1px solid #9ebd9e;" v-if="notifcard === true">
-        <v-card-text class="pa-2" style="line-height: 1">
+			<v-card style="position: fixed; bottom: 0; left: 0; z-index: 1000; margin: 20px; border: 1px solid #9ebd9e;" v-if="notifcard === true">
+				<v-card-text class="pa-2" style="line-height: 1">
           <v-card-actions class="pa-0">
             <div style="display: flex; align-items: center;">
               <v-icon small>email</v-icon>
@@ -189,8 +165,7 @@
             </div>
           </div>
         </v-card-text>
-      </v-card>
-			</v-layout>
+			</v-card>
 		</no-ssr>
 	</v-container>
 </template>
@@ -232,7 +207,7 @@
     methods: {
     	async report () {
     		this.$set(this.form, 'requested_by_user_id', this.user.id)
-    		await axios.post('http://localhost:5000/report-user', this.form).then(data => {
+    		await axios.post('http://192.168.100.147:5000/report-user', this.form).then(data => {
     			console.log(data)
     			this.dialog = false
     			this.getreports(this.user)
@@ -241,10 +216,10 @@
     	},
     	async getreports (param) {
     		console.log(param)
-    		await axios.post('http://localhost:5000/get-concerns', {id: param.id}).then(data => {
-    			console.log(data)
-    			this.requests = data.data
-	        })
+    		await axios.post('http://192.168.100.147:5000/get-concerns', {id: param.id}).then(data => {
+					this.requests = data.data.sort((a, b) => a.title.localeCompare(b.title))
+
+	      })
     	},
     	isNull (param) {
     		return _.isNull(param)
@@ -254,15 +229,15 @@
       },
     	async searchnow () {
     		console.log(this.user)
-    		await axios.post('http://localhost:5000/search-concerns', {search: _.isNull(this.search) ? '' : this.search, user_id: this.user.id}).then(data => {
-    			this.requests = data.data
+    		await axios.post('http://192.168.100.147:5000/search-concerns', {search: _.isNull(this.search) ? '' : this.search, user_id: this.user.id}).then(data => {
+    			this.requests = data.data.sort((a, b) => a.title.localeCompare(b.title))
 	        })
     	}
     },
     mounted () {
     	this.getreports(this.user)
 
-    	const socket = io('http://localhost:5000');
+    	const socket = io('http://192.168.100.147:5000');
 
       socket.on('connect', () => {
       	console.log('Connected')
@@ -280,3 +255,12 @@
     }
   }
 </script>
+<style scoped>
+.custom-thead th {
+  background-color: #DEF4DE !important;
+}
+
+.custom-tbody {
+  overflow-y: auto;
+}
+</style>

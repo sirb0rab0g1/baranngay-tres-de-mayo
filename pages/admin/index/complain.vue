@@ -1,44 +1,38 @@
 <template>
-  <v-container fluid fill-height>
+  <v-container fluid>
     <no-ssr>
-      <v-layout wrap justify-center align-center>
-        <v-row>
-          <!-- search -->
+      <v-layout my-3 mx-2>
+        <v-flex>
+          <h2>Complain</h2>
+        </v-flex>
+      </v-layout>
 
-          <v-col
-            cols="12"
-            lg="10"
-            sm="6"
-          >
+      <v-card style="border-radius: 15px" class=" pa-3">
+        <v-layout wrap align-center>
+          <v-flex xs12 sm10 pa-1>
             <v-text-field
-              solo
-              label="Solo"
+              outlined
+              label="Search"
               v-model="search"
               clearable
+              dense
+              hide-details
+              prepend-inner-icon="search"
             ></v-text-field>
-          </v-col>
-          <v-col
-            cols="12"
-            lg="2"
-            sm="6"
-          >
-            <v-btn block @click="searchnow()">
-              search
+          </v-flex>
+          <v-flex pa-1>
+            <v-btn block depressed color="#dfdfdf" @click="searchnow()">
+              Search
             </v-btn>
-            
-          </v-col>
+          </v-flex>
+        </v-layout>
 
-
-          <!-- table -->
-          <v-col
-            cols="12"
-            lg="12"
-            sm="6"
-          >
-            <v-card>
-              <v-simple-table>
+        <!-- table -->
+        <v-layout mt-2 pa-1>
+          <v-flex lg12 md12 sm12 xs12 >
+            <v-simple-table fixed-header height="470px">
               <template v-slot:default>
-                <thead>
+                <thead class="custom-thead">
                   <tr>
                     <th class="text-left">
                       Requestor Name
@@ -59,12 +53,12 @@
                     <th class="text-left">
                       User Query
                     </th>
-                    <th class="text-left">
+                    <th class="text-center">
                       Action
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="custom-tbody">
                   <tr
                     v-for="(item, index) in requests"
                     :key="index"
@@ -75,34 +69,33 @@
                     <td>{{ item.reason }}</td>
                     <td>{{ !isNull(item.schedule_hearing) ? parseDate(item.schedule_hearing) : 'Waiting' }}</td>
                     <td>{{ item.query_by_user }}</td>
-                    <td><v-btn @click="getData(item)"> {{ !isNull(item.schedule_hearing) ? 'Change Schedule' : 'Set Schedule'}}</v-btn></td>
+                    <td class="text-center">
+                      <v-btn depressed dark small color="#5fcd63" @click="getData(item)"> {{ !isNull(item.schedule_hearing) ? 'Change Schedule' : 'Set Schedule'}}</v-btn>
+                    </td>
                   </tr>
                 </tbody>
               </template>
             </v-simple-table>
-            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-card>
 
-            
-            <v-dialog width="300" v-model="datedialog">
-              <v-card>
-                <v-col
-                  cols="12"
-                  lg="12"
-                  sm="6"
-                >
-                  <v-date-picker style="width: 100%;" v-model="picker"></v-date-picker>
-                  <v-btn @click="selectdate(picker)">Select</v-btn>
-                </v-col>
-              </v-card>
-            </v-dialog>
-
-            <!-- <v-btn @click="sendsms()">
-              send sms
-            </v-btn> -->
-
+      <v-dialog width="300" v-model="datedialog">
+        <v-card>
+          <v-col
+            cols="12"
+            lg="12"
+            sm="6"
+          >
+            <v-date-picker style="width: 100%;" v-model="picker"></v-date-picker>
+            <v-btn depressed dark small color="primary"  @click="selectdate(picker)">Select</v-btn>
           </v-col>
-        </v-row>
-      </v-layout>
+        </v-card>
+      </v-dialog>
+
+      <!-- <v-btn @click="sendsms()">
+          send sms
+        </v-btn> -->
     </no-ssr>
   </v-container>
 </template>
@@ -124,14 +117,17 @@
       selectedconcern: {}
     }),
     methods: {
+      onScroll (e) {
+        this.offsetTop = e.target.scrollTop
+      },
       async getallreports () {
-        await axios.get('http://localhost:5000/get-all-concerns-original').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-concerns-original').then(data => {
           this.requests = data.data
           console.log(this.requests)
         })
       },
       async searchnow () {
-        await axios.post('http://localhost:5000/search-admin-concerns', {search: this.search === null ? '' : this.search}).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-admin-concerns', {search: this.search === null ? '' : this.search}).then(data => {
           this.requests = data.data
         })
       },
@@ -150,7 +146,7 @@
         let fparam = this.selectedconcern
         this.$set(fparam, 'schedule_hearing', param)
         delete fparam.requested_by_user
-        await axios.post('http://localhost:5000/update-report-user', fparam).then(data => {
+        await axios.post('http://192.168.100.147:5000/update-report-user', fparam).then(data => {
           this.getallreports()
           this.datedialog = false
         })
@@ -159,7 +155,7 @@
         let param = {
           to_phone: '9667542245'
         }
-        await axios.post('http://localhost:5000/send-sms', param).then(data => {
+        await axios.post('http://192.168.100.147:5000/send-sms', param).then(data => {
           this.requests = data.data
         })
       }
@@ -169,3 +165,13 @@
     }
   }
 </script>
+
+<style scoped>
+.custom-thead th {
+  background-color: #DEF4DE !important;
+}
+
+.custom-tbody {
+  overflow-y: auto;
+}
+</style>

@@ -1,114 +1,90 @@
 <template>
-  <v-container fluid fill-height>
+  <v-container fluid>
     <no-ssr>
-      <v-layout wrap justify-center align-center>
-        <v-row>
-          <!-- stats -->
-          <v-col
-            cols="12"
-            lg="4"
-            sm="6"
-          >
-            <v-card>
-              <v-list-item three-line>
-                <v-list-item-content>
-                  <div class="text-overline mb-4">
-                    Total Announcements
-                  </div>
-                  <v-list-item-title class="text-h3 mb-1">
-                    {{ totalusercount }}
-                  </v-list-item-title>
-                </v-list-item-content>
+      <v-layout ma-2 wrap row>
+        <v-flex md4 pa-1>
+          <v-card>
+            <v-list-item three-line>
+              <v-list-item-content>
+                <div class="text-overline mb-4">
+                  Total Announcements
+                </div>
+                <v-list-item-title class="text-h3 mb-1">
+                  {{ totalusercount }}
+                </v-list-item-title>
+              </v-list-item-content>
 
-                <v-list-item-avatar tile size="80">
-                  <v-icon color="grey" style="font-size: 80px; margin-top: 10px;">mdi-bullhorn-variant-outline</v-icon>
-                </v-list-item-avatar>
-              </v-list-item>
-            </v-card>
-          </v-col>
-          <v-col
-            cols="12"
-            lg="4"
-            sm="6"
-          >
-            
-            <v-card>
-              <v-list-item three-line>
-                <v-list-item-content>
-                  <div class="text-overline mb-4">
-                    Total Events
-                  </div>
-                  <v-list-item-title class="text-h3 mb-1">
-                    {{ totalconcernscount }}
-                  </v-list-item-title>
-                </v-list-item-content>
+              <v-list-item-avatar tile size="80">
+                <v-icon color="#0D650E" style="font-size: 80px; margin-top: 10px;">mdi-bullhorn-variant-outline</v-icon>
+              </v-list-item-avatar>
+            </v-list-item>
+          </v-card>
+        </v-flex>
 
-                <v-list-item-avatar tile size="80">
-                  <v-icon color="grey" style="font-size: 80px; margin-top: 10px;">mdi-calendar-multiple-check</v-icon>
-                </v-list-item-avatar>
-              </v-list-item>
-            </v-card>
-          </v-col>
-          <v-col
-            cols="12"
-            lg="4"
-            sm="6"
-          >
-            
-            <v-card>
-              <v-list-item three-line>
-                <v-list-item-content>
-                  <div class="text-overline mb-4">
-                    Total Services
-                  </div>
-                  <v-list-item-title class="text-h3 mb-1">
-                    {{ totalbarangayscount }}
-                  </v-list-item-title>
-                </v-list-item-content>
+        <v-flex md4 pa-1>
+          <v-card>
+            <v-list-item three-line>
+              <v-list-item-content>
+                <div class="text-overline mb-4">
+                  Total Events
+                </div>
+                <v-list-item-title class="text-h3 mb-1">
+                  {{ totalconcernscount }}
+                </v-list-item-title>
+              </v-list-item-content>
 
-                <v-list-item-avatar tile size="80">
-                  <v-icon color="grey" style="font-size: 80px; margin-top: 10px;">mdi-face-agent</v-icon>
-                </v-list-item-avatar>
-              </v-list-item>
-            </v-card>
-          </v-col>
+              <v-list-item-avatar tile size="80">
+                <v-icon color="#0D650E" style="font-size: 80px; margin-top: 10px;">mdi-calendar-multiple-check</v-icon>
+              </v-list-item-avatar>
+            </v-list-item>
+          </v-card>
+        </v-flex>
+        
+        <v-flex md4 pa-1>
+          <v-card>
+            <v-list-item three-line>
+              <v-list-item-content>
+                <div class="text-overline mb-4">
+                  Total Services
+                </div>
+                <v-list-item-title class="text-h3 mb-1">
+                  {{ totalbarangayscount }}
+                </v-list-item-title>
+              </v-list-item-content>
 
-          <!-- search -->
+              <v-list-item-avatar tile size="80">
+                <v-icon color="#0D650E" style="font-size: 80px; margin-top: 10px;">mdi-face-agent</v-icon>
+              </v-list-item-avatar>
+            </v-list-item>
+          </v-card>
+        </v-flex>
+      </v-layout>
 
-          <v-col
-            cols="12"
-            lg="10"
-            sm="6"
-          >
-            <v-text-field
-              solo
-              label="Search"
-              v-model="search"
-              clearable
-            ></v-text-field>
-          </v-col>
-          <v-col
-            cols="12"
-            lg="2"
-            sm="6"
-          >
-            <v-btn large block @click="searchnow()">
-              search
-            </v-btn>
-            
-          </v-col>
-
-
-          <!-- table -->
-          <v-col
-            cols="12"
-            lg="12"
-            sm="6"
-          >
-            <v-card>
-              <v-simple-table>
+      <v-layout ma-2>
+        <v-flex pa-1>
+          <v-card class="pa-2">
+            <v-layout align-center="">
+              <v-flex pa-1 xs12 sm10>
+                <v-text-field
+                  label="Search"
+                  v-model="search"
+                  clearable
+                  hide-details
+                  single-line
+                  dense
+                  outlined
+                  prepend-inner-icon="search"
+                ></v-text-field>
+              </v-flex>
+              <v-flex pa-1>
+                <v-btn  block depressed color="#dfdfdf" @click="searchnow()">
+                  Search
+                </v-btn>
+              </v-flex>
+            </v-layout>
+            <v-simple-table class="mt-2 pa-1" fixed-header height="350px">
               <template v-slot:default>
-                <thead>
+                <thead class="custom-thead">
                   <tr>
                     <th class="text-left">
                       Name
@@ -122,9 +98,15 @@
                     <th class="text-left">
                       Message
                     </th>
+                    <th class="text-left">
+                      Time Sent
+                    </th>
+                    <th class="text-left">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="custom-tbody">
                   <tr
                     v-for="(item, index) in requests"
                     :key="index"
@@ -133,26 +115,14 @@
                     <td>{{ item.mobilenumber }}</td>
                     <td>{{ item.email }}</td>
                     <td>{{ item.message }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </template>
             </v-simple-table>
-            </v-card>
-            
-            <v-dialog width="300" v-model="datedialog">
-              <v-card>
-                <v-col
-                  cols="12"
-                  lg="12"
-                  sm="6"
-                >
-                  <v-date-picker style="width: 100%;" v-model="picker"></v-date-picker>
-                  <v-btn @click="selectdate(picker, 'default')">Select</v-btn>
-                </v-col>
-              </v-card>
-            </v-dialog>
-          </v-col>
-        </v-row>
+          </v-card>
+        </v-flex>
       </v-layout>
     </no-ssr>
   </v-container>
@@ -184,30 +154,31 @@
     },
     methods: {
       async getallreports () {
-        await axios.get('http://localhost:5000/get-all-concerns').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-concerns').then(data => {
           this.requests = data.data
+          console.log('data.data', data.data)
           this.getalluserscount()
         })
       },
       async getallconcernscount () {
-        await axios.get('http://localhost:5000/get-all-concerns-count').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-concerns-count').then(data => {
           this.totalconcernscount = data.data.data[0]
           this.getallbarangayscount()
         })
       },
       async getallbarangayscount () {
-        await axios.get('http://localhost:5000/get-all-barangays-count').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-barangays-count').then(data => {
           this.totalbarangayscount = data.data.data[0]
         })
       },
       async getalluserscount () {
-        await axios.get('http://localhost:5000/get-all-users-count').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-users-count').then(data => {
           this.totalusercount = data.data.data[0]
           this.getallconcernscount()
         })
       },
       async searchnow () {
-        await axios.post('http://localhost:5000/search-admin-concerns', {search: _.isNull(this.search) ? '' : this.search }).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-admin-concerns', {search: _.isNull(this.search) ? '' : this.search }).then(data => {
           this.requests = data.data
         })
       },
@@ -235,7 +206,7 @@
         this.$set(fparam, 'description', 'is being approved by the administrator and scheduled on ')
         this.$set(fparam, 'status', 'false')
         this.$set(fparam, 'is_read', 'false')
-        await axios.post('http://localhost:5000/update-report-user', fparam).then(data => {
+        await axios.post('http://192.168.100.147:5000/update-report-user', fparam).then(data => {
           this.getallreports()
           this.datedialog = false
 
@@ -248,7 +219,7 @@
         let param = {
           to_phone: '9667542245'
         }
-        await axios.post('http://localhost:5000/send-sms', param).then(data => {
+        await axios.post('http://192.168.100.147:5000/send-sms', param).then(data => {
           this.requests = data.data
         })
       }
@@ -256,7 +227,7 @@
     mounted () {
       this.getallreports()
 
-      const socket = io('http://localhost:5000');
+      const socket = io('http://192.168.100.147:5000');
 
       socket.on('connect', () => {
         console.log('Connected')
@@ -266,3 +237,13 @@
     }
   }
 </script>
+
+<style scoped>
+.custom-thead th {
+  background-color: #DEF4DE !important;
+}
+
+.custom-tbody {
+  overflow-y: auto;
+}
+</style>

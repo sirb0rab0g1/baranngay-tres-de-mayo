@@ -20,6 +20,9 @@
           {{ item.txt }}
         </v-tab>
       </v-tabs>
+      <v-btn color="#f1fff8" light outlined depressed @click="goTo('/login')">
+        <span style="font-weight: bold">Login</span>
+      </v-btn>
     </v-app-bar>
 
     <!-- contact us-->
@@ -129,7 +132,7 @@ export default {
         }
       },
       async sendcontact () {
-        await axios.post('http://localhost:5000/create-contact-us', this.form).then(data => {
+        await axios.post('http://192.168.100.147:5000/create-contact-us', this.form).then(data => {
           this.text = data.data ? data.data.data : '' 
           this.snackbar = true
           this.form = {}

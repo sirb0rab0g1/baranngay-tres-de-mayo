@@ -1,52 +1,42 @@
 <template>
-  <v-container fluid fill-height>
+  <v-container fluid>
     <no-ssr>
-      <v-layout wrap justify-center align-center>
-        <v-row>
-          <v-col
-            cols="10"
-            lg="9"
-            sm="6"
-          >
+      <v-layout my-3 mx-2>
+        <v-flex>
+          <h2>Events</h2>
+        </v-flex>
+      </v-layout>
+
+      <v-card style="border-radius: 15px" class=" pa-3">
+        <v-layout wrap align-center>
+          <v-flex xs12 sm8 pa-1>
             <v-text-field
-              solo
+              outlined
               label="Search Event"
               v-model="search"
               clearable
+              dense
+              hide-details
+              prepend-inner-icon="search"
             ></v-text-field>
-          </v-col>
-          <v-col
-            cols="1"
-            lg="1"
-            sm="6"
-          >
-            <v-btn large block @click="searchevent()">
-              search
+          </v-flex>
+          <v-flex pa-1>
+            <v-btn block depressed color="#dfdfdf" @click="searchevent()">
+              Search
             </v-btn>
-            
-          </v-col>
-          <v-col
-            cols="1"
-            lg="2"
-            sm="6"
-          >
-            <v-btn large block @click="showeventdialog()">
+          </v-flex>
+          <v-flex pa-1>
+            <v-btn block depressed dark color="#0D650E" @click="showeventdialog()">
               Create Event
             </v-btn>
-            
-          </v-col>
+          </v-flex>
+        </v-layout>
 
-
-          <!-- table -->
-          <v-col
-            cols="12"
-            lg="12"
-            sm="6"
-          >
-            <v-card>
-              <v-simple-table>
+        <v-layout mt-2 pa-1>
+          <v-flex lg12 md12 sm12 xs12>
+            <v-simple-table fixed-header height="470px">
               <template v-slot:default>
-                <thead>
+                <thead class="custom-thead">
                   <tr>
                     <th class="text-left">
                       Event Name
@@ -57,12 +47,12 @@
                     <th class="text-left">
                       Summary
                     </th>
-                    <th class="text-right">
+                    <th class="text-center">
                       Action
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="custom-tbody">
                   <tr
                     v-for="(item, index) in requests"
                     :key="index"
@@ -70,11 +60,11 @@
                     <td>{{ item.title }}</td>
                     <td>{{ item.date }}</td>
                     <td>{{ item.summary }}</td>
-                    <td class="text-right">
-                      <v-btn @click="view(item)">
+                    <td class="text-center">
+                      <v-btn depressed dark small color="#ffa621" @click="view(item)">
                         View
                       </v-btn>
-                      <v-btn @click="areyousuredeleteevent(item)">
+                      <v-btn depressed dark small color="#d9544b" @click="areyousuredeleteevent(item)">
                         Delete
                       </v-btn>
                     </td>
@@ -82,73 +72,79 @@
                 </tbody>
               </template>
             </v-simple-table>
-            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-card>
 
-            <!-- add event modal -->
+      <!-- add event modal -->
+      
 
-            <v-dialog width="900" persistent v-model="showevent">
-              <v-card class="pa-4">
+      <v-dialog width="900" persistent v-model="showevent">
+        <v-card>
+          <v-card-title style="background: #1976D2; color: white">
+            <span>Manage Event</span>
+            <v-spacer/>
+            <v-btn
+              icon
+              dark
+              @click="hideevent()"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            
+          </v-card-title>
+          <v-card-text class="pt-4">
+            <v-layout row wrap>
+              <v-flex lg6 class="pa-2">
+                <v-text-field
+                  outlined
+                  label="Title"
+                  v-model="form.title"
+                  clearable
+                  dense
+                ></v-text-field>
+                <v-text-field
+                  outlined
+                  label="Date"
+                  v-model="form.date"
+                  clearable
+                  dense
+                ></v-text-field>
+                <v-textarea
+                  outlined
+                  label="Summary"
+                  v-model="form.summary"
+                  clearable
+                  dense
+                ></v-textarea>
+              </v-flex>
+              <v-flex lg6 class="pa-2">
+                <croppa
+                  v-model="croppa"
+                  :width="croppa.width"
+                  :height="croppa.height"
+                  :placeholder="croppa.placeholder"
+                  @file-choose="onCropped"
+                >
+                  <img slot="initial" :src="form.image" />
+                </croppa>
+              </v-flex>
+  
+              <v-flex lg12>
+                
+              </v-flex>
+            </v-layout>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions class="pa-4">
+            <v-spacer/>
+            <v-btn depressed dark color="#1976D2" @click="createevent()">Save</v-btn>
+          </v-card-actions>
+          
+        </v-card>
+      </v-dialog>
 
-                <v-layout row wrap>
-                  <v-flex lg12 md12 sm12 xs12>
-                    <v-toolbar
-                      dark
-                      color="primary"
-                    >
-                      <v-toolbar-title>Manage Event</v-toolbar-title>
-                      <v-spacer></v-spacer>
-                      <v-toolbar-items>
-                        <v-btn
-                          icon
-                          @click="hideevent()"
-                        >
-                          <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                      </v-toolbar-items>
-                    </v-toolbar>
-                  </v-flex>
-                  <v-flex lg6 class="pa-2 mt-2">
-                    <v-text-field
-                      solo
-                      label="Title"
-                      v-model="form.title"
-                      clearable
-                    ></v-text-field>
-                    <v-text-field
-                      solo
-                      label="Date"
-                      v-model="form.date"
-                      clearable
-                    ></v-text-field>
-                    <v-textarea
-                      solo
-                      label="Summary"
-                      v-model="form.summary"
-                      clearable
-                    ></v-textarea>
-                  </v-flex>
-                  <v-flex lg6 class="pa-2 mt-2">
-                    <croppa
-                      v-model="croppa"
-                      :width="croppa.width"
-                      :height="croppa.height"
-                      :placeholder="croppa.placeholder"
-                      @file-choose="onCropped"
-                    >
-                      <img slot="initial" :src="form.image" />
-                    </croppa>
-                  </v-flex>
-
-                  <v-flex lg12>
-                    <v-btn @click="createevent()">SAVE</v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-card>
-            </v-dialog>
-          </v-col>
-        </v-row>
-
-        <v-snackbar
+      <v-snackbar
           v-model="snackbar"
           timeout="2000"
         >
@@ -172,14 +168,14 @@
           persistent
           max-width="400"
         >
-          <v-card>
+          <v-card class="pa-2">
             <v-card-title class="text-h5">
               Are you sure you want to delete event name " {{ choosen.title | capitalizeFirst }} "?
             </v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                color="green darken-1"
+                color="gray darken-1"
                 text
                 @click="deletedialog = false"
               >
@@ -195,7 +191,6 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-layout>
     </no-ssr>
   </v-container>
 </template>
@@ -234,7 +229,7 @@
         this.showevent = true
       },
       async view (payload) {
-        await axios.post('http://localhost:5000/search-event', {id: payload.id, title: ''}).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-event', {id: payload.id, title: ''}).then(data => {
           this.showevent = true
           console.log(data.data[0])
           this.form = data.data[0]
@@ -246,7 +241,7 @@
         this.croppedImage = data
       },
       async searchevent () {
-        await axios.post('http://localhost:5000/search-event', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-event', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
@@ -257,12 +252,12 @@
           this.$set(this.form, 'image', '')
         }
         console.log(this.form)
-        await axios.post('http://localhost:5000/create-event', this.form).then(data => {
+        await axios.post('http://192.168.100.147:5000/create-event', this.form).then(data => {
           this.getdataimage(data.data)
         })
       },
       async getallevents () {
-        await axios.get('http://localhost:5000/get-all-events').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-events').then(data => {
           this.requests = data.data
         })
       },
@@ -271,7 +266,7 @@
         formData.append('file', this.croppedImage);
         formData.append('eventid', data.id);
 
-        await axios.post('http://localhost:5000/upload', formData)
+        await axios.post('http://192.168.100.147:5000/upload', formData)
         .then(data => {
           this.showevent = false
           this.getallevents()
@@ -284,7 +279,7 @@
         // this.deleteevent(payload)
       },
       async deleteevent (payload) {
-        await axios.post('http://localhost:5000/delete-event', payload).then(data => {
+        await axios.post('http://192.168.100.147:5000/delete-event', payload).then(data => {
           this.snackbar = true
           this.text = data.data.message
           this.deletedialog = false
@@ -302,3 +297,13 @@
     }
   }
 </script>
+
+<style scoped>
+.custom-thead th {
+  background-color: #DEF4DE !important;
+}
+
+.custom-tbody {
+  overflow-y: auto;
+}
+</style>

@@ -28,16 +28,18 @@
         nav
       >
         <v-list-item
-          v-for="item in items"
-          :key="item.title"
+          v-for="(item, index) in items"
+          :key="index"
           link
+          @click="goTo(item.goto)"
+          :class="$nuxt._route.fullPath === item.goto ? 'activeRoute' : 'hoverEffect'"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title @click="goTo(item.goto)">{{ item.title }}</v-list-item-title>
+            <v-list-item-title >{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -45,18 +47,19 @@
     </v-navigation-drawer>
 
     <v-app-bar app style="background-color: #0D650E">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon dark @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Barangay Tres de Mayo</v-toolbar-title>
+      <v-toolbar-title style="color: white">Barangay Tres de Mayo</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <v-btn
-        icon
+        text
         dark
         @click="dialog = true"
       >
         <v-icon>mdi-logout</v-icon>
+        Logout
       </v-btn>
 
       <!-- logout dialog -->
