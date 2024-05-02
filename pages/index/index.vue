@@ -31,7 +31,7 @@
           <v-carousel-item
             v-for="(item, i) in announcexevents"
             :key="i"
-            :src="'http://192.168.100.147:5000/' + item.image"
+            :src="'http://localhost:5000/' + item.image"
             reverse-transition="fade-transition"
             transition="fade-transition"
           >
@@ -39,7 +39,7 @@
               color="grey lighten-3"
               height="100%"
             >
-              <v-img :src="'http://192.168.100.147:5000/' + item.image" 
+              <v-img :src="'http://localhost:5000/' + item.image" 
               aspect-ratio="1"
               class="custom-image-class"
             ></v-img>
@@ -435,20 +435,20 @@
         }
       },
       async sendcontact () {
-        await axios.post('http://192.168.100.147:5000/create-contact-us', this.form).then(data => {
+        await axios.post('http://localhost:5000/create-contact-us', this.form).then(data => {
           this.text = data.data ? data.data.data : '' 
           this.snackbar = true
           this.form = {}
         })
       },
       async getallbarangay () {
-        await axios.get('http://192.168.100.147:5000/get-all-barangay').then(data => {
+        await axios.get('http://localhost:5000/get-all-barangay').then(data => {
           this.services = data.data
           this.getallannouncements()
         })
       },
       async getallannouncements () {
-        await axios.get('http://192.168.100.147:5000/get-all-announcements').then(data => {
+        await axios.get('http://localhost:5000/get-all-announcements').then(data => {
           data.data.forEach(announcement => {
             // Perform your operations with each announcement
             this.announcexevents.push(announcement)
@@ -457,7 +457,7 @@
         })
       },
       async getallevents () {
-        await axios.get('http://192.168.100.147:5000/get-all-events').then(data => {
+        await axios.get('http://localhost:5000/get-all-events').then(data => {
           // this.events = data.data
 
           data.data.forEach(announcement => {

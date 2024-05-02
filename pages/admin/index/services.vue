@@ -179,7 +179,7 @@
     },
     methods: {
       async view (payload) {
-        await axios.post('http://192.168.100.147:5000/search-barangay', {id: payload.id, barangay: ''}).then(data => {
+        await axios.post('http://localhost:5000/search-barangay', {id: payload.id, barangay: ''}).then(data => {
           this.showbarangay = true
           console.log(data.data[0])
           this.form = data.data[0]
@@ -194,13 +194,13 @@
       },
       async save () {
         if (_.has(this.form, 'id')) {
-          await axios.post('http://192.168.100.147:5000/update-barangay', {barangay: this.form.barangay, id: this.form.id}).then(data => {
+          await axios.post('http://localhost:5000/update-barangay', {barangay: this.form.barangay, id: this.form.id}).then(data => {
             this.showbarangay = false
             this.getallbarangay()
             this.form = {}
           })
         } else {
-          await axios.post('http://192.168.100.147:5000/create-barangay', this.form).then(data => {
+          await axios.post('http://localhost:5000/create-barangay', this.form).then(data => {
             this.showbarangay = false
             this.getallbarangay()
             this.form = {}
@@ -208,13 +208,13 @@
         }
       },
       async getallbarangay () {
-        await axios.get('http://192.168.100.147:5000/get-all-barangay').then(data => {
+        await axios.get('http://localhost:5000/get-all-barangay').then(data => {
           this.requests = data.data
           console.log(data)
         })
       },
       async searchbarangay () {
-        await axios.post('http://192.168.100.147:5000/search-barangay', {barangay: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+        await axios.post('http://localhost:5000/search-barangay', {barangay: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
@@ -222,13 +222,13 @@
         return _.isNull(param)
       },
       async showusersinbarangay (param) {
-        await axios.post('http://192.168.100.147:5000/get-users-in-barangay', {barangay: param}).then(data => {
+        await axios.post('http://localhost:5000/get-users-in-barangay', {barangay: param}).then(data => {
           this.showusersinbrgy = true
           this.usersinbrangay = data.data
         })
       },
       async deletebarangay (payload) {
-        await axios.post('http://192.168.100.147:5000/delete-barangay', {id: payload}).then(data => {
+        await axios.post('http://localhost:5000/delete-barangay', {id: payload}).then(data => {
           this.snackbar = true
           this.text = data.data.message
           this.deletedialog = false

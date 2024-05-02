@@ -154,31 +154,31 @@
     },
     methods: {
       async getallreports () {
-        await axios.get('http://192.168.100.147:5000/get-all-concerns').then(data => {
+        await axios.get('http://localhost:5000/get-all-concerns').then(data => {
           this.requests = data.data
           console.log('data.data', data.data)
           this.getalluserscount()
         })
       },
       async getallconcernscount () {
-        await axios.get('http://192.168.100.147:5000/get-all-concerns-count').then(data => {
+        await axios.get('http://localhost:5000/get-all-concerns-count').then(data => {
           this.totalconcernscount = data.data.data[0]
           this.getallbarangayscount()
         })
       },
       async getallbarangayscount () {
-        await axios.get('http://192.168.100.147:5000/get-all-barangays-count').then(data => {
+        await axios.get('http://localhost:5000/get-all-barangays-count').then(data => {
           this.totalbarangayscount = data.data.data[0]
         })
       },
       async getalluserscount () {
-        await axios.get('http://192.168.100.147:5000/get-all-users-count').then(data => {
+        await axios.get('http://localhost:5000/get-all-users-count').then(data => {
           this.totalusercount = data.data.data[0]
           this.getallconcernscount()
         })
       },
       async searchnow () {
-        await axios.post('http://192.168.100.147:5000/search-admin-concerns', {search: _.isNull(this.search) ? '' : this.search }).then(data => {
+        await axios.post('http://localhost:5000/search-admin-concerns', {search: _.isNull(this.search) ? '' : this.search }).then(data => {
           this.requests = data.data
         })
       },
@@ -206,7 +206,7 @@
         this.$set(fparam, 'description', 'is being approved by the administrator and scheduled on ')
         this.$set(fparam, 'status', 'false')
         this.$set(fparam, 'is_read', 'false')
-        await axios.post('http://192.168.100.147:5000/update-report-user', fparam).then(data => {
+        await axios.post('http://localhost:5000/update-report-user', fparam).then(data => {
           this.getallreports()
           this.datedialog = false
 
@@ -219,7 +219,7 @@
         let param = {
           to_phone: '9667542245'
         }
-        await axios.post('http://192.168.100.147:5000/send-sms', param).then(data => {
+        await axios.post('http://localhost:5000/send-sms', param).then(data => {
           this.requests = data.data
         })
       }
@@ -227,7 +227,7 @@
     mounted () {
       this.getallreports()
 
-      const socket = io('http://192.168.100.147:5000');
+      const socket = io('http://localhost:5000');
 
       socket.on('connect', () => {
         console.log('Connected')

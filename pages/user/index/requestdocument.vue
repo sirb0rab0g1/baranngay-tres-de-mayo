@@ -199,7 +199,7 @@
     		this.$set(this.form, 'requested_by_id', this.user.id)
     		this.$set(this.form, 'status', 'pending')
     		this.$set(this.form, 'description', '')
-    		await axios.post('http://192.168.100.147:5000/request-document', this.form).then(data => {
+    		await axios.post('http://localhost:5000/request-document', this.form).then(data => {
     			console.log(data)
     			this.dialog = false
     			this.getdocument(this.user)
@@ -207,7 +207,7 @@
     	},
     	async getdocument (param) {
     		// console.log(param)
-    		await axios.post('http://192.168.100.147:5000/get-all-request-document', {requested_by_id: param.id, service: ''}).then(data => {
+    		await axios.post('http://localhost:5000/get-all-request-document', {requested_by_id: param.id, service: ''}).then(data => {
     			console.log(data)
     			this.requests = data.data
     			this.getallbarangay()
@@ -221,13 +221,13 @@
       },
     	async searchnow () {
     		// console.log(this.user)
-    		await axios.post('http://192.168.100.147:5000/get-all-request-document', {service: _.isNull(this.search) ? '' : this.search, requested_by_id: this.user.id}).then(data => {
+    		await axios.post('http://localhost:5000/get-all-request-document', {service: _.isNull(this.search) ? '' : this.search, requested_by_id: this.user.id}).then(data => {
     			console.log(data)
     			this.requests = data.data
 	        })
     	},
     	async getallbarangay () {
-        await axios.get('http://192.168.100.147:5000/get-all-barangay').then(data => {
+        await axios.get('http://localhost:5000/get-all-barangay').then(data => {
           for (let item of data.data) {
             console.log(item)
             this.barangaylist.push(item.barangay)
@@ -238,7 +238,7 @@
     mounted () {
     	this.getdocument(this.user)
 
-    	// const socket = io('http://192.168.100.147:5000');
+    	// const socket = io('http://localhost:5000');
 
      //  socket.on('connect', () => {
      //  	console.log('Connected')

@@ -208,7 +208,7 @@
     },
     methods: {
       async login () {
-        await axios.post('http://192.168.100.147:5000/register', this.form).then(data => {
+        await axios.post('http://localhost:5000/register', this.form).then(data => {
           this.goTo('/login')
         })
       },
@@ -217,7 +217,7 @@
           id: this.id,
           otp: this.otp
         }
-        await axios.post('http://192.168.100.147:5000/validate-otp-login', payload).then(data => {
+        await axios.post('http://localhost:5000/validate-otp-login', payload).then(data => {
           if (data.data.data === "Validated") {
             this.goTo('/')
           } else {
@@ -235,7 +235,7 @@
 
         this.$set(this.form, 'otp', randomString)
 
-        await axios.post('http://192.168.100.147:5000/register', this.form).then(data => {
+        await axios.post('http://localhost:5000/register', this.form).then(data => {
           this.isregistration = false
           this.id = data.data.id
         })
@@ -244,7 +244,7 @@
         this.goTo('/login')
       },
       async getallbarangay () {
-        await axios.get('http://192.168.100.147:5000/get-all-barangay').then(data => {
+        await axios.get('http://localhost:5000/get-all-barangay').then(data => {
           for (let item of data.data) {
             console.log(item)
             this.barangaylist.push(item.barangay)
