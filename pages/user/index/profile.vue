@@ -192,7 +192,7 @@
     methods: {
       ...mapMutations('users' , ['SET_USER']),
       async updateuser () {
-        await axios.post('http://localhost:5000/update-user-profile', this.form).then(data => {
+        await axios.post('http://192.168.100.147:5000/update-user-profile', this.form).then(data => {
           this.SET_USER(this.form)
           this.goTo('/user/complain')
         })
@@ -204,7 +204,7 @@
         this.form = Object.assign({}, this.form, this.user)
       },
       async getallbarangay () {
-        await axios.get('http://localhost:5000/get-all-barangay').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-barangay').then(data => {
           for (let item of data.data) {
             console.log(item)
             this.barangaylist.push(item.barangay)

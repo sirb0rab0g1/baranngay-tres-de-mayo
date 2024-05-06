@@ -135,9 +135,7 @@ export default {
         }
       },
       async sendcontact () {
-        this.$set(this.form, 'date', moment().format('L'))
-        console.log(this.form)
-        await axios.post('http://localhost:5000/create-contact-us', this.form).then(data => {
+        await axios.post('http://192.168.100.147:5000/create-contact-us', this.form).then(data => {
           this.text = data.data ? data.data.data : '' 
           this.snackbar = true
           this.form = {}

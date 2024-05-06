@@ -201,20 +201,20 @@
     },
     methods: {
       async view (payload) {
-        await axios.post('http://localhost:5000/search-history', {id: payload.id, description: ''}).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-history', {id: payload.id, description: ''}).then(data => {
           this.showbarangay = true
           this.form = data.data[0]
         })
       },
       async save () {
         if (_.has(this.form, 'id')) {
-          await axios.post('http://localhost:5000/update-history', {description: this.form.description, id: this.form.id}).then(data => {
+          await axios.post('http://192.168.100.147:5000/update-history', {description: this.form.description, id: this.form.id}).then(data => {
             this.showbarangay = false
             this.getallhistory()
             this.form = {}
           })
         } else {
-          await axios.post('http://localhost:5000/create-history', this.form).then(data => {
+          await axios.post('http://192.168.100.147:5000/create-history', this.form).then(data => {
             this.showbarangay = false
             this.getallhistory()
             this.form = {}
@@ -222,13 +222,13 @@
         }
       },
       async getallhistory () {
-        await axios.get('http://localhost:5000/get-all-history').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-history').then(data => {
           this.requests = data.data
           console.log(data)
         })
       },
       async searchbarangay () {
-        await axios.post('http://localhost:5000/search-history', {description: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-history', {description: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
@@ -236,7 +236,7 @@
         return _.isNull(param)
       },
       async deletebarangay (payload) {
-        await axios.post('http://localhost:5000/delete-history', {id: payload}).then(data => {
+        await axios.post('http://192.168.100.147:5000/delete-history', {id: payload}).then(data => {
           this.snackbar = true
           this.text = data.data.message
           this.deletedialog = false

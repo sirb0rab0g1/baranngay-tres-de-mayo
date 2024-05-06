@@ -112,7 +112,7 @@
     },
     methods: {
     	async getusers () {
-    		await axios.get('http://localhost:5000/get-all-users').then(data => {
+    		await axios.get('http://192.168.100.147:5000/get-all-users').then(data => {
     			console.log(data.data)
     			this.requests = data.data
 	      })
@@ -124,7 +124,7 @@
         return moment(param).format('LL')
       },
     	async searchnow () {
-    		await axios.post('http://localhost:5000/get-all-request-document', {service: _.isNull(this.search) ? '' : this.search, requested_by_id: null}).then(data => {
+    		await axios.post('http://192.168.100.147:5000/get-all-request-document', {service: _.isNull(this.search) ? '' : this.search, requested_by_id: null}).then(data => {
     			console.log(data)
     			this.requests = data.data
 	        })
@@ -139,7 +139,7 @@
     			status: status,
     			id: payload.id
     		}
-    		await axios.post('http://localhost:5000/update-user-status', load).then(data => {
+    		await axios.post('http://192.168.100.147:5000/update-user-status', load).then(data => {
     			this.getusers()
 	      })
       }

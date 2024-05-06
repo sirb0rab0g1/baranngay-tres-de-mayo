@@ -103,13 +103,32 @@
                   clearable
                   dense
                 ></v-text-field>
-                <v-text-field
-                  outlined
-                  label="Date"
-                  v-model="form.date"
-                  clearable
-                  dense
-                ></v-text-field>
+                <v-menu
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="form.date"
+                      label="Birth Date"
+                      prepend-inner-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      outlined
+                      dense
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="form.date"
+                    @input="menu = false"
+                    no-title
+                  ></v-date-picker>
+                </v-menu>
                 <v-textarea
                   outlined
                   label="Summary"
@@ -208,6 +227,7 @@
       search: '',
       showevent: false,
       form: {},
+      menu: false,
       croppa: {
         width: 400,
         height: 400,
@@ -229,7 +249,7 @@
         this.showevent = true
       },
       async view (payload) {
-        await axios.post('http://localhost:5000/search-event', {id: payload.id, title: ''}).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-event', {id: payload.id, title: ''}).then(data => {
           this.showevent = true
           console.log(data.data[0])
           this.form = data.data[0]
@@ -241,7 +261,7 @@
         this.croppedImage = data
       },
       async searchevent () {
-        await axios.post('http://localhost:5000/search-event', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-event', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
@@ -252,12 +272,12 @@
           this.$set(this.form, 'image', '')
         }
         console.log(this.form)
-        await axios.post('http://localhost:5000/create-event', this.form).then(data => {
+        await axios.post('http://192.168.100.147:5000/create-event', this.form).then(data => {
           this.getdataimage(data.data)
         })
       },
       async getallevents () {
-        await axios.get('http://localhost:5000/get-all-events').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-events').then(data => {
           this.requests = data.data
         })
       },
@@ -266,7 +286,7 @@
         formData.append('file', this.croppedImage);
         formData.append('eventid', data.id);
 
-        await axios.post('http://localhost:5000/upload', formData)
+        await axios.post('http://192.168.100.147:5000/upload', formData)
         .then(data => {
           this.showevent = false
           this.getallevents()
@@ -279,7 +299,7 @@
         // this.deleteevent(payload)
       },
       async deleteevent (payload) {
-        await axios.post('http://localhost:5000/delete-event', payload).then(data => {
+        await axios.post('http://192.168.100.147:5000/delete-event', payload).then(data => {
           this.snackbar = true
           this.text = data.data.message
           this.deletedialog = false

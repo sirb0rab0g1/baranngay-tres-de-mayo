@@ -69,7 +69,7 @@
         this.goTo(payload)
       },
       async login () {
-        await axios.post('http://localhost:5000/login', this.form).then(data => {
+        await axios.post('http://192.168.100.147:5000/login', this.form).then(data => {
           let ldata = data.data.data[0]
           console.log(ldata)
           if(ldata.role == 'user') {

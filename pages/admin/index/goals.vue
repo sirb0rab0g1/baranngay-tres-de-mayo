@@ -248,7 +248,7 @@
 	     return param;
       },
       async view (payload) {
-        await axios.post('http://localhost:5000/search-goals', payload).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-goals', payload).then(data => {
           this.showbarangay = true
           this.form = data.data[0]
         }).catch(e => {
@@ -257,7 +257,7 @@
       },
       async save () {
         if (_.has(this.form, 'id')) {
-          await axios.post('http://localhost:5000/update-goals', {
+          await axios.post('http://192.168.100.147:5000/update-goals', {
           	description: this.form.description, 
           	id: this.form.id, 
             is_vission_or_mission: this.form.is_vission_or_mission
@@ -267,7 +267,7 @@
             this.form = {}
           })
         } else {
-          await axios.post('http://localhost:5000/create-goals', this.form).then(data => {
+          await axios.post('http://192.168.100.147:5000/create-goals', this.form).then(data => {
             this.showbarangay = false
             this.getallgoals()
             this.form = {}
@@ -275,13 +275,13 @@
         }
       },
       async getallgoals () {
-        await axios.get('http://localhost:5000/get-all-goals').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-goals').then(data => {
           this.requests = data.data
           console.log(data)
         })
       },
       async searchgoals (xx) {
-        // await axios.post('http://localhost:5000/search-goals', {
+        // await axios.post('http://192.168.100.147:5000/search-goals', {
         // 	description: _.isNull(this.search) ? '' : this.search, 
         // 	id: null,
         // 	is_vission_or_mission: xx
@@ -289,7 +289,7 @@
         //   this.requests = data.data
         // })
 
-        await axios.post('http://localhost:5000/search-goals', this.gfilter).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-goals', this.gfilter).then(data => {
           this.requests = data.data
         })
       },
@@ -297,7 +297,7 @@
         return _.isNull(param)
       },
       async deletebarangay (payload) {
-        await axios.post('http://localhost:5000/delete-goals', {id: payload}).then(data => {
+        await axios.post('http://192.168.100.147:5000/delete-goals', {id: payload}).then(data => {
           this.snackbar = true
           this.text = data.data.message
           this.deletedialog = false

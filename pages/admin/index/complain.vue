@@ -121,13 +121,13 @@
         this.offsetTop = e.target.scrollTop
       },
       async getallreports () {
-        await axios.get('http://localhost:5000/get-all-concerns-original').then(data => {
+        await axios.get('http://192.168.100.147:5000/get-all-concerns-original').then(data => {
           this.requests = data.data
           console.log(this.requests)
         })
       },
       async searchnow () {
-        await axios.post('http://localhost:5000/search-admin-concerns', {search: this.search === null ? '' : this.search}).then(data => {
+        await axios.post('http://192.168.100.147:5000/search-admin-concerns', {search: this.search === null ? '' : this.search}).then(data => {
           this.requests = data.data
         })
       },
@@ -146,7 +146,7 @@
         let fparam = this.selectedconcern
         this.$set(fparam, 'schedule_hearing', param)
         delete fparam.requested_by_user
-        await axios.post('http://localhost:5000/update-report-user', fparam).then(data => {
+        await axios.post('http://192.168.100.147:5000/update-report-user', fparam).then(data => {
           this.getallreports()
           this.datedialog = false
         })
@@ -155,7 +155,7 @@
         let param = {
           to_phone: '9667542245'
         }
-        await axios.post('http://localhost:5000/send-sms', param).then(data => {
+        await axios.post('http://192.168.100.147:5000/send-sms', param).then(data => {
           this.requests = data.data
         })
       }
