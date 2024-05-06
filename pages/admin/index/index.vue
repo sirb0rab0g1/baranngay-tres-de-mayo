@@ -101,9 +101,6 @@
                     <th class="text-left">
                       Time Sent
                     </th>
-                    <th class="text-left">
-                      Actions
-                    </th>
                   </tr>
                 </thead>
                 <tbody class="custom-tbody">
@@ -115,7 +112,7 @@
                     <td>{{ item.mobilenumber }}</td>
                     <td>{{ item.email }}</td>
                     <td>{{ item.message }}</td>
-                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.date }}</td>
                     <td></td>
                   </tr>
                 </tbody>

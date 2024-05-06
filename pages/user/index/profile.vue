@@ -157,7 +157,7 @@
     data: () => ({
       form: {role: 'user', barangay: '', gender: ''},
       barangaylist: [],
-      genderlist: ['male', 'female']
+      genderlist: ['Male', 'Female']
     }),
     watch: {
       'user': {
@@ -194,7 +194,7 @@
       async updateuser () {
         await axios.post('http://localhost:5000/update-user-profile', this.form).then(data => {
           this.SET_USER(this.form)
-          this.goTo('/user')
+          this.goTo('/user/complain')
         })
       },
       cancel () {

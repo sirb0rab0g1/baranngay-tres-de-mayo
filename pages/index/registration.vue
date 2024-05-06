@@ -116,9 +116,11 @@
               <v-btn outlined depressed @click="cancel">
                 cancel
               </v-btn>
-              <v-btn depressed @click="form.phone_number !== '' ? sendotp() : login()" class="white--text" color="#0D650E">
-                {{ form.phone_number !== '' ? 'Send OTP' : 'Register' }}
+
+              <v-btn depressed @click="sendotp()" class="white--text" color="#0D650E">
+                Send OTP
               </v-btn>
+
             </v-card-actions>
           </div>
 
@@ -152,7 +154,7 @@
     data: () => ({
       showPassword: false,
       menu: false,
-      form: {role: 'user', status: 'pending', barangay: '', gender: '', phone_number: ''},
+      form: {role: 'user', status: 'pending', barangay: '', gender: '', phone_number: '', age: '0'},
       barangaylist: [],
       genderlist: ['Male', 'Female'],
       isregistration: true,
@@ -234,6 +236,8 @@
         }
 
         this.$set(this.form, 'otp', randomString)
+        // this.$set(this.form, 'age', this.form.birth_date)
+        console.log(this.form)
 
         await axios.post('http://localhost:5000/register', this.form).then(data => {
           this.isregistration = false

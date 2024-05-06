@@ -91,6 +91,9 @@
 
 <script>
 import Global from '~/plugins/mixins/global'
+import moment from 'moment'
+import axios from 'axios'
+
 export default {
     data: () => ({
       links: [
@@ -132,10 +135,13 @@ export default {
         }
       },
       async sendcontact () {
+        this.$set(this.form, 'date', moment().format('L'))
+        console.log(this.form)
         await axios.post('http://localhost:5000/create-contact-us', this.form).then(data => {
           this.text = data.data ? data.data.data : '' 
           this.snackbar = true
           this.form = {}
+          this.goTo('/')
         })
       }
     }
