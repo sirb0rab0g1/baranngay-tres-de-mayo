@@ -42,7 +42,7 @@ module.exports = {
     '~/assets/style/helvetica-neue/helvetica-neue.css'
   ],
   env: {
-    API_URL: 'http://192.168.100.147:5000/' // waiting for the api xd
+    API_URL: 'http://localhost:5000/' // waiting for the api xd
   },
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -65,7 +65,7 @@ module.exports = {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://192.168.100.147:8000/api/admin/graphiql',
+        httpEndpoint: 'http://localhost:8000/api/admin/graphiql',
       }
     }
   },

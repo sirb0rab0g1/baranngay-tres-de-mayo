@@ -102,13 +102,40 @@
                   clearable
                   dense
                 ></v-text-field>
-                <v-text-field
+                <!-- <v-text-field
                   outlined
                   label="Date"
                   v-model="form.datetime"
                   clearable
                   dense
-                ></v-text-field>
+                ></v-text-field> -->
+                <v-menu
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="form.datetime"
+                      label="Date"
+                      append-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      outlined
+                      dense
+                      clearable
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="form.datetime"
+                    @input="menu = false"
+                    no-title
+                  ></v-date-picker>
+                </v-menu>
                 <v-textarea
                   outlined
                   label="Summary"
@@ -202,6 +229,7 @@
       search: '',
       showevent: false,
       form: {},
+      menu: false,
       croppa: {
         width: 400,
         height: 400,
@@ -219,7 +247,7 @@
     },
     methods: {
       async view (payload) {
-        await axios.post('http://192.168.100.147:5000/search-announcement', {id: payload.id, title: ''}).then(data => {
+        await axios.post('http://localhost:5000/search-announcement', {id: payload.id, title: ''}).then(data => {
           this.showevent = true
           console.log(data.data[0])
           this.form = data.data[0]
@@ -231,7 +259,7 @@
         this.croppedImage = data
       },
       async searchannouncement () {
-        await axios.post('http://192.168.100.147:5000/search-announcement', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+        await axios.post('http://localhost:5000/search-announcement', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
@@ -242,12 +270,12 @@
           this.$set(this.form, 'image', '')
         }
         this.$set(this.form, 'image', '')
-        await axios.post('http://192.168.100.147:5000/create-announcement', this.form).then(data => {
+        await axios.post('http://localhost:5000/create-announcement', this.form).then(data => {
           this.getdataimage(data.data)
         })
       },
       async getallannouncements () {
-        await axios.get('http://192.168.100.147:5000/get-all-announcements').then(data => {
+        await axios.get('http://localhost:5000/get-all-announcements').then(data => {
           this.requests = data.data
         })
       },
@@ -256,7 +284,7 @@
         formData.append('file', this.croppedImage);
         formData.append('announcementid', data.id);
 
-        await axios.post('http://192.168.100.147:5000/announcement-upload', formData)
+        await axios.post('http://localhost:5000/announcement-upload', formData)
         .then(data => {
           this.showevent = false
           this.getallannouncements()
@@ -264,7 +292,7 @@
         .catch(error => console.error('Error:', error));
       },
       async deleteannouncement (payload) {
-        await axios.post('http://192.168.100.147:5000/delete-announcement', payload).then(data => {
+        await axios.post('http://localhost:5000/delete-announcement', payload).then(data => {
           this.snackbar = true
           this.text = data.data.message
           this.deletedialog = false

@@ -159,7 +159,7 @@
     },
     methods: {
     	async getdocument (param) {
-    		await axios.post('http://192.168.100.147:5000/get-all-request-document', {requested_by_id: null, service: ''}).then(data => {
+    		await axios.post('http://localhost:5000/get-all-request-document', {requested_by_id: null, service: ''}).then(data => {
     			console.log(data)
     			this.requests = data.data
 	      })
@@ -171,7 +171,7 @@
         return moment(param).format('LL')
       },
     	async searchnow () {
-    		await axios.post('http://192.168.100.147:5000/get-all-request-document', {service: _.isNull(this.search) ? '' : this.search, requested_by_id: null}).then(data => {
+    		await axios.post('http://localhost:5000/get-all-request-document', {service: _.isNull(this.search) ? '' : this.search, requested_by_id: null}).then(data => {
     			console.log(data)
     			this.requests = data.data
 	        })
@@ -186,7 +186,7 @@
     		delete this.selected.requested_by_user
     		delete this.selected.age
     		this.$set(this.selected, 'status', this.selected.statuses)
-        await axios.post('http://192.168.100.147:5000/update-request-document', this.selected).then(data => {
+        await axios.post('http://localhost:5000/update-request-document', this.selected).then(data => {
           this.getdocument(this.user)
           this.selected = {}
           this.acceptordeclined = false
