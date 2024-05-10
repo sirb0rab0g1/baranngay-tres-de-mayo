@@ -56,6 +56,12 @@
                     <th class="text-center">
                       Action
                     </th>
+                    <th class="text-center">
+                      Date Approved
+                    </th>
+                    <th class="text-center">
+                      Status
+                    </th>
                   </tr>
                 </thead>
                 <tbody class="custom-tbody">
@@ -72,6 +78,12 @@
                     <td class="text-center">
                       <v-btn depressed dark small color="#5fcd63" @click="getData(item)"> {{ !isNull(item.schedule_hearing) ? 'Change Schedule' : 'Set Schedule'}}</v-btn>
                     </td>
+                    <td class="text-center">
+                      {{ item.dateapproved}}
+                    </td>
+                    <td class="text-center">
+                      {{ item.status}}
+                    </td>
                   </tr>
                 </tbody>
               </template>
@@ -87,8 +99,11 @@
             lg="12"
             sm="6"
           >
+          
             <v-date-picker style="width: 100%;" v-model="picker"></v-date-picker>
-            <v-btn depressed dark small color="primary"  @click="selectdate(picker)">Select</v-btn>
+            <v-btn depressed dark small color="primary" @click="selectdate(picker)">Select</v-btn>
+
+            <v-btn depressed dark small color="primary" v-if="selectedconcern.schedule_hearing" @click="setDone()">Set Done</v-btn>
           </v-col>
         </v-card>
       </v-dialog>
@@ -121,13 +136,13 @@
         this.offsetTop = e.target.scrollTop
       },
       async getallreports () {
-        await axios.get('http://localhost:5000/get-all-concerns-original').then(data => {
+        await axios.get('http://20.189.115.250/api/get-all-concerns-original').then(data => {
           this.requests = data.data
           console.log(this.requests)
         })
       },
       async searchnow () {
-        await axios.post('http://localhost:5000/search-admin-concerns', {search: this.search === null ? '' : this.search}).then(data => {
+        await axios.post('http://20.189.115.250/api/search-admin-concerns', {search: this.search === null ? '' : this.search}).then(data => {
           this.requests = data.data
         })
       },
@@ -146,7 +161,17 @@
         let fparam = this.selectedconcern
         this.$set(fparam, 'schedule_hearing', param)
         delete fparam.requested_by_user
-        await axios.post('http://localhost:5000/update-report-user', fparam).then(data => {
+        await axios.post('http://20.189.115.250/api/update-report-user', fparam).then(data => {
+          this.getallreports()
+          this.datedialog = false
+        })
+      },
+      async setDone () {
+        let param = this.selectedconcern
+        delete param.requested_by_user
+        this.$set(param, 'status', 'Done')
+        this.$set(param, 'dateapproved', moment().format('L'))
+        await axios.post('http://20.189.115.250/api/update-report-user-done', param).then(data => {
           this.getallreports()
           this.datedialog = false
         })
@@ -155,7 +180,7 @@
         let param = {
           to_phone: '9667542245'
         }
-        await axios.post('http://localhost:5000/send-sms', param).then(data => {
+        await axios.post('http://20.189.115.250/api/send-sms', param).then(data => {
           this.requests = data.data
         })
       }

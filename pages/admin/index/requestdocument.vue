@@ -49,13 +49,13 @@
 											Reason
 										</th>
 										<th class="text-left">
-											Time Requested
-										</th>
-										<th class="text-left">
 											Status
 										</th>
 										<th class="text-center">
 											Action
+										</th>
+										<th class="text-center">
+											Date Response
 										</th>
 									</tr>
                 </thead>
@@ -67,12 +67,15 @@
 										<td>{{ item.requested_by_user ? item.requested_by_user.first_name : '' }} {{ item.requested_by_user ? item.requested_by_user.last_name : '' }} : {{ item.age >= 60 ? 'Senior' : ' '}} </td>
 										<td>{{ item.service }}</td>
 										<td>{{ item.reason }}</td>
-										<td>{{ item.created_at }}</td>
 										<td>{{ item.status | capitalizeFirst}}</td>
 										<td class="text-center">
 											<v-btn depressed dark small color="#d9544b" @click="showacceptordeclined('declined', item)">Decline</v-btn> 
 											<v-btn depressed dark small color="#5fcd63" @click="showacceptordeclined('accept', item)">Accept</v-btn>
 										</td>
+
+										<th class="text-center">
+											{{ item.dateresponse }}
+										</th>
 									</tr>
                 </tbody>
               </template>
@@ -159,7 +162,7 @@
     },
     methods: {
     	async getdocument (param) {
-    		await axios.post('http://localhost:5000/get-all-request-document', {requested_by_id: null, service: ''}).then(data => {
+    		await axios.post('http://20.189.115.250/api/get-all-request-document', {requested_by_id: null, service: ''}).then(data => {
     			console.log(data)
     			this.requests = data.data
 	      })
@@ -171,7 +174,7 @@
         return moment(param).format('LL')
       },
     	async searchnow () {
-    		await axios.post('http://localhost:5000/get-all-request-document', {service: _.isNull(this.search) ? '' : this.search, requested_by_id: null}).then(data => {
+    		await axios.post('http://20.189.115.250/api/get-all-request-document', {service: _.isNull(this.search) ? '' : this.search, requested_by_id: null}).then(data => {
     			console.log(data)
     			this.requests = data.data
 	        })
@@ -186,7 +189,8 @@
     		delete this.selected.requested_by_user
     		delete this.selected.age
     		this.$set(this.selected, 'status', this.selected.statuses)
-        await axios.post('http://localhost:5000/update-request-document', this.selected).then(data => {
+    		this.$set(this.selected, 'dateresponse', moment().format('L'))
+        await axios.post('http://20.189.115.250/api/update-request-document', this.selected).then(data => {
           this.getdocument(this.user)
           this.selected = {}
           this.acceptordeclined = false
