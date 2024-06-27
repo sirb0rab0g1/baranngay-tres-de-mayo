@@ -218,7 +218,7 @@
     		this.$set(this.form, 'requested_by_user_id', this.user.id)
         this.$set(this.form, 'status', 'Pending')
         this.$set(this.form, 'dateapproved', '')
-    		await axios.post('http://20.189.115.250/api/report-user', this.form).then(data => {
+    		await axios.post('http://localhost:5000/api/report-user', this.form).then(data => {
     			console.log(data)
     			this.dialog = false
     			this.getreports(this.user)
@@ -227,7 +227,7 @@
     	},
     	async getreports (param) {
     		console.log(param)
-    		await axios.post('http://20.189.115.250/api/get-concerns', {id: param.id}).then(data => {
+    		await axios.post('http://localhost:5000/api/get-concerns', {id: param.id}).then(data => {
 					this.requests = data.data.sort((a, b) => a.title.localeCompare(b.title))
 
 	      })
@@ -240,7 +240,7 @@
       },
     	async searchnow () {
     		console.log(this.user)
-    		await axios.post('http://20.189.115.250/api/search-concerns', {search: _.isNull(this.search) ? '' : this.search, user_id: this.user.id}).then(data => {
+    		await axios.post('http://localhost:5000/api/search-concerns', {search: _.isNull(this.search) ? '' : this.search, user_id: this.user.id}).then(data => {
     			this.requests = data.data.sort((a, b) => a.title.localeCompare(b.title))
 	        })
     	}
@@ -248,7 +248,7 @@
     mounted () {
     	this.getreports(this.user)
 
-    	const socket = io('http://20.189.115.250/api');
+    	const socket = io('http://localhost:5000/api');
 
       socket.on('connect', () => {
       	console.log('Connected')

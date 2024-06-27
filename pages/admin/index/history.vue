@@ -201,20 +201,20 @@
     },
     methods: {
       async view (payload) {
-        await axios.post('http://20.189.115.250/api/search-history', {id: payload.id, description: ''}).then(data => {
+        await axios.post('http://localhost:5000/api/search-history', {id: payload.id, description: ''}).then(data => {
           this.showbarangay = true
           this.form = data.data[0]
         })
       },
       async save () {
         if (_.has(this.form, 'id')) {
-          await axios.post('http://20.189.115.250/api/update-history', {description: this.form.description, id: this.form.id}).then(data => {
+          await axios.post('http://localhost:5000/api/update-history', {description: this.form.description, id: this.form.id}).then(data => {
             this.showbarangay = false
             this.getallhistory()
             this.form = {}
           })
         } else {
-          await axios.post('http://20.189.115.250/api/create-history', this.form).then(data => {
+          await axios.post('http://localhost:5000/api/create-history', this.form).then(data => {
             this.showbarangay = false
             this.getallhistory()
             this.form = {}
@@ -222,13 +222,13 @@
         }
       },
       async getallhistory () {
-        await axios.get('http://20.189.115.250/api/get-all-history').then(data => {
+        await axios.get('http://localhost:5000/api/get-all-history').then(data => {
           this.requests = data.data
           console.log(data)
         })
       },
       async searchbarangay () {
-        await axios.post('http://20.189.115.250/api/search-history', {description: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+        await axios.post('http://localhost:5000/api/search-history', {description: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
@@ -236,7 +236,7 @@
         return _.isNull(param)
       },
       async deletebarangay (payload) {
-        await axios.post('http://20.189.115.250/api/delete-history', {id: payload}).then(data => {
+        await axios.post('http://localhost:5000/api/delete-history', {id: payload}).then(data => {
           this.snackbar = true
           this.text = data.data.message
           this.deletedialog = false

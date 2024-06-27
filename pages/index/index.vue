@@ -1,4 +1,5 @@
 <template>
+
   <v-container fluid fill-height>
     <v-app-bar
       app
@@ -7,7 +8,7 @@
       dark
     >
 
-      <v-tabs
+   <v-tabs
         centered
         class="ml-n9"
         color="grey darken-1"
@@ -27,11 +28,11 @@
     <v-row id="home">
       <v-col cols="12">
         <!-- carousel --> 
-        <v-carousel hide-delimiters height="950"> 
+        <v-carousel hide-delimiters height="auto"> 
           <v-carousel-item
             v-for="(item, i) in announcexevents"
             :key="i"
-            :src="'http://20.189.115.250/api/' + item.image"
+            :src="'http://localhost:5000/' + item.image"
             reverse-transition="fade-transition"
             transition="fade-transition"
           >
@@ -39,7 +40,7 @@
               color="grey lighten-3"
               height="100%"
             >
-              <v-img :src="'http://20.189.115.250/api/' + item.image" 
+              <v-img :src="'http://localhost:5000/' + item.image" 
               aspect-ratio="1"
               class="custom-image-class"
             ></v-img>
@@ -56,16 +57,17 @@
         <h1>SERVICES</h1>
       </v-col>
       <v-col 
-        class="text-center pa-2"
-        cols="3"
+        class=" pa-4"
+        cols="4"
         v-for="(item, index) in services"
         :key="index"
       >
         <div @click="goTo('/login')">
           <v-img
-            lazy-src="https://picsum.photos/id/11/10/6"
-            class="white--text align-end"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+            src="images/tdmlogo.png"
+         
+            class="white--text align-center "
+            gradient="to bottom, rgba(0,0,0,.3), rgba(0,0,0,.5)"
             height="200px"
           >
             <v-card-title>
@@ -134,90 +136,64 @@
         </h1>
       </v-col>
 
-      <v-col cols="5" pa-3>
+      <v-col cols="6" pa-2>
         <v-card
           class="mx-auto"
-          max-width="100%"
-          min-height="500px"
+          
         >
           <v-img
-            class="white--text align-end"
-            height="200px"
-            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+            class="white--text align-center"
+            height="auto"
+          gradient="to bottom, rgba(0,0,0,.3), rgba(0,0,0,.7)"
+
+            src="images/1.jpg"
           >
+       
+
+
             <v-card-title>History</v-card-title>
+          
+
+          <v-card-text>
+            
+
+           Early in the nineteen century (19th) only few are living in this Barangay, those individual person our brothers & sisters who are the "lumad" particularly the Bagobo tribe. Many are interested to live in this Barangay, because of its abundant land. 
+When they arrived in this place, they practiced their customs and tradition as Christian like Mr. Enrique Cimafranca who is devoted to his patron Sr. Sta Cruz. He celebrate the feast day of his saint every 3rd day of May together with his family. During his victorious celebration for his patron Sta. Cruz he invite his neighbors to attend a pulong-pulong concerning their feast and what patron/saint they are going to celebrate. 
+
+The residents during that time, are united until this became "Baranggay Tres de Mayo" it was born on 1927 and this barangay belongs to the municipality of Sta. Cruz. Barangay Tres de Mayo was the mother barangay in the municipality of Digos.
+
+
+          </v-card-text>
+       
+
           </v-img>
 
-          <v-card-subtitle class="pb-0">
-            Number 10
-          </v-card-subtitle>
-
-          <v-card-text class="text--primary" style="height: 20vh; overflow: hidden;">
-            <div>Whitehaven Beach</div>
-
-            <div>Whitsunday Island, Whitsunday Islands</div>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn
-              color="orange"
-              text
-            >
-              Share
-            </v-btn>
-
-            <v-btn
-              color="orange"
-              text
-            >
-              Explore
-            </v-btn>
-          </v-card-actions>
         </v-card>
+
       </v-col>
-      <v-col cols="7">
-        <v-card
-          class="mx-auto pa-3"
-          max-width="100%"
-          height="500px"
+
+      <!-- Mission and Vision -->
+      <v-col cols="6">
+       <v-card
+          class="mx-auto"
+          
         >
-          <v-layout>
-            <v-flex md9>
-              <v-card flat height="200" style="align-content: center;">
-                <v-card-title>Mission</v-card-title>
+          <v-img
+            class="white--text align-center"
+            height="auto"
+          gradient="to bottom, rgba(0,0,0,.3), rgba(0,0,0,.7)"
+
+            src="images/mvbgimg.jpg"
+          >
+       
+
+
+           <v-card-title>Mission</v-card-title>
                 <v-card-subtitle style="text-align: justify;">
                   Barangay Tres de Mayo aspires to be a pro-family, peaceful, socially nurturing, economically prosperous, politically fair, and environmentally friendly community in the city of Digos.
                 </v-card-subtitle>
-              </v-card>
-            </v-flex>
-            <v-flex md3 style="text-align: center; align-content: center;">
-              <v-card class="pa-3" outlined>
-                <v-avatar
-                  color="transparent"
-                  size="180"
-                  tile
-                >
-                  <v-img :src="mission" alt="mission"></v-img>
-                </v-avatar>
-              </v-card>
-                
-            </v-flex>
-          </v-layout>
-          <v-layout>
-            <v-flex md3 style="text-align: center; align-content: center;">
-              <v-card class="pa-3" outlined>
-                <v-avatar
-                  color="transparent"
-                  size="180"
-                  tile
-                >
-                  <v-img :src="vision" alt="vision"></v-img>
-                </v-avatar>
-              </v-card>
-            </v-flex>
-            <v-flex md9>
-              <v-card flat height="270" style="align-content: center;">
-                <v-card-title>Vision</v-card-title>
+
+                 <v-card-title>Vision</v-card-title>
                 <v-card-subtitle style="text-align: justify;">
                   <p>To attain its vision, the Barangay government states its role as follows:</p>
                   <ul
@@ -229,91 +205,102 @@
                     <li>To promote and advocate for environmental preservation and protection.</li>
                   </ul>
                 </v-card-subtitle>
-              </v-card>
-            </v-flex>
-          </v-layout>
+       
+
+          </v-img>
+
         </v-card>
+                
+              
+           
       </v-col>
     </v-row>
 
     <!-- official -->
     <v-row id="officials">
       <v-col cols="12" class="text-center">
+        
         <h1>
-          OFFICIALS
+         OFFICIALS
         </h1>
       </v-col>
+
       <v-col cols="6">
-        <v-card>
-          <v-flex lg12 class="text-center">
-          <v-avatar size="150">
+        <v-card max-width="92%" style = "margin-left: 25px;">
+          <v-flex lg12 class="text-center" style = "padding: 10px">
+          <v-avatar size="100">
             <v-img
               lazy-src="https://picsum.photos/id/11/10/6"
               max-height="300"
               max-width="500"
-              src="https://picsum.photos/id/11/500/300"
+              :src="skhead.src"
             ></v-img>
           </v-avatar>
 
 
-          <v-flex lg12>
-            Monkey D. Luffy<br>
-            Position
+          <v-flex>
+            <div style = "font-size: 15px; font-weight: bold; margin-bottom: -26px;">  {{ skhead.name }} </div> <br>
+            <div style = "font-size: 11px;">
+            {{ skhead.position }}  </div> 
           </v-flex>
         </v-flex>
 
         <v-layout row wrap  class="text-center">
-          <v-flex lg3 pa-2 v-for="(item, index) in 8" :key="index">
-            <v-avatar size="100">
+          <v-flex pa-2 v-for="(item, index) in sk" :key="index">
+            <v-avatar size="90">
               <v-img
                 lazy-src="https://picsum.photos/id/11/10/6"
                 max-height="300"
                 max-width="500"
-                src="https://picsum.photos/id/11/500/300"
+                :src="item.src"
               ></v-img>
             </v-avatar>
 
             <v-flex lg12>
-              Monkey D. Luffy<br>
-              Position
+            <div style = "font-size: 15px; font-weight: bold; margin-bottom: -26px;"> 
+              {{ item.name }} </div>  <br>
+             <div style = "font-size: 11px;"> {{ item.position }} </div> 
             </v-flex>
           </v-flex>
         </v-layout>
         </v-card>
       </v-col>
+
+
+
       <v-col cols="6">
-        <v-card>
-          <v-flex lg12 class="text-center">
-          <v-avatar size="150">
+        <v-card max-width="95%" style = "margin-right: 20px;">
+          <v-flex lg12 class="text-center" style = "font-size: 15px; padding: 10px">
+          <v-avatar size="100">
             <v-img
               lazy-src="https://picsum.photos/id/11/10/6"
               max-height="300"
               max-width="500"
-              src="https://picsum.photos/id/11/500/300"
+              :src="brgyhead.src"
             ></v-img>
           </v-avatar>
-
-
-          <v-flex lg12>
-            Monkey D. Luffy<br>
-            Position
+<v-flex lg12>
+          <div style = "font-size: 15px; font-weight: bold; margin-bottom: -26px;"> 
+            {{ brgyhead.name }}  </div>  <br>
+            <div style = "font-size: 11px;"> {{ brgyhead.position }} </div> 
           </v-flex>
         </v-flex>
 
         <v-layout row wrap  class="text-center">
-          <v-flex lg3 pa-2 v-for="(item, index) in 8" :key="index">
-            <v-avatar size="100">
+          <v-flex pa-2 v-for="(item, index) in brgy" :key="index">
+            <v-avatar size="90">
               <v-img
                 lazy-src="https://picsum.photos/id/11/10/6"
                 max-height="300"
                 max-width="500"
-                src="https://picsum.photos/id/11/500/300"
+                :src="item.src"
               ></v-img>
             </v-avatar>
 
             <v-flex lg12>
-              Monkey D. Luffy<br>
-              Position
+            <div style = "font-size: 15px; font-weight: bold; margin-bottom: -26px;"> 
+              {{ item.name }} </div> <br>
+              <div style = "font-size: 11px; padding: 2px;"> {{ item.position }}  </div> 
             </v-flex>
           </v-flex>
         </v-layout>
@@ -356,7 +343,7 @@
               v-model="form.message"
               label="Message"
               rows="3"
-              row-height="40"
+              
               solo
             ></v-textarea>
             <v-btn block large @click="sendcontact()"> SEND</v-btn>
@@ -415,6 +402,90 @@
           src: require('@/static/images/4.jpg'),
         },
       ],
+      brgyhead: {
+        src: require('@/static/images/LABAJO.jpg'),
+        name: 'Hon. Dominic Labajo',
+        position: 'SK Chairman'
+      },
+      brgy: [
+        {
+          src: require('@/static/images/JASMINE.jpg'),
+          name: 'Hon. Jasmine Ramos',
+          position: 'SK Kagawad'
+        },
+        {
+          src: require('@/static/images/NER.jpg'),
+          name: 'Hon. Nikki Ner',
+          position: 'SK Kagawad'
+        },
+        {
+          src: require('@/static/images/DACER.jpg'),
+          name: 'Hon. Princess Dacer',
+          position: 'SK Kagawad'
+        },
+        {
+          src: require('@/static/images/MARANAN.jpg'),
+          name: 'Hon. Darlene Marañan',
+          position: 'SK Kagawad'
+        },
+        {
+          src: require('@/static/images/NAVARO.jpg'),
+          name: 'Hon. Bea Dianne Navarro',
+          position: 'SK Kagawad'
+        },
+        {
+          src: require('@/static/images/SENAJON.jpg'),
+          name: 'Hon. Louie Senajon',
+          position: 'SK Kagawad'
+        },
+        {
+          src: require('@/static/images/AGTONG.jpg'),
+          name: 'Hon. Grace Agtong',
+          position: 'SK Kagawad'
+        }
+      ],
+      skhead: {
+        src: require('@/static/images/KAP.jpg'),
+        name: 'Hon. Oscar Bucol',
+        position: 'Barangay Chairman'
+      },
+      sk: [
+        {
+          src: require('@/static/images/WADBUCOL.jpg'),
+          name: 'Hon. Jeric Bucol',
+          position: 'Barangay Kagawad'
+        },
+        {
+          src: require('@/static/images/CASTILLO.jpg'),
+          name: 'Hon. Marlon Castillo',
+          position: 'Barangay Kagawad'
+        },
+        {
+          src: require('@/static/images/NUESCA.jpg'),
+          name: 'Hon. Rey Nuesca',
+          position: 'Barangay Kagawad'
+        },
+        {
+          src: require('@/static/images/BARRETO.jpg'),
+          name: 'Hon. Albert Barreto',
+          position: 'Barangay Kagawad'
+        },
+        {
+          src: require('@/static/images/ALCOVER.jpg'),
+          name: 'Hon. Bobong Alcover',
+          position: 'Barangay Kagawad'
+        },
+        {
+          src: require('@/static/images/CAIMAN.jpg'),
+          name: 'Hon. Arvin Caiman',
+          position: 'Barangay Kagawad'
+        },
+        {
+          src: require('@/static/images/BAGNOL.jpg'),
+          name: 'Hon. Alfe Bagnol',
+          position: 'Barangay Kagawad'
+        }
+      ],
       form: {},
       snackbar: false,
       text: '',
@@ -435,20 +506,20 @@
         }
       },
       async sendcontact () {
-        await axios.post('http://20.189.115.250/api/create-contact-us', this.form).then(data => {
+        await axios.post('http://localhost:5000/create-contact-us', this.form).then(data => {
           this.text = data.data ? data.data.data : '' 
           this.snackbar = true
           this.form = {}
         })
       },
       async getallbarangay () {
-        await axios.get('http://20.189.115.250/api/get-all-barangay').then(data => {
+        await axios.get('http://localhost:5000/get-all-barangay').then(data => {
           this.services = data.data
           this.getallannouncements()
         })
       },
       async getallannouncements () {
-        await axios.get('http://20.189.115.250/api/get-all-announcements').then(data => {
+        await axios.get('http://localhost:5000/get-all-announcements').then(data => {
           data.data.forEach(announcement => {
             // Perform your operations with each announcement
             this.announcexevents.push(announcement)
@@ -457,7 +528,7 @@
         })
       },
       async getallevents () {
-        await axios.get('http://20.189.115.250/api/get-all-events').then(data => {
+        await axios.get('http://localhost:5000/get-all-events').then(data => {
           // this.events = data.data
 
           data.data.forEach(announcement => {
@@ -492,6 +563,10 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cg fill='none' stroke='%2309900b' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13.48 7.516a6.5 6.5 0 1 1-6.93-7'/%3E%3Cpath d='M9.79 8.09A3 3 0 1 1 5.9 4.21M7 7l2.5-2.5m2 .5l-2-.5l-.5-2l2-2l.5 2l2 .5z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.history{
+  text-indent:50px;
+  text-align: justify;
 }
 </style>
 

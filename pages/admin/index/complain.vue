@@ -136,13 +136,13 @@
         this.offsetTop = e.target.scrollTop
       },
       async getallreports () {
-        await axios.get('http://20.189.115.250/api/get-all-concerns-original').then(data => {
+        await axios.get('http://localhost:5000/api/get-all-concerns-original').then(data => {
           this.requests = data.data
           console.log(this.requests)
         })
       },
       async searchnow () {
-        await axios.post('http://20.189.115.250/api/search-admin-concerns', {search: this.search === null ? '' : this.search}).then(data => {
+        await axios.post('http://localhost:5000/api/search-admin-concerns', {search: this.search === null ? '' : this.search}).then(data => {
           this.requests = data.data
         })
       },
@@ -161,7 +161,7 @@
         let fparam = this.selectedconcern
         this.$set(fparam, 'schedule_hearing', param)
         delete fparam.requested_by_user
-        await axios.post('http://20.189.115.250/api/update-report-user', fparam).then(data => {
+        await axios.post('http://localhost:5000/api/update-report-user', fparam).then(data => {
           this.getallreports()
           this.datedialog = false
         })
@@ -171,7 +171,7 @@
         delete param.requested_by_user
         this.$set(param, 'status', 'Done')
         this.$set(param, 'dateapproved', moment().format('L'))
-        await axios.post('http://20.189.115.250/api/update-report-user-done', param).then(data => {
+        await axios.post('http://localhost:5000/api/update-report-user-done', param).then(data => {
           this.getallreports()
           this.datedialog = false
         })
@@ -180,7 +180,7 @@
         let param = {
           to_phone: '9667542245'
         }
-        await axios.post('http://20.189.115.250/api/send-sms', param).then(data => {
+        await axios.post('http://localhost:5000/api/send-sms', param).then(data => {
           this.requests = data.data
         })
       }

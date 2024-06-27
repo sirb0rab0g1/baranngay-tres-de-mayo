@@ -247,7 +247,7 @@
     },
     methods: {
       async view (payload) {
-        await axios.post('http://20.189.115.250/api/search-announcement', {id: payload.id, title: ''}).then(data => {
+        await axios.post('http://localhost:5000/api/search-announcement', {id: payload.id, title: ''}).then(data => {
           this.showevent = true
           console.log(data.data[0])
           this.form = data.data[0]
@@ -259,7 +259,7 @@
         this.croppedImage = data
       },
       async searchannouncement () {
-        await axios.post('http://20.189.115.250/api/search-announcement', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+        await axios.post('http://localhost:5000/api/search-announcement', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
@@ -270,12 +270,12 @@
           this.$set(this.form, 'image', '')
         }
         this.$set(this.form, 'image', '')
-        await axios.post('http://20.189.115.250/api/create-announcement', this.form).then(data => {
+        await axios.post('http://localhost:5000/api/create-announcement', this.form).then(data => {
           this.getdataimage(data.data)
         })
       },
       async getallannouncements () {
-        await axios.get('http://20.189.115.250/api/get-all-announcements').then(data => {
+        await axios.get('http://localhost:5000/api/get-all-announcements').then(data => {
           this.requests = data.data
         })
       },
@@ -284,7 +284,7 @@
         formData.append('file', this.croppedImage);
         formData.append('announcementid', data.id);
 
-        await axios.post('http://20.189.115.250/api/announcement-upload', formData)
+        await axios.post('http://localhost:5000/api/announcement-upload', formData)
         .then(data => {
           this.showevent = false
           this.getallannouncements()
@@ -292,7 +292,7 @@
         .catch(error => console.error('Error:', error));
       },
       async deleteannouncement (payload) {
-        await axios.post('http://20.189.115.250/api/delete-announcement', payload).then(data => {
+        await axios.post('http://localhost:5000/api/delete-announcement', payload).then(data => {
           this.snackbar = true
           this.text = data.data.message
           this.deletedialog = false
