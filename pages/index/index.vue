@@ -506,20 +506,20 @@ The residents during that time, are united until this became "Baranggay Tres de 
         }
       },
       async sendcontact () {
-        await axios.post('http://localhost:5000/create-contact-us', this.form).then(data => {
+        await axios.post('http://localhost:5000/api/create-contact-us', this.form).then(data => {
           this.text = data.data ? data.data.data : '' 
           this.snackbar = true
           this.form = {}
         })
       },
       async getallbarangay () {
-        await axios.get('http://localhost:5000/get-all-barangay').then(data => {
+        await axios.get('http://localhost:5000/api/get-all-barangay').then(data => {
           this.services = data.data
           this.getallannouncements()
         })
       },
       async getallannouncements () {
-        await axios.get('http://localhost:5000/get-all-announcements').then(data => {
+        await axios.get('http://localhost:5000/api/get-all-announcements').then(data => {
           data.data.forEach(announcement => {
             // Perform your operations with each announcement
             this.announcexevents.push(announcement)
