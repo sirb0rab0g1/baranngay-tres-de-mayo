@@ -56,6 +56,9 @@
                     <th class="text-left">
                       Date Approved
                     </th>
+                    <th class="text-left">
+                      Action
+                    </th>
 									</tr>
                 </thead>
                 <tbody class="custom-tbody">
@@ -69,6 +72,29 @@
 										<td>{{ !isNull(item.schedule_hearing) ? parseDate(item.schedule_hearing) : 'Waiting' }}</td>
                     <td>{{ item.status }}</td>
                     <td>{{ item.dateapproved }}</td>
+                    <td>
+                      <v-btn
+                        class="mx-2"
+                        flat
+                        fab
+                        small
+                      >
+                        <v-icon dark>
+                          mdi-pencil-outline
+                        </v-icon>
+                      </v-btn>
+
+                      <v-btn
+                        class="mx-2"
+                        flat
+                        fab
+                        small
+                      >
+                        <v-icon dark>
+                          mdi-trash-can
+                        </v-icon>
+                      </v-btn>
+                    </td>
 									</tr>
                 </tbody>
               </template>

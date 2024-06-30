@@ -48,11 +48,14 @@
 											Status
 										</th>
 										<th class="text-left">
-											Response
+											Remarks
 										</th>
-										<th class="text-left">
-											Responsed Time
-										</th>
+                    <th class="text-center">
+                      Date Response
+                    </th>
+                    <th class="text-left">
+                      Action
+                    </th>
 									</tr>
                 </thead>
                 <tbody class="custom-tbody">
@@ -64,9 +67,32 @@
 											<td>{{ item.reason }}</td>
 											<td>{{ item.status | capitalizeFirst }}</td>
 											<td>{{ item.description}}</td>
-											<td>
-												<!-- for time status -->
-											</td>
+                      <th class="text-center">
+                        {{ item.dateresponse }}
+                      </th>
+                      <td>
+                        <v-btn
+                          class="mx-2"
+                          flat
+                          fab
+                          small
+                        >
+                          <v-icon dark>
+                            mdi-pencil-outline
+                          </v-icon>
+                        </v-btn>
+
+                        <v-btn
+                          class="mx-2"
+                          flat
+                          fab
+                          small
+                        >
+                          <v-icon dark>
+                            mdi-trash-can
+                          </v-icon>
+                        </v-btn>
+                      </td>
 									</tr>
                 </tbody>
               </template>
@@ -91,10 +117,18 @@
 								<v-select
 									:items="barangaylist"
 									outlined
-									label="Filled style"
+									label="Request Type"
 									v-model="form.service"
 									:menu-props="{ top: false, offsetY: true }"
 								></v-select>
+                <v-select
+                  v-if="form.service === 'Cedula' "
+                  :items="items"
+                  label="Employment Status"
+                  v-model="cedula"
+                  outlined
+                ></v-select>
+
 								<v-textarea
 									outlined
 									label="Reason"
@@ -166,11 +200,13 @@
     data: () => ({
     	requests: [],
     	dialog: false,
-    	form: {},
+    	form: {reason: ''},
     	search: '',
     	notifcard: false,
     	notification: {},
-    	barangaylist: []
+    	barangaylist: [],
+      items: ['Student', 'Employed', 'Self-employed', 'Housewife'],
+      cedula: ''
     }),
     computed: {
     	...mapGetters('users', ['user']),
@@ -186,7 +222,15 @@
     			}
     		},
     		deep: true
-    	}
+    	},
+      'cedula': {
+        handler (old, neww) {
+          this.form.reason = ''
+          this.$set(this.form, 'reason', this.cedula + ' | ' + this.form.reason)
+        },
+        deep: true
+      }
+
     },
     methods: {
     	async report () {

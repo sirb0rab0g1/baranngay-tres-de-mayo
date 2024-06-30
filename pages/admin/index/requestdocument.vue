@@ -52,10 +52,10 @@
 											Status
 										</th>
 										<th class="text-center">
-											Action
+											Date Response
 										</th>
 										<th class="text-center">
-											Date Response
+											Action
 										</th>
 									</tr>
                 </thead>
@@ -68,14 +68,14 @@
 										<td>{{ item.service }}</td>
 										<td>{{ item.reason }}</td>
 										<td>{{ item.status | capitalizeFirst}}</td>
-										<td class="text-center">
-											<v-btn depressed dark small color="#d9544b" @click="showacceptordeclined('declined', item)">Decline</v-btn> 
-											<v-btn depressed dark small color="#5fcd63" @click="showacceptordeclined('accept', item)">Accept</v-btn>
-										</td>
 
 										<th class="text-center">
 											{{ item.dateresponse }}
 										</th>
+										<td class="text-center">
+											<v-btn depressed dark small color="#d9544b" @click="showacceptordeclined('declined', item)">Decline</v-btn> 
+											<v-btn depressed dark small color="#5fcd63" @click="showacceptordeclined('accept', item)">Accept</v-btn>
+										</td>
 									</tr>
                 </tbody>
               </template>
