@@ -47,7 +47,7 @@
                       Reason
                     </th>
                     <th class="text-left">
-                      Schedule Hearing
+                      Schedule Appearance
                     </th>
 
                     <th class="text-left">

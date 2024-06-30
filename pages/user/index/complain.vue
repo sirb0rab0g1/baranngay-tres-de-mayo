@@ -48,7 +48,7 @@
 											Reason
 										</th>
                     <th class="text-left">
-                      Schedule Hearing
+                      Schedule Appearance
                     </th>
                     <th class="text-left">
                       Status
@@ -170,6 +170,34 @@
 				</v-card>
 			</v-dialog>
 
+      <v-dialog
+        v-model="continuex"
+        width="500"
+      >
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">
+            Notice
+          </v-card-title>
+
+          <v-card-text>
+            Thank you for submitting your request! Please expect to receive a call from the administrator.
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="continuex = false"
+            >
+              Confirm
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
 			<v-card style="position: fixed; bottom: 0; left: 0; z-index: 1000; margin: 20px; border: 1px solid #9ebd9e;" v-if="notifcard === true">
 				<v-card-text class="pa-2" style="line-height: 1">
           <v-card-actions class="pa-0">
@@ -222,6 +250,7 @@
     	notifcard: false,
     	notification: {},
     	items: ['Complain', 'Concern'],
+      continuex: false
     }),
     computed: {
     	...mapGetters('users', ['user']),
@@ -249,13 +278,15 @@
     			this.dialog = false
     			this.getreports(this.user)
     			this.form = {query_by_user: '', name_reported: ''}
+          
+          this.dialog = false
+          this.continuex = true
 	      })
     	},
     	async getreports (param) {
     		console.log(param)
     		await axios.post('http://localhost:5000/api/get-concerns', {id: param.id}).then(data => {
 					this.requests = data.data.sort((a, b) => a.title.localeCompare(b.title))
-
 	      })
     	},
     	isNull (param) {
