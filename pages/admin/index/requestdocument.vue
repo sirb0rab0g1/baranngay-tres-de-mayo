@@ -46,7 +46,7 @@
 											Service
 										</th>
 										<th class="text-left">
-											Reason
+											Purpose
 										</th>
 										<th class="text-left">
 											Status
@@ -73,8 +73,13 @@
 											{{ item.dateresponse }}
 										</th>
 										<td class="text-center">
-											<v-btn depressed dark small color="#d9544b" @click="showacceptordeclined('declined', item)">Decline</v-btn> 
-											<v-btn depressed dark small color="#5fcd63" @click="showacceptordeclined('accept', item)">Accept</v-btn>
+											<v-flex v-if="item.status === 'pending'">
+												<v-btn depressed dark small color="#d9544b" @click="showacceptordeclined('reject', item)">Reject</v-btn> 
+												<v-btn depressed dark small color="#5fcd63" @click="showacceptordeclined('approved', item)">Approved</v-btn>
+											</v-flex>
+											<v-flex v-else>
+												<v-btn depressed dark small>{{ item.status | capitalizeFirst }}</v-btn> 
+											</v-flex>
 										</td>
 									</tr>
                 </tbody>
@@ -91,7 +96,12 @@
 			>
 				<v-card>
 					<v-card-title class="text-h5">
-						Are you sure you want to {{ selected.statuses }}? 
+						<v-flex v-if="selected.statuses !== 'approved'">
+							Why you would like to {{ selected.statuses }}? 
+						</v-flex>
+						<v-flex v-else>
+							Are you sure you want to {{ selected.statuses }}? 
+						</v-flex>
 					</v-card-title>
 					<v-card-text>
 						<v-layout>

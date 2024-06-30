@@ -42,7 +42,7 @@
 											Service
 										</th>
 										<th class="text-left">
-											Reason
+											Purpose
 										</th>
 										<th class="text-left">
 											Status
