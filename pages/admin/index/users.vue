@@ -113,8 +113,22 @@
     methods: {
     	async getusers () {
     		await axios.get('http://localhost:5000/api/get-all-users').then(data => {
-    			console.log(data.data)
-    			this.requests = data.data
+    			let arr = []
+					data.data.forEach(element => {
+						console.log('eee',element)
+						
+						let payload = element
+						if(element.birth_date) {
+							let birthDate = new Date(element.birth_date);
+							let dateNow = new Date();
+							let age = dateNow.getFullYear() - birthDate.getFullYear();
+
+							this.$set(payload, 'age', age)
+						}
+						
+						arr.push(payload)
+					});
+    			this.requests = arr
 	      })
     	},
     	isNull (param) {
@@ -124,10 +138,22 @@
         return moment(param).format('LL')
       },
     	async searchnow () {
-    		await axios.post('http://localhost:5000/api/get-all-request-document', {service: _.isNull(this.search) ? '' : this.search, requested_by_id: null}).then(data => {
-    			console.log(data)
-    			this.requests = data.data
-	        })
+    		await axios.post('http://localhost:5000/api/search-all-users', {search: _.isNull(this.search) ? '' : this.search}).then(data => {
+    			let arr = []
+					data.data.forEach(element => {
+						let payload = element
+						if(element.birth_date) {
+							let birthDate = new Date(element.birth_date);
+							let dateNow = new Date();
+							let age = dateNow.getFullYear() - birthDate.getFullYear();
+
+							this.$set(payload, 'age', age)
+						}
+						
+						arr.push(payload)
+					});
+    			this.requests = arr
+	      })
     	},
     	showacceptordeclined (text, item) {
     		this.$set(item, 'statuses', text)
