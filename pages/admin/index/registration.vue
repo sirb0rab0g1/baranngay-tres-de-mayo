@@ -108,6 +108,30 @@
                   maxLength="10"
                 />
               </v-flex>
+
+
+              <v-flex sm12 md3 pa-2>
+                <v-select
+                  outlined
+                  prepend-icon="lock"
+                  v-model="form.kindid"
+                  :items="kindid"
+                  label="ID Description"
+                  :menu-props="{ top: false, offsetY: true }"
+                ></v-select>
+              </v-flex>
+              <v-flex lg6 class="pa-2">
+                <croppa
+                  v-model="croppa"
+                  :width="croppa.width"
+                  :height="croppa.height"
+                  :placeholder="croppa.placeholder"
+                  @file-choose="onCropped"
+                >
+                  <!-- <img slot="initial" :src="form.image" /> -->
+                  <img slot="initial" :src="'http://20.84.109.153/' + form.image" />
+                </croppa>
+              </v-flex>
             </v-layout>
 
             <!-- <v-row>
@@ -157,9 +181,15 @@
     data: () => ({
       showPassword: false,
       menu: false,
-      form: {role: 'user', barangay: '', gender: ''},
+      form: {role: 'user', status: 'active', barangay: '', gender: '', phone_number: '', age: '0', image: '', otp: '123456'},
       barangaylist: [],
       genderlist: ['Male', 'Female'],
+      croppa: {
+        width: 400,
+        height: 400,
+        placeholder: 'Select an image'
+      },
+      kindid: ['National ID', 'Passport', 'Drivers license', 'Student ID', 'Company ID']
     }),
     computed: {
       ...mapGetters('users', ['user']),
@@ -208,8 +238,25 @@
       async createuser () {
         await axios.post('http://20.84.109.153/api/register', this.form).then(data => {
           // this.SET_USER(this.form)
+          this.getdataimage(data.data)
           this.goTo('/admin')
         })
+      },
+      onCropped(data) {
+        this.croppedImage = data
+      },
+      async getdataimage (data) {
+        const formData = new FormData();
+        formData.append('file', this.croppedImage);
+        formData.append('userid', data.id);
+
+        await axios.post('http://20.84.109.153/api/user-reg-upload', formData)
+        .then(data => {
+          // this.goTo('/')
+          // this.showevent = false
+          // this.getallevents()
+        })
+        .catch(error => console.error('Error:', error));
       },
       cancel () {
         // this.goTo('/user')
