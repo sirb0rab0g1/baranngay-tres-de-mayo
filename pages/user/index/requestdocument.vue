@@ -71,27 +71,34 @@
                         {{ item.dateresponse }}
                       </th>
                       <td>
-                        <v-btn
-                          class="mx-2"
-                          flat
-                          fab
-                          small
-                        >
-                          <v-icon dark>
-                            mdi-pencil-outline
-                          </v-icon>
-                        </v-btn>
+                        <v-flex v-if="item.status === 'pending'">
+                          <v-btn
+                            class="mx-2"
+                            flat
+                            fab
+                            small
+                            @click="getdata(item)"
+                          >
+                            <v-icon dark>
+                              mdi-pencil-outline
+                            </v-icon>
+                          </v-btn>
 
-                        <v-btn
-                          class="mx-2"
-                          flat
-                          fab
-                          small
-                        >
-                          <v-icon dark>
-                            mdi-trash-can
-                          </v-icon>
-                        </v-btn>
+                          <v-btn
+                            class="mx-2"
+                            flat
+                            fab
+                            small
+                            @click="deletereport(item)"
+                          >
+                            <v-icon dark>
+                              mdi-trash-can
+                            </v-icon>
+                          </v-btn>
+                        </v-flex>
+                        <v-flex v-else>
+                          <v-btn depressed dark small>{{ item.status | capitalizeFirst }}</v-btn> 
+                        </v-flex>
                       </td>
 									</tr>
                 </tbody>
@@ -103,6 +110,7 @@
 
 			<!-- modal -->
 			<v-dialog
+        persistent
 				v-model="dialog"
 				width="500"
 			>
@@ -142,6 +150,12 @@
 					<v-divider></v-divider>
 
 					<v-card-actions>
+            <v-btn
+              depressed dark small color="#d9544b"
+              @click="dialog = !dialog"
+            >
+              Cancel
+            </v-btn>
 						<v-spacer></v-spacer>
 						<v-btn
 							depressed dark color="#1976D2"
@@ -152,6 +166,66 @@
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
+
+      <!-- update modal -->
+      <v-dialog
+        persistent
+        v-model="updatedialog"
+        width="500"
+      >
+        <v-card>
+          <v-card-title style="background: #1976D2; color: white">
+            UPDATE REQUEST
+          </v-card-title>
+
+          <v-card-text class="pt-4">
+            <v-layout row wrap>
+              <v-flex class="pa-2">
+                <v-select
+                  :items="barangaylist"
+                  outlined
+                  label="Request Type"
+                  v-model="updateform.service"
+                  :menu-props="{ top: false, offsetY: true }"
+                ></v-select>
+                <v-select
+                  v-if="updateform.service === 'Cedula' "
+                  :items="items"
+                  label="Employment Status"
+                  v-model="updatecedula"
+                  outlined
+                ></v-select>
+
+                <v-textarea
+                  outlined
+                  label="Reason"
+                  v-model="updateform.reason"
+                  clearable
+                ></v-textarea>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-btn
+              depressed dark small color="#d9544b"
+              @click="updatedialog = !updatedialog"
+            >
+              Cancel
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              depressed dark color="#1976D2"
+              @click="updatereport()"
+            >
+            <!-- @click="report()" -->
+              SEND
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
 			<v-card style="position: fixed; bottom: 0; left: 0; z-index: 1000; margin: 20px; border: 1px solid #9ebd9e;" v-if="notifcard === true">
         <v-card-text class="pa-2" style="line-height: 1">
@@ -200,7 +274,10 @@
     data: () => ({
     	requests: [],
     	dialog: false,
+      updatedialog: false,
     	form: {reason: ''},
+      updateform: {reason: ''},
+      updatecedula: '',
     	search: '',
     	notifcard: false,
     	notification: {},
@@ -229,10 +306,24 @@
           this.$set(this.form, 'reason', this.cedula + ' | ' + this.form.reason)
         },
         deep: true
+      },
+      'updatecedula': {
+        handler (old, neww) {
+          let xold = this.updateform.reason.split('| ')[1]
+          this.updateform.reason = ''
+          this.$set(this.updateform, 'reason', this.updatecedula + ' | ' + xold)
+        },
+        deep: true
       }
 
     },
     methods: {
+      getdata (payload) {
+        this.updatedialog = true
+        console.log(payload)
+        this.updatecedula = payload.reason.split(' ')[0]
+        this.updateform = payload
+      },
     	async report () {
     		this.$set(this.form, 'requested_by_id', this.user.id)
     		this.$set(this.form, 'status', 'pending')
@@ -244,6 +335,18 @@
     			this.getdocument(this.user)
 	        })
     	},
+      async updatereport () {
+        await axios.post('http://20.84.109.153/api/update-request-document', this.updateform).then(data => {
+          console.log(data)
+          this.updatedialog = false
+          this.getdocument(this.user)
+          })
+      },
+      async deletereport (payload) {
+        await axios.post('http://20.84.109.153/api/delete-request-document', payload).then(data => {
+          this.getdocument(this.user)
+          })
+      },
     	async getdocument (param) {
     		// console.log(param)
     		await axios.post('http://20.84.109.153/api/get-all-request-document', {requested_by_id: param.id, service: ''}).then(data => {

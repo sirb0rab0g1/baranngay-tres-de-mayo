@@ -26,7 +26,7 @@
             </v-btn>
           </v-flex>
           <v-flex pa-1>
-            <v-btn block depressed dark color="#0D650E" @click="dialog = true">
+            <v-btn block depressed dark color="#0D650E" @click="createquery()">
               Create Query
             </v-btn>
           </v-flex>
@@ -73,27 +73,34 @@
                     <td>{{ item.status }}</td>
                     <td>{{ item.dateapproved }}</td>
                     <td>
-                      <v-btn
-                        class="mx-2"
-                        flat
-                        fab
-                        small
-                      >
-                        <v-icon dark>
-                          mdi-pencil-outline
-                        </v-icon>
-                      </v-btn>
+                      <v-flex v-if="item.status === 'Pending'">
+                        <v-btn
+                          class="mx-2"
+                          flat
+                          fab
+                          small
+                          @click="getdata(item)"
+                        >
+                          <v-icon dark>
+                            mdi-pencil-outline
+                          </v-icon>
+                        </v-btn>
 
-                      <v-btn
-                        class="mx-2"
-                        flat
-                        fab
-                        small
-                      >
-                        <v-icon dark>
-                          mdi-trash-can
-                        </v-icon>
-                      </v-btn>
+                        <v-btn
+                          class="mx-2"
+                          flat
+                          fab
+                          small
+                          @click="deletereport(item)"
+                        >
+                          <v-icon dark>
+                            mdi-trash-can
+                          </v-icon>
+                        </v-btn>
+                      </v-flex>
+                      <v-flex v-else>
+                        <v-btn depressed dark small>{{ item.status | capitalizeFirst }}</v-btn> 
+                      </v-flex>
                     </td>
 									</tr>
                 </tbody>
@@ -162,9 +169,9 @@
 						<v-spacer></v-spacer>
 						<v-btn
 							depressed dark color="#1976D2"
-							@click="report()"
+							@click="!form.id ? report() : comupdate()"
 						>
-							Send
+							{{ !form.id ? 'Send' : 'Update' }}
 						</v-btn>
 					</v-card-actions>
 				</v-card>
@@ -269,6 +276,22 @@
     	}
     },
     methods: {
+      async comupdate () {
+        await axios.post('http://20.84.109.153/api/update-report-user', this.form).then(data => {
+          console.log(data)
+          this.dialog = false
+          this.getreports(this.user)
+        })
+      },
+      createquery () {
+        this.dialog = true
+        this.form = {}
+      },
+      getdata (payload) {
+        this.dialog = true
+        console.log(payload)
+        this.form = payload
+      },
     	async report () {
     		this.$set(this.form, 'requested_by_user_id', this.user.id)
         this.$set(this.form, 'status', 'Pending')
@@ -283,6 +306,11 @@
           this.continuex = true
 	      })
     	},
+      async deletereport (payload) {
+        await axios.post('http://20.84.109.153/api/delete-report-user', payload).then(data => {
+          this.getreports(this.user)
+          })
+      },
     	async getreports (param) {
     		console.log(param)
     		await axios.post('http://20.84.109.153/api/get-concerns', {id: param.id}).then(data => {
