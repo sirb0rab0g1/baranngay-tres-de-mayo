@@ -145,7 +145,8 @@
                   :placeholder="croppa.placeholder"
                   @file-choose="onCropped"
                 >
-                  <img slot="initial" :src="form.image" />
+                  <!-- <img slot="initial" :src="form.image" /> -->
+                  <img slot="initial" :src="'http://20.84.109.153/' + form.image" />
                 </croppa>
               </v-flex>
   
@@ -250,7 +251,7 @@
         this.showevent = true
       },
       async view (payload) {
-        await axios.post('http://localhost:5000/api/search-event', {id: payload.id, title: ''}).then(data => {
+        await axios.post('http://20.84.109.153/api/search-event', {id: payload.id, title: ''}).then(data => {
           this.showevent = true
           console.log(data.data[0])
           this.form = data.data[0]
@@ -262,7 +263,7 @@
         this.croppedImage = data
       },
       async searchevent () {
-        await axios.post('http://localhost:5000/api/search-event', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
+        await axios.post('http://20.84.109.153/api/search-event', {title: _.isNull(this.search) ? '' : this.search, id: null}).then(data => {
           this.requests = data.data
         })
       },
@@ -272,12 +273,12 @@
         } else {
           this.$set(this.form, 'image', '')
         }
-        await axios.post('http://localhost:5000/api/create-event', this.form).then(data => {
+        await axios.post('http://20.84.109.153/api/create-event', this.form).then(data => {
           this.getdataimage(data.data)
         })
       },
       async getallevents () {
-        await axios.get('http://localhost:5000/api/get-all-events').then(data => {
+        await axios.get('http://20.84.109.153/api/get-all-events').then(data => {
           this.requests = data.data
         })
       },
@@ -286,7 +287,7 @@
         formData.append('file', this.croppedImage);
         formData.append('eventid', data.id);
 
-        await axios.post('http://localhost:5000/api/upload', formData)
+        await axios.post('http://20.84.109.153/api/upload', formData)
         .then(data => {
           this.showevent = false
           this.getallevents()
@@ -299,7 +300,7 @@
         // this.deleteevent(payload)
       },
       async deleteevent (payload) {
-        await axios.post('http://localhost:5000/api/delete-event', payload).then(data => {
+        await axios.post('http://20.84.109.153/api/delete-event', payload).then(data => {
           this.snackbar = true
           this.text = data.data.message
           this.deletedialog = false

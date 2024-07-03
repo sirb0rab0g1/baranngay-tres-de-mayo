@@ -61,7 +61,7 @@
               type="text"/>
             </v-flex> -->
             <v-layout>
-              <v-flex sm12 md4 pa-2>
+              <v-flex sm12 md3 pa-2>
                 <v-menu
                   v-model="menu"
                   :close-on-content-click="false"
@@ -89,7 +89,7 @@
                 </v-menu>
                 <span class="px-3"> {{ isSeniorCitizen }}</span>
               </v-flex>
-              <v-flex sm12 md4 pa-2>
+              <v-flex sm12 md3 pa-2>
                 <v-select
                   outlined
                   prepend-icon="lock"
@@ -99,7 +99,7 @@
                   :menu-props="{ top: false, offsetY: true }"
                 ></v-select>
               </v-flex>
-              <v-flex sm12 md4 pa-2>
+              <v-flex sm12 md3 pa-2>
                 <v-text-field
                   outlined
                   v-model="form.phone_number"
@@ -109,12 +109,35 @@
                   maxLength="10"
                 />
               </v-flex>
+
+              <v-flex sm12 md3 pa-2>
+                <v-select
+                  outlined
+                  prepend-icon="lock"
+                  v-model="form.kindid"
+                  :items="kindid"
+                  label="ID Description"
+                  :menu-props="{ top: false, offsetY: true }"
+                ></v-select>
+              </v-flex>
+              <v-flex lg6 class="pa-2">
+                <croppa
+                  v-model="croppa"
+                  :width="croppa.width"
+                  :height="croppa.height"
+                  :placeholder="croppa.placeholder"
+                  @file-choose="onCropped"
+                >
+                  <!-- <img slot="initial" :src="form.image" /> -->
+                  <img slot="initial" :src="'http://20.84.109.153/' + form.image" />
+                </croppa>
+              </v-flex>
             </v-layout>
 
             <v-card-actions v-if="isregistration">
               <v-spacer/>
               <v-btn outlined depressed @click="cancel">
-                cancel
+                Cancel
               </v-btn>
 
               <v-btn depressed @click="sendotp()" class="white--text" color="#0D650E">
@@ -154,14 +177,20 @@
     data: () => ({
       showPassword: false,
       menu: false,
-      form: {role: 'user', status: 'pending', barangay: '', gender: '', phone_number: '', age: '0'},
+      form: {role: 'user', status: 'pending', barangay: '', gender: '', phone_number: '', age: '0', image: ''},
       barangaylist: [],
       genderlist: ['Male', 'Female'],
       isregistration: true,
       otp: '',
       id: '',
       countdown: 600, // Countdown time in seconds (e.g., 1 hour)
-      intervalId: null
+      intervalId: null,
+      croppa: {
+        width: 400,
+        height: 400,
+        placeholder: 'Select an image'
+      },
+      kindid: ['National ID', 'Passport', 'Drivers license', 'Student ID', 'Company ID']
     }),
     computed: {
       formatTime() {
@@ -210,7 +239,7 @@
     },
     methods: {
       async login () {
-        await axios.post('http://localhost:5000/api/register', this.form).then(data => {
+        await axios.post('http://20.84.109.153/api/register', this.form).then(data => {
           this.goTo('/login')
         })
       },
@@ -219,7 +248,7 @@
           id: this.id,
           otp: this.otp
         }
-        await axios.post('http://localhost:5000/api/validate-otp-login', payload).then(data => {
+        await axios.post('http://20.84.109.153/api/validate-otp-login', payload).then(data => {
           if (data.data.data === "Validated") {
             this.goTo('/')
           } else {
@@ -239,16 +268,17 @@
         // this.$set(this.form, 'age', this.form.birth_date)
         console.log(this.form)
 
-        await axios.post('http://localhost:5000/api/register', this.form).then(data => {
+        await axios.post('http://20.84.109.153/api/register', this.form).then(data => {
           this.isregistration = false
           this.id = data.data.id
+          this.getdataimage(data.data)
         })
       },
       cancel () {
         this.goTo('/login')
       },
       async getallbarangay () {
-        await axios.get('http://localhost:5000/api/get-all-barangay').then(data => {
+        await axios.get('http://20.84.109.153/api/get-all-barangay').then(data => {
           for (let item of data.data) {
             console.log(item)
             this.barangaylist.push(item.barangay)
@@ -268,6 +298,22 @@
       },
       padZero(num) {
         return num < 10 ? '0' + num : num;
+      },
+      onCropped(data) {
+        this.croppedImage = data
+      },
+      async getdataimage (data) {
+        const formData = new FormData();
+        formData.append('file', this.croppedImage);
+        formData.append('userid', data.id);
+
+        await axios.post('http://20.84.109.153/api/user-reg-upload', formData)
+        .then(data => {
+          // this.goTo('/')
+          // this.showevent = false
+          // this.getallevents()
+        })
+        .catch(error => console.error('Error:', error));
       }
     },
     mounted (){

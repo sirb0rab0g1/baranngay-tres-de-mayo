@@ -110,7 +110,7 @@
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' , goto: '/admin'},
         { title: 'Events', icon: 'mdi-calendar-month-outline' , goto: '/admin/events'},
-        { title: 'Anouncements', icon: 'mdi-bullhorn-variant-outline' , goto: '/admin/anouncements'},
+        { title: 'Announcements', icon: 'mdi-bullhorn-variant-outline' , goto: '/admin/anouncements'},
         { title: 'Services', icon: 'mdi-note-text-outline' , goto: '/admin/services'},
         { title: 'Registration', icon: 'mdi-application-edit' , goto: '/admin/registration'},
         { title: 'Request', icon: 'mdi-animation-outline' , goto: '/admin/requestdocument'},

@@ -178,18 +178,18 @@
     },
     methods: {
       async save () {
-        await axios.post('http://localhost:5000/api/create-barangay', this.form).then(data => {
+        await axios.post('http://20.84.109.153/api/create-barangay', this.form).then(data => {
           console.log(data)
         })
       },
       async getallbarangay () {
-        await axios.get('http://localhost:5000/api/get-all-barangay').then(data => {
+        await axios.get('http://20.84.109.153/api/get-all-barangay').then(data => {
           this.requests = data.data
           console.log(data)
         })
       },
       async searchbarangay () {
-        await axios.post('http://localhost:5000/api/search-barangay', {barangay: _.isNull(this.search) ? '' : this.search}).then(data => {
+        await axios.post('http://20.84.109.153/api/search-barangay', {barangay: _.isNull(this.search) ? '' : this.search}).then(data => {
           this.requests = data.data
         })
       },
@@ -197,7 +197,7 @@
         return _.isNull(param)
       },
       async showusersinbarangay (param) {
-        await axios.post('http://localhost:5000/api/get-users-in-barangay', {barangay: param}).then(data => {
+        await axios.post('http://20.84.109.153/api/get-users-in-barangay', {barangay: param}).then(data => {
           this.showusersinbrgy = true
           this.usersinbrangay = data.data
         })

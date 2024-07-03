@@ -62,16 +62,22 @@
                 <tbody class="custom-tbody">
                   <tr v-for="(item, index) in requests" :key="index">
 									
-										<td>{{ item.first_name}}</td>
-										<td>{{ item.last_name}}</td>
-										<td>{{ item.username}}</td>
-										<td>{{ item.age}}</td>
-										<td>{{ item.gender}}</td>
-										<td>{{ item.phone_number}}</td>
-										<td>{{ item.status | capitalizeFirst}}</td>
+										<td @click="showinfo(item)">{{ item.first_name}}</td>
+										<td @click="showinfo(item)">{{ item.last_name}}</td>
+										<td @click="showinfo(item)">{{ item.username}}</td>
+										<td @click="showinfo(item)">{{ item.age}}</td>
+										<td @click="showinfo(item)">{{ item.gender}}</td>
+										<td @click="showinfo(item)">{{ item.phone_number}}</td>
+										<td @click="showinfo(item)">{{ item.status | capitalizeFirst}}</td>
 										<td class="text-center">
-											<v-btn depressed dark small color="#d9544b"  @click="updatexx('declined', item)">Decline</v-btn> 
-											<v-btn depressed dark small color="#5fcd63" @click="updatexx('active', item)">Activate</v-btn>
+											<v-flex v-if="item.status === 'pending'">
+												<v-btn depressed dark small color="#d9544b"  @click="updatexx('declined', item)">Decline</v-btn> 
+												<v-btn depressed dark small color="#5fcd63" @click="updatexx('active', item)">Activate</v-btn>
+											</v-flex>
+
+											<v-flex v-else>
+												<v-btn depressed dark small>{{ item.status | capitalizeFirst }}</v-btn> 
+											</v-flex>
 										</td>
 									</tr>
                 </tbody>
@@ -79,6 +85,120 @@
             </v-simple-table>
           </v-flex>
         </v-layout>
+
+        <!-- add event modal -->
+	      <v-dialog width="900" persistent v-model="showevent">
+	        <v-card>
+	          <v-card-title style="background: #1976D2; color: white">
+	            <span>User Information</span>
+	          </v-card-title>
+	          <v-card-text class="pt-4">
+	            <v-layout row wrap>
+	              <v-layout>
+		              <v-flex sm12 md6 pa-2>
+		                <v-text-field
+		                  outlined
+		                  v-model="form.first_name"
+		                  readonly
+		                  label="First Name"
+		                  prepend-icon="person"
+		                />
+		              </v-flex>
+		              <v-flex sm12 md6 pa-2> 
+		                <v-text-field
+		                  outlined
+		                  v-model="form.last_name"
+		                  readonly
+		                  label="Last Name"
+		                  prepend-icon="person"
+		                />
+		              </v-flex>
+		            </v-layout>
+		            <v-layout row wrap>
+		              <v-flex sm12 md3 pa-2>
+		                <v-menu
+		                  v-model="menu"
+		                  :close-on-content-click="false"
+		                  :nudge-right="40"
+		                  transition="scale-transition"
+		                  offset-y
+		                  readonly
+		                  min-width="auto"
+		                >
+		                  <template v-slot:activator="{ on, attrs }">
+		                    <v-text-field
+		                      v-model="form.birth_date"
+		                      label="Birth Date"
+		                      prepend-icon="mdi-calendar"
+		                      readonly
+		                      v-bind="attrs"
+		                      v-on="on"
+		                      outlined
+		                    ></v-text-field>
+		                  </template>
+		                  <v-date-picker
+		                    v-model="form.birth_date"
+		                    @input="menu = false"
+		                    no-title
+		                  ></v-date-picker>
+		                </v-menu>
+		                <!-- <span class="px-3"> {{ isSeniorCitizen }}</span> -->
+		              </v-flex>
+		              <v-flex sm12 md3 pa-2>
+		                <v-select
+		                  outlined
+		                  prepend-icon="lock"
+		                  v-model="form.gender"
+		                  :items="genderlist"
+		                  label="Gender"
+		                  :menu-props="{ top: false, offsetY: true }"
+		                  readonly
+		                ></v-select>
+		              </v-flex>
+		              <v-flex sm12 md3 pa-2>
+		                <v-text-field
+		                  outlined
+		                  v-model="form.phone_number"
+		                  label="Phone Number"
+		                  prepend-icon="lock"
+		                  prefix="+63"
+		                  maxLength="10"
+		                  readonly
+		                />
+		              </v-flex>
+
+		              <v-flex sm12 md3 pa-2>
+		                <v-select
+		                  outlined
+		                  prepend-icon="lock"
+		                  v-model="form.kindid"
+		                  :items="kindid"
+		                  label="ID Description"
+		                  :menu-props="{ top: false, offsetY: true }"
+		                  readonly
+		                ></v-select>
+		              </v-flex>
+		              <v-flex lg6 class="pa-2">
+		                <croppa
+		                  v-model="croppa"
+		                  :width="croppa.width"
+		                  :height="croppa.height"
+		                  :placeholder="croppa.placeholder"
+		                >
+		                  <img slot="initial" :src="'http://20.84.109.153/' + form.image" />
+		                </croppa>
+		              </v-flex>
+		            </v-layout>
+	            </v-layout>
+	          </v-card-text>
+	          <v-divider></v-divider>
+	          <v-card-actions class="pa-4">
+	            <v-spacer/>
+	            <v-btn @click="showevent = !showevent">Close</v-btn>
+	          </v-card-actions>
+	          
+	        </v-card>
+	      </v-dialog>
       </v-card>
 		</no-ssr>
 	</v-container>
@@ -102,7 +222,15 @@
     	notification: {},
     	barangaylist: [],
     	acceptordeclined: false,
-    	selected: {}
+    	selected: {},
+    	showevent: false,
+      croppa: {
+        width: 400,
+        height: 400,
+        placeholder: 'Select an image'
+      },
+      genderlist: ['Male', 'Female'],
+      kindid: ['National ID', 'Passport', 'Drivers license', 'Student ID', 'Company ID']
     }),
     computed: {
     	...mapGetters('users', ['user']),
@@ -111,8 +239,15 @@
     	}
     },
     methods: {
+    	showinfo (payload) {
+    		this.showevent = true
+    		console.log(payload)
+    		// payload.image = 'http://20.84.109.153/' + payload.image 
+    		// this.$set(payload, 'image', 'http://20.84.109.153/' + payload.image )
+    		this.form = payload
+    	},
     	async getusers () {
-    		await axios.get('http://localhost:5000/api/get-all-users').then(data => {
+    		await axios.get('http://20.84.109.153/api/get-all-users').then(data => {
     			let arr = []
 					data.data.forEach(element => {
 						console.log('eee',element)
@@ -138,7 +273,7 @@
         return moment(param).format('LL')
       },
     	async searchnow () {
-    		await axios.post('http://localhost:5000/api/search-all-users', {search: _.isNull(this.search) ? '' : this.search}).then(data => {
+    		await axios.post('http://20.84.109.153/api/search-all-users', {search: _.isNull(this.search) ? '' : this.search}).then(data => {
     			let arr = []
 					data.data.forEach(element => {
 						let payload = element
@@ -165,7 +300,7 @@
     			status: status,
     			id: payload.id
     		}
-    		await axios.post('http://localhost:5000/api/update-user-status', load).then(data => {
+    		await axios.post('http://20.84.109.153/api/update-user-status', load).then(data => {
     			this.getusers()
 	      })
       }

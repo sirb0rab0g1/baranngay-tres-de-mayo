@@ -151,7 +151,7 @@
       },
       async getnotification (param) {
         // this.counter_unread = 0
-        // await axios.post('http://localhost:5000/api/get-notification', {id: param ? param.id : ''}).then(data => {
+        // await axios.post('http://20.84.109.153/api/get-notification', {id: param ? param.id : ''}).then(data => {
         //   this.notif = data.data
         //   for (let item of data.data) {
         //     if (item.is_read == 'false') {
@@ -166,7 +166,7 @@
       async updateitem (payload) {
         this.$set(payload, 'scheduled_date', moment(payload.scheduled_date).format('YYYY-MM-DD'))
         this.$set(payload, 'is_read', 'true')
-        await axios.post('http://localhost:5000/api/update-notification', payload).then(data => {
+        await axios.post('http://20.84.109.153/api/update-notification', payload).then(data => {
           this.getnotification(this.user)
         })
       }
@@ -175,7 +175,7 @@
       this.getnotification(this.user)
 
 
-      // const socket = io('http://localhost:5000/api');
+      // const socket = io('http://20.84.109.153/api');
 
       // socket.on('connect', () => {
       //   console.log('Connected')
