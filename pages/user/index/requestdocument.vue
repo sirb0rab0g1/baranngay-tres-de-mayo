@@ -139,7 +139,7 @@
 
 								<v-textarea
 									outlined
-									label="Reason"
+									label="Purpose"
 									v-model="form.reason"
 									clearable
 								></v-textarea>

@@ -121,6 +121,7 @@
                 ></v-select>
               </v-flex>
               <v-flex lg6 class="pa-2">
+                <span>Upload your 2X2 picture with white background</span>
                 <croppa
                   v-model="croppa"
                   :width="croppa.width"
@@ -129,7 +130,7 @@
                   @file-choose="onCropped"
                 >
                   <!-- <img slot="initial" :src="form.image" /> -->
-                  <img slot="initial" :src="'http://20.84.109.153/' + form.image" />
+                  <img slot="initial" :src="'http://localhost:5000/' + form.image" />
                 </croppa>
               </v-flex>
             </v-layout>
@@ -239,7 +240,7 @@
     },
     methods: {
       async login () {
-        await axios.post('http://20.84.109.153/api/register', this.form).then(data => {
+        await axios.post('http://localhost:5000/api/register', this.form).then(data => {
           this.goTo('/login')
         })
       },
@@ -248,7 +249,7 @@
           id: this.id,
           otp: this.otp
         }
-        await axios.post('http://20.84.109.153/api/validate-otp-login', payload).then(data => {
+        await axios.post('http://localhost:5000/api/validate-otp-login', payload).then(data => {
           if (data.data.data === "Validated") {
             this.goTo('/')
           } else {
@@ -268,7 +269,7 @@
         // this.$set(this.form, 'age', this.form.birth_date)
         console.log(this.form)
 
-        await axios.post('http://20.84.109.153/api/register', this.form).then(data => {
+        await axios.post('http://localhost:5000/api/register', this.form).then(data => {
           this.isregistration = false
           this.id = data.data.id
           this.getdataimage(data.data)
@@ -278,7 +279,7 @@
         this.goTo('/login')
       },
       async getallbarangay () {
-        await axios.get('http://20.84.109.153/api/get-all-barangay').then(data => {
+        await axios.get('http://localhost:5000/api/get-all-barangay').then(data => {
           for (let item of data.data) {
             console.log(item)
             this.barangaylist.push(item.barangay)
@@ -307,7 +308,7 @@
         formData.append('file', this.croppedImage);
         formData.append('userid', data.id);
 
-        await axios.post('http://20.84.109.153/api/user-reg-upload', formData)
+        await axios.post('http://localhost:5000/api/user-reg-upload', formData)
         .then(data => {
           // this.goTo('/')
           // this.showevent = false

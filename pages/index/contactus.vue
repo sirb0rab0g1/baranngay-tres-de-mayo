@@ -28,7 +28,7 @@
     <!-- contact us-->
 
     <v-flex lg12 id="contactus">
-      <v-parallax :src="require('@/static/images/1.jpg')"  style="margin-top: 2%; height: 40vh;">
+      <v-parallax :src="require('@/static/images/contactusbg.jpg')"  style="margin-top: 2%; height: 40vh;">
       
       <v-row style="margin-top: 5%;">
         <v-col 

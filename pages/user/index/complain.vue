@@ -117,7 +117,7 @@
 			>
 				<v-card>
 					<v-card-title style="background: #1976D2; color: white">
-						REKLAMO
+						Query
 					</v-card-title>
 
 					<v-card-text class="pt-4">
@@ -155,10 +155,11 @@
 								></v-text-field>
 								<v-textarea
 									outlined
-									:label="form.query_by_user !== '' ? 'What is your ' + form.query_by_user + ' ?' : ' '"
+									label="Please input the details of your query here."
 									v-model="form.reason"
 									clearable
 								></v-textarea>
+                <!-- :label="form.query_by_user !== '' ? 'What is your ' + form.query_by_user + ' ?' : ' '" -->
               </v-flex>
             </v-layout>
           </v-card-text>

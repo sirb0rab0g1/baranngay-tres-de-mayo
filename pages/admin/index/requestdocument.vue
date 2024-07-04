@@ -75,7 +75,7 @@
 										<td class="text-center">
 											<v-flex v-if="item.status === 'pending'">
 												<v-btn depressed dark small color="#d9544b" @click="showacceptordeclined('reject', item)">Reject</v-btn> 
-												<v-btn depressed dark small color="#5fcd63" @click="showacceptordeclined('approved', item)">Approved</v-btn>
+												<v-btn depressed dark small color="#5fcd63" @click="showacceptordeclined('approved', item)">Approve</v-btn>
 											</v-flex>
 											<v-flex v-else>
 												<v-btn depressed dark small>{{ item.status | capitalizeFirst }}</v-btn> 
