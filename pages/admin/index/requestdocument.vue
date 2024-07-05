@@ -54,6 +54,10 @@
 										<th class="text-center">
 											Date Response
 										</th>
+
+										<th class="text-center">
+											Pick up Date
+										</th>
 										<th class="text-center">
 											Action
 										</th>
@@ -72,6 +76,9 @@
 										<th class="text-center">
 											{{ item.dateresponse }}
 										</th>
+										<th class="text-center">
+											{{ item.pickupdate }}
+										</th>
 										<td class="text-center">
 											<v-flex v-if="item.status === 'pending'">
 												<v-btn depressed dark small color="#d9544b" @click="showacceptordeclined('reject', item)">Reject</v-btn> 
@@ -88,6 +95,7 @@
           </v-flex>
         </v-layout>
       </v-card>
+
 
 			<v-dialog
 				v-model="acceptordeclined"
@@ -106,7 +114,12 @@
 					<v-card-text>
 						<v-layout>
 							<v-flex pa-1 mt-3>
-								<v-text-field outlined label="Please leave a note!" v-model='selected.description'></v-text-field>
+								<v-flex v-if="selected.statuses === 'approved'">
+									<v-card>
+										<v-date-picker full-width v-model="picker"></v-date-picker>
+									</v-card>
+								</v-flex>
+								<v-text-field outlined label="Please leave a note!" v-model='selected.description' style="margin-top: 20px;" ></v-text-field>
 							</v-flex>
 						</v-layout>
 					</v-card-text>
@@ -152,7 +165,9 @@
     	notification: {},
     	barangaylist: [],
     	acceptordeclined: false,
-    	selected: {}
+    	selected: {},
+    	picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+    	pickupdate: false
     }),
     computed: {
     	...mapGetters('users', ['user']),
@@ -189,8 +204,13 @@
     			this.requests = data.data
 	        })
     	},
+    	setpickupdate (payload) {
+    		this.pickupdate = true
+    		this.selected = payload
+    	},
     	showacceptordeclined (text, item) {
     		this.$set(item, 'statuses', text)
+    		this.$set(item, 'pickupdate', '')
     		this.acceptordeclined = true
     		this.selected = item
     	},
@@ -200,6 +220,7 @@
     		delete this.selected.age
     		this.$set(this.selected, 'status', this.selected.statuses)
     		this.$set(this.selected, 'dateresponse', moment().format('L'))
+    		this.$set(this.selected, 'pickupdate', this.picker)
         await axios.post('http://20.84.109.153/api/update-request-document', this.selected).then(data => {
           this.getdocument(this.user)
           this.selected = {}

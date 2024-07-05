@@ -53,6 +53,10 @@
                     <th class="text-center">
                       Date Response
                     </th>
+
+                    <th class="text-center">
+                      Pick up Date
+                    </th>
                     <th class="text-left">
                       Action
                     </th>
@@ -69,6 +73,10 @@
 											<td>{{ item.description}}</td>
                       <th class="text-center">
                         {{ item.dateresponse }}
+                      </th>
+
+                      <th class="text-center">
+                        {{ item.pickupdate }}
                       </th>
                       <td>
                         <v-flex v-if="item.status === 'pending'">
@@ -329,6 +337,7 @@
     		this.$set(this.form, 'status', 'pending')
     		this.$set(this.form, 'description', '')
         this.$set(this.form, 'dateresponse', '')
+        this.$set(this.form, 'pickupdate', '')
     		await axios.post('http://20.84.109.153/api/request-document', this.form).then(data => {
     			console.log(data)
     			this.dialog = false

@@ -149,7 +149,7 @@
 								<v-text-field
 									v-if="form.query_by_user === 'Complain'"
 									outlined
-									label="Name sa gisumbong"
+									label="Name of the accused"
 									v-model="form.name_reported"
 									clearable
 								></v-text-field>
