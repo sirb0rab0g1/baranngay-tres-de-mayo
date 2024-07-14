@@ -40,7 +40,7 @@
 											Last name
 										</th>
 										<th class="text-left">
-											Username
+											Email
 										</th>
 										<th class="text-left">
 											Age
@@ -225,8 +225,8 @@
     	selected: {},
     	showevent: false,
       croppa: {
-        width: 400,
-        height: 400,
+        width: 200,
+        height: 200,
         placeholder: 'Select an image'
       },
       genderlist: ['Male', 'Female'],

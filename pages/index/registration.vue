@@ -35,7 +35,7 @@
                 <v-text-field
                   outlined
                   v-model="form.username"
-                  label="Username"
+                  label="Email"
                   prepend-icon="person"
                 />
               </v-flex>
@@ -120,6 +120,16 @@
                   :menu-props="{ top: false, offsetY: true }"
                 ></v-select>
               </v-flex>
+              <v-flex sm12 md3 pa-2>
+                <v-select
+                  outlined
+                  prepend-icon="lock"
+                  v-model="otpchoice"
+                  :items="otplist"
+                  label="Send OTP via"
+                  :menu-props="{ top: false, offsetY: true }"
+                ></v-select>
+              </v-flex>
               <v-flex lg6 class="pa-2">
                 <span>Upload your 2X2 picture with white background</span>
                 <croppa
@@ -130,7 +140,7 @@
                   @file-choose="onCropped"
                 >
                   <!-- <img slot="initial" :src="form.image" /> -->
-                  <img slot="initial" :src="'http://localhost:5000/' + form.image" />
+                  <img slot="initial" :src="'http://20.84.109.153/' + form.image" />
                 </croppa>
               </v-flex>
             </v-layout>
@@ -187,11 +197,13 @@
       countdown: 600, // Countdown time in seconds (e.g., 1 hour)
       intervalId: null,
       croppa: {
-        width: 400,
-        height: 400,
+        width: 200,
+        height: 200,
         placeholder: 'Select an image'
       },
-      kindid: ['National ID', 'Passport', 'Drivers license', 'Student ID', 'Company ID']
+      kindid: ['National ID', 'Passport', 'Drivers license', 'Student ID', 'Company ID'],
+      otplist: ['Email', 'SMS'],
+      otpchoice: ''
     }),
     computed: {
       formatTime() {
@@ -240,7 +252,7 @@
     },
     methods: {
       async login () {
-        await axios.post('http://localhost:5000/api/register', this.form).then(data => {
+        await axios.post('http://20.84.109.153/api/register', this.form).then(data => {
           this.goTo('/login')
         })
       },
@@ -249,7 +261,7 @@
           id: this.id,
           otp: this.otp
         }
-        await axios.post('http://localhost:5000/api/validate-otp-login', payload).then(data => {
+        await axios.post('http://20.84.109.153/api/validate-otp-login', payload).then(data => {
           if (data.data.data === "Validated") {
             this.goTo('/')
           } else {
@@ -269,17 +281,28 @@
         // this.$set(this.form, 'age', this.form.birth_date)
         console.log(this.form)
 
-        await axios.post('http://localhost:5000/api/register', this.form).then(data => {
-          this.isregistration = false
-          this.id = data.data.id
-          this.getdataimage(data.data)
+        await axios.post('http://20.84.109.153/api/register', this.form).then(async data => {
+          if (this.otpchoice === 'Email') {
+            // Email api
+            let param = {
+              email: this.form.username,
+              otp: this.form.otp
+            }
+            await axios.post('http://20.84.109.153/api/send-otp-email', param).then(regdata => {
+              this.isregistration = false
+              this.id = data.data.id
+              this.getdataimage(data.data)
+            })
+          } else {
+            // SMS api
+          }
         })
       },
       cancel () {
         this.goTo('/login')
       },
       async getallbarangay () {
-        await axios.get('http://localhost:5000/api/get-all-barangay').then(data => {
+        await axios.get('http://20.84.109.153/api/get-all-barangay').then(data => {
           for (let item of data.data) {
             console.log(item)
             this.barangaylist.push(item.barangay)
@@ -308,7 +331,7 @@
         formData.append('file', this.croppedImage);
         formData.append('userid', data.id);
 
-        await axios.post('http://localhost:5000/api/user-reg-upload', formData)
+        await axios.post('http://20.84.109.153/api/user-reg-upload', formData)
         .then(data => {
           // this.goTo('/')
           // this.showevent = false

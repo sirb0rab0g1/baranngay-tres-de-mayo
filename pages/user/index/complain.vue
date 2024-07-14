@@ -297,6 +297,9 @@
     		this.$set(this.form, 'requested_by_user_id', this.user.id)
         this.$set(this.form, 'status', 'Pending')
         this.$set(this.form, 'dateapproved', '')
+        if (this.form.query_by_user === 'Concern') {
+          this.$set(this.form, 'name_reported', '')
+        }
     		await axios.post('http://20.84.109.153/api/report-user', this.form).then(data => {
     			console.log(data)
     			this.dialog = false

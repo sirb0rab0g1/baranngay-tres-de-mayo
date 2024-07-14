@@ -181,7 +181,7 @@ The residents during that time, are united until this became "Baranggay Tres de 
           <v-img
             class="white--text align-center"
             
-          min-height="300"
+            min-height="522"
           gradient="to bottom, rgba(0,0,0,.3), rgba(0,0,0,.7)"
 
             src="images/mvbgimg.jpg"

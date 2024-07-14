@@ -34,7 +34,7 @@
                 <v-text-field
                   outlined
                   v-model="form.username"
-                  label="Username"
+                  label="Email"
                   prepend-icon="person"
                 />
               </v-flex>

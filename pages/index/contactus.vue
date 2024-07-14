@@ -1,5 +1,5 @@
 <template>
-<v-container fluid fill-height>
+<v-container fluid fill-height class="py-0 px-0">
     <v-app-bar
       app
       style="background-color: #0d650e; color: white;"
@@ -18,7 +18,7 @@
           @click="scrollToTarget(item.goto)"
         >
           {{ item.txt }}
-        </v-tab>
+        </v-tab>  
       </v-tabs>
       <v-btn color="#f1fff8" light outlined depressed @click="goTo('/login')">
         <span style="font-weight: bold">Login</span>
@@ -27,10 +27,11 @@
 
     <!-- contact us-->
 
-    <v-flex lg12 id="contactus">
-      <v-parallax :src="require('@/static/images/contactusbg.jpg')"  style="margin-top: 2%; height: 40vh;">
+    <v-flex id="contactus">
+      <v-parallax :src="require('@/static/images/history.jpg')"  height="600"
+      jumbotron>
       
-      <v-row style="margin-top: 5%;">
+      <v-row class = "align-center">
         <v-col 
           class="text-center"
           cols="6"
@@ -136,7 +137,7 @@ export default {
       },
       async sendcontact () {
         this.$set(this.form, 'date', moment().format('L'))
-        await axios.post('http://20.84.109.153/api/create-contact-us', this.form).then(data => {
+        await axios.post('http://20.84.109.153/create-contact-us', this.form).then(data => {
           this.text = data.data ? data.data.data : '' 
           this.snackbar = true
           this.form = {}

@@ -33,7 +33,7 @@
                 <v-text-field
                   outlined
                   v-model="form.username"
-                  label="Username"
+                  label="Email"
                   prepend-icon="person"
                 />
               </v-flex>
@@ -185,8 +185,8 @@
       barangaylist: [],
       genderlist: ['Male', 'Female'],
       croppa: {
-        width: 400,
-        height: 400,
+        width: 200,
+        height: 200,
         placeholder: 'Select an image'
       },
       kindid: ['National ID', 'Passport', 'Drivers license', 'Student ID', 'Company ID']

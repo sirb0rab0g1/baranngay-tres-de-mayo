@@ -338,6 +338,7 @@
     		this.$set(this.form, 'description', '')
         this.$set(this.form, 'dateresponse', '')
         this.$set(this.form, 'pickupdate', '')
+        console.log(this.form)
     		await axios.post('http://20.84.109.153/api/request-document', this.form).then(data => {
     			console.log(data)
     			this.dialog = false
