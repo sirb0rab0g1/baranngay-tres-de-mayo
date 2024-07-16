@@ -130,7 +130,42 @@
                   :menu-props="{ top: false, offsetY: true }"
                 ></v-select>
               </v-flex>
-              <v-flex lg6 class="pa-2">
+            </v-layout>
+
+            <v-layout row wrap>
+              
+
+              <v-flex sm12 md3 pa-2 lg4>
+                <v-text-field
+                  outlined
+                  v-model="form.address"
+                  label="Address"
+                  prepend-icon="lock"
+                />
+              </v-flex>
+
+              <v-flex sm12 md3 pa-2 lg2>
+                <v-select
+                  outlined
+                  prepend-icon="lock"
+                  v-model="form.civil_status"
+                  :items="civilStatus"
+                  label="Civil Status"
+                  :menu-props="{ top: false, offsetY: true }"
+                ></v-select>
+              </v-flex>
+
+              <v-flex sm12 md3 pa-2 lg2>
+                <v-select
+                  outlined
+                  prepend-icon="lock"
+                  v-model="form.religion"
+                  :items="religion"
+                  label="Religion"
+                  :menu-props="{ top: false, offsetY: true }"
+                ></v-select>
+              </v-flex>
+              <v-flex lg4 class="pa-2">
                 <span>Upload your 2X2 picture with white background</span>
                 <croppa
                   v-model="croppa"
@@ -232,6 +267,8 @@
         placeholder: 'Select an image'
       },
       kindid: ['National ID', 'Passport', 'Drivers license', 'Student ID', 'Company ID'],
+      religion: ['Islam', 'Catholic', 'Iglesia Ni Cristo', 'Seventh-day Adventist'],
+      civilStatus: ['Single', 'Married', 'Widowed', 'Legally Separated'],
       otplist: ['Email', 'SMS'],
       otpchoice: '',
       confirmed: false
