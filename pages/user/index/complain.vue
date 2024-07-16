@@ -57,7 +57,7 @@
                       Date Approved
                     </th>
                     <th class="text-left">
-                      Action
+                      Edit
                     </th>
 									</tr>
                 </thead>

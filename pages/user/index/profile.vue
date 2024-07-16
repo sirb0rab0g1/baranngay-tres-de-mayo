@@ -109,6 +109,30 @@
                   maxLength="10"
                 />
               </v-flex>
+
+              <v-flex sm12 md3 pa-2>
+                <v-select
+                  outlined
+                  prepend-icon="lock"
+                  v-model="form.kindid"
+                  :items="kindid"
+                  label="ID Description"
+                  :menu-props="{ top: false, offsetY: true }"
+                ></v-select>
+              </v-flex>
+
+              <v-flex lg6 class="pa-2">
+                <croppa
+                  v-model="croppa"
+                  :width="croppa.width"
+                  :height="croppa.height"
+                  :placeholder="croppa.placeholder"
+                  disabled
+                  :show-remove-button="false"
+                >
+                  <img slot="initial" :src="'http://20.84.109.153/' + form.image" />
+                </croppa>
+              </v-flex>
             </v-layout>
 
             <!-- <v-row>
@@ -157,7 +181,14 @@
     data: () => ({
       form: {role: 'user', barangay: '', gender: ''},
       barangaylist: [],
-      genderlist: ['Male', 'Female']
+      genderlist: ['Male', 'Female'],
+      menu: false,
+      croppa: {
+        width: 200,
+        height: 200,
+        placeholder: 'Select an image'
+      },
+      kindid: ['National ID', 'Passport', 'Drivers license', 'Student ID', 'Company ID']
     }),
     watch: {
       'user': {

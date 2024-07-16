@@ -172,6 +172,36 @@
               </v-btn>
             </v-flex>
           </v-layout>
+
+          <v-dialog
+            v-model="confirmed"
+            width="500"
+          >
+
+            <v-card>
+              <v-card-title class="text-h5 grey lighten-2">
+                Registration Notice!
+              </v-card-title>
+
+              <v-card-text>
+                Account successfully created. Please wait for 5 minutes for the admin to verify your account.
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="#0D650E"
+                  text
+                  class="white--text"
+                  @click="proceeded()"
+                >
+                  Confirm
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-card>
       </v-flex>
     </v-layout>
@@ -203,7 +233,8 @@
       },
       kindid: ['National ID', 'Passport', 'Drivers license', 'Student ID', 'Company ID'],
       otplist: ['Email', 'SMS'],
-      otpchoice: ''
+      otpchoice: '',
+      confirmed: false
     }),
     computed: {
       formatTime() {
@@ -251,9 +282,13 @@
       },
     },
     methods: {
+      proceeded () {
+        this.goTo('/login')
+      },
       async login () {
         await axios.post('http://20.84.109.153/api/register', this.form).then(data => {
-          this.goTo('/login')
+          // this.goTo('/login')
+          this.confirmed = true
         })
       },
       async validateotp () {

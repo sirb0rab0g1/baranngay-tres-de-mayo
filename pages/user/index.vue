@@ -5,14 +5,15 @@
       app
     >
       <v-list-item>
-        <v-list-item-content>
+          <v-list-item-avatar>
+           <v-img :src="'http://20.84.109.153/' + this.user.image"></v-img>
+          </v-list-item-avatar>
           <v-list-item-title class="text-h6">
-            {{ fullname }}
+            {{ fullname }} <br>
+            <span style="font-weight: normal; font-size: 14px;">
+              Resident
+            </span>
           </v-list-item-title>
-          <v-list-item-subtitle>
-            Resident
-          </v-list-item-subtitle>
-        </v-list-item-content>
       </v-list-item>
 
       <v-divider></v-divider>
