@@ -120,7 +120,7 @@
                   :menu-props="{ top: false, offsetY: true }"
                 ></v-select>
               </v-flex>
-              <v-flex sm12 md3 pa-2>
+              <!-- <v-flex sm12 md3 pa-2>
                 <v-select
                   outlined
                   prepend-icon="lock"
@@ -129,7 +129,7 @@
                   label="Send OTP via"
                   :menu-props="{ top: false, offsetY: true }"
                 ></v-select>
-              </v-flex>
+              </v-flex> -->
             </v-layout>
 
             <v-layout row wrap>
@@ -185,10 +185,14 @@
               <v-btn outlined depressed @click="cancel">
                 Cancel
               </v-btn>
-
-              <v-btn depressed @click="sendotp()" class="white--text" color="#0D650E">
-                Send OTP
+              <v-btn depressed @click="senddialog = !senddialog" class="white--text" color="#0D650E">
+                Send
               </v-btn>
+
+
+              <!-- <v-btn depressed @click="sendotp()" class="white--text" color="#0D650E">
+                Send OTP
+              </v-btn> -->
 
             </v-card-actions>
           </div>
@@ -207,6 +211,47 @@
               </v-btn>
             </v-flex>
           </v-layout>
+
+          <v-dialog
+            v-model="senddialog"
+            width="500"
+            persistent
+          >
+
+            <v-card>
+              <v-card-title class="text-h5 grey lighten-2">
+                SEND OTP VIA
+              </v-card-title>
+
+              <v-card-text>
+                <v-layout row wrap>
+                  <v-flex sm12 md3 pa-2 lg12 mt-4>
+                    <v-select
+                      outlined
+                      prepend-icon="lock"
+                      v-model="otpchoice"
+                      :items="otplist"
+                      label="Send OTP via"
+                      :menu-props="{ top: false, offsetY: true }"
+                    ></v-select>
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                
+                  <v-btn outlined depressed @click="senddialog = !senddialog">
+                    Cancel
+                  </v-btn>
+                  <v-btn depressed @click="sendotp()" class="white--text" color="#0D650E">
+                    Send OTP
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
           <v-dialog
             v-model="confirmed"
@@ -271,7 +316,8 @@
       civilStatus: ['Single', 'Married', 'Widowed', 'Legally Separated'],
       otplist: ['Email', 'SMS'],
       otpchoice: '',
-      confirmed: false
+      confirmed: false,
+      senddialog: false
     }),
     computed: {
       formatTime() {

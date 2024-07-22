@@ -123,6 +123,7 @@
         { title: 'Query', icon: 'mdi-view-dashboard' , goto: '/user/complain'},
         { title: 'Request', icon: 'mdi-animation-outline' , goto: '/user/requestdocument'},
         { title: 'Profile', icon: 'mdi-account-key' , goto: '/user/profile'},
+        { title: 'FAQ', icon: 'mdi-account-key' , goto: '/user/faq'},
       ],
       notif: [],
       counter_unread: 0
